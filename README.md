@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v003.html`
+- `versions/gametime_v005.html`
 
 ## Current design direction
 
@@ -34,13 +34,13 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v003
+## Controls in v005
 
 | Control | Action |
 |---|---|
 | WASD / Arrow Keys | Move controlled player |
 | Shift | Sprint |
-| Space | Pass |
+| Space | Smart pass using passing-lane risk |
 | J | Shoot |
 | Tab | Switch controlled player |
 | C | Change camera |
@@ -48,6 +48,15 @@ Each build should preserve old playable versions:
 | Mobile D-pad | Move controlled player |
 | Mobile Run | Sprint |
 | Mobile Pass / Shoot / Switch / Cam | Main basketball actions |
+
+## Current gameplay systems
+
+- Denver Peaks vs Canyon Comets playable short game
+- One-player control with teammate/opponent AI
+- Shot feedback for release, contest, distance, and make chance
+- Passing-lane preview, pass-risk feedback, and interceptions
+- Multiple camera modes
+- Desktop and mobile control paths
 
 ## Testing
 
@@ -59,4 +68,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes mobile controls, and handles basic keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes mobile controls, shows shot/pass feedback, and handles basic keyboard actions without page errors.
