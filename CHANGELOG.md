@@ -1,5 +1,34 @@
 # Changelog
 
+## v003 - Denver Peaks and mobile controls
+
+Built the next small playable iteration on top of v002.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v003.html`
+- Denver Peaks as the primary fictional user-controlled team
+- A lightweight fictional league directory in code to support more fake teams over time
+- Mobile-friendly touch controls with a movement pad, sprint button, pass, shoot, switch, and camera buttons
+- Shared input handling so keyboard and touch controls drive the same player movement/actions
+- Mobile layout refinements for the scoreboard, HUD, footer, and control overlay
+- Center-court Denver Peaks branding
+- `latest.html` now points to v003
+- `index.html` now links to v003, v002, and v001
+- README updated for v003 controls and team direction
+
+### Why this was chosen
+
+The newest project direction explicitly called for mobile-friendly controls and Denver Peaks. This was the best next foundation step because the game needs to be playable on phones before deeper basketball systems are layered on. It also establishes the preferred fictional-team identity early without locking the project into real NBA teams.
+
+### Recommended next improvements
+
+- Add shot feedback UI: release quality, contest level, and expected make chance
+- Add a simple team select screen using the fictional league directory
+- Improve pass selection with safer passing lanes and interception risk
+- Add off-ball cuts so teammates do more than hold spacing spots
+- Add Playwright mobile viewport coverage for the touch controls
+
 ## v002 - Movement and dribble polish
 
 Built the next small playable iteration on top of v001.
