@@ -1,5 +1,34 @@
 # Changelog
 
+## v002 - Movement and dribble polish
+
+Built the next small playable iteration on top of v001.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v002.html`
+- Momentum-based movement with velocity, acceleration, friction, and softer stopping
+- Sprint behavior tied more directly to energy and player speed ratings
+- Live dribble bounce that follows the ball handler instead of sticking rigidly to the player
+- Player body lean, foot movement, and shadows to make motion easier to read
+- Speed readout and visual energy meter in the HUD
+- Small moving-shot penalty so sprinting straight into a jumper is less automatic
+- Slight possession cooldown after rebounds and steals to reduce instant chaos
+- `latest.html` now points to v002
+- `index.html` now links to v002 and v001
+
+### Why this was chosen
+
+v001 was already a playable 5v5 foundation. The next most valuable improvement was the core feel of controlling a player. Basketball games live or die on movement, momentum, and dribble feel, so v002 improves the foundation before adding flashier features.
+
+### Recommended next improvements
+
+- Add shot feedback UI: release quality, contest level, and expected make chance
+- Improve pass selection with safer passing lanes and interception risk
+- Add off-ball cuts so teammates do more than hold spacing spots
+- Add clearer possession arrows and team direction indicators
+- Add Playwright coverage for v002-specific HUD and camera behavior
+
 ## v001 - First playable foundation
 
 Created the first playable Gametime Basketball prototype.
