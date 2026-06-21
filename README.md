@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, and an eventual path to 3D.
 
 ## Play
 
@@ -8,15 +8,18 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v001.html`
+- `versions/gametime_v003.html`
 
 ## Current design direction
 
 - Fake teams and fake players only
+- Denver Peaks included as a core fictional team
+- More fictional teams can be added gradually over time
 - Short arcade-style games
 - One controlled player at a time
 - Player switching over time
 - Realistic arcade feel
+- Desktop keyboard controls and mobile-friendly touch controls
 - All useful basketball camera angles over time
 - HTML Canvas foundation first
 - Three.js / 3D path later when the 2D foundation is strong
@@ -31,7 +34,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v001
+## Controls in v003
 
 | Control | Action |
 |---|---|
@@ -42,6 +45,9 @@ Each build should preserve old playable versions:
 | Tab | Switch controlled player |
 | C | Change camera |
 | R | Reset game |
+| Mobile D-pad | Move controlled player |
+| Mobile Run | Sprint |
+| Mobile Pass / Shoot / Switch / Cam | Main basketball actions |
 
 ## Testing
 
@@ -53,4 +59,4 @@ npx playwright install chromium
 npm test
 ```
 
-The first test checks that the latest playable HTML launches and renders the canvas without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes mobile controls, and handles basic keyboard actions without page errors.
