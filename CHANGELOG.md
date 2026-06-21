@@ -1,5 +1,34 @@
 # Changelog
 
+## v005 - Passing lane risk and interceptions
+
+Built the next small playable iteration on top of v004.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v005.html`
+- Pass feedback panel showing target, lane quality, interception risk, and outcome
+- Passing lane preview drawn on the court for the user-controlled ball handler
+- Defender proximity checks along the passing segment, not just near the passer or receiver
+- Interception outcomes when a risky pass is thrown through a defender's lane
+- Smarter pass target selection that weighs shooting value, spacing, advancement, target separation, and lane danger
+- AI pass selection now avoids high-risk passes unless the shot clock is forcing action
+- `latest.html` now points to v005
+- `index.html` now links to v005, v004, v003, v002, and v001
+- README and Playwright smoke test updated for v005
+
+### Why this was chosen
+
+v004 made shooting understandable with release, contest, distance, and make chance. The next best foundation step was doing the same for passing. Basketball feels more real when passing lanes matter, defenders can jump bad decisions, and the player understands why a pass was safe or risky.
+
+### Recommended next improvements
+
+- Add off-ball cuts so teammates actively create better passing lanes
+- Add possession arrows and clearer offensive direction indicators
+- Add a simple fictional team select screen using the league directory
+- Begin separating shared rosters, ratings, and game constants from the HTML file
+- Add a Playwright check for v005 pass feedback after pressing Space
+
 ## v004 - Shot feedback and make-chance UI
 
 Built the next small playable iteration on top of v003.
