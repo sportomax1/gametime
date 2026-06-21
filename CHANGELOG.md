@@ -1,5 +1,32 @@
 # Changelog
 
+## v004 - Shot feedback and make-chance UI
+
+Built the next small playable iteration on top of v003.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v004.html`
+- Shot feedback panel showing release grade, contest level, shot distance, and expected make chance
+- Make-chance bar that fills based on the computed shot probability
+- Shot outcome copy that updates after makes and misses
+- Dashed shot arc indicator while the ball is airborne
+- `latest.html` now points to v004
+- `index.html` now links to v004, v003, v002, and v001
+- Playwright smoke test now verifies the v004 shot feedback panel and shoot action
+
+### Why this was chosen
+
+v003 made the game playable on desktop and mobile with the Denver Peaks identity in place. The next most valuable small improvement was explaining every shot. A realistic-arcade basketball game needs shots to feel earned, so v004 exposes the hidden calculation instead of making shooting feel like a mystery coin flip.
+
+### Recommended next improvements
+
+- Improve pass selection with safer passing lanes and interception risk
+- Add off-ball cuts so teammates relocate instead of holding static spacing
+- Add a simple team select screen using the fictional league directory
+- Add clearer possession arrows and offensive direction indicators
+- Begin separating shared game data from the HTML file once the SPA gets larger
+
 ## v003 - Denver Peaks and mobile controls
 
 Built the next small playable iteration on top of v002.
