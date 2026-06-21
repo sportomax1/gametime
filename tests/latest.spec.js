@@ -11,17 +11,20 @@ test('latest Gametime build renders without console errors', async ({ page }) =>
 
   const latestPath = path.join(__dirname, '..', 'latest.html');
   await page.goto(pathToFileURL(latestPath).href);
-  await expect(page).toHaveTitle(/Gametime Basketball v004|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v005|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon/);
   await expect(page.locator('#playerPanel')).toContainText(/Energy|Speed/);
   await expect(page.getByTestId('touch-controls')).toBeAttached();
   await expect(page.locator('#touchControls button')).toHaveCount(9);
   await expect(page.getByTestId('shot-feedback')).toContainText(/Shot Feedback|Make Chance|Release/);
+  await expect(page.getByTestId('pass-feedback')).toContainText(/Pass Feedback|Risk|Lane/);
 
   await page.keyboard.press('KeyC');
   await page.keyboard.press('Tab');
   await page.keyboard.press('Tab');
+  await page.keyboard.press('Space');
+  await expect(page.getByTestId('pass-feedback')).toContainText(/Risk|Lane|Target|Outcome/);
   await page.keyboard.press('KeyJ');
   await expect(page.getByTestId('shot-feedback')).toContainText(/Make Chance|Contest|Release/);
   await page.keyboard.down('Shift');
