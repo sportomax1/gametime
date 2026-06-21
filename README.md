@@ -1,0 +1,56 @@
+# Gametime Basketball
+
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, and an eventual path to 3D.
+
+## Play
+
+Open `index.html` or `latest.html` in a browser.
+
+Current playable version:
+
+- `versions/gametime_v001.html`
+
+## Current design direction
+
+- Fake teams and fake players only
+- Short arcade-style games
+- One controlled player at a time
+- Player switching over time
+- Realistic arcade feel
+- All useful basketball camera angles over time
+- HTML Canvas foundation first
+- Three.js / 3D path later when the 2D foundation is strong
+- Playable games only, not franchise management
+
+## Versioning rules
+
+Each build should preserve old playable versions:
+
+- New versions go in `versions/gametime_v###.html`
+- `latest.html` points to the current version
+- `CHANGELOG.md` explains what changed and why
+- Avoid overwriting earlier playable versions
+
+## Controls in v001
+
+| Control | Action |
+|---|---|
+| WASD / Arrow Keys | Move controlled player |
+| Shift | Sprint |
+| Space | Pass |
+| J | Shoot |
+| Tab | Switch controlled player |
+| C | Change camera |
+| R | Reset game |
+
+## Testing
+
+A lightweight Playwright smoke test is included. After installing dependencies:
+
+```bash
+npm install
+npx playwright install chromium
+npm test
+```
+
+The first test checks that the latest playable HTML launches and renders the canvas without page errors.
