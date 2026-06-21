@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gametime Basketball v002</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #07111f;
+      color: #f7fbff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 25% 10%, rgba(50, 136, 255, 0.26), transparent 26rem),
+        radial-gradient(circle at 80% 10%, rgba(255, 104, 35, 0.20), transparent 24rem),
+        linear-gradient(135deg, #07111f, #101928 60%, #07111f);
+    }
+    #gameShell {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(2, 8, 18, 0.78);
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 1rem 2rem rgba(0,0,0,0.26);
+      backdrop-filter: blur(10px);
+    }
+    .brand { font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
+    .brand span { color: #ffba4a; }
+    #scoreboard {
+      display: flex;
+      align-items: stretch;
+      gap: 0.5rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .scoreCard {
+      min-width: 9rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 0.75rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      text-align: center;
+    }
+    .scoreCard strong { display: block; font-size: 1.45rem; line-height: 1; }
+    .clockCard {
+      min-width: 8rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 0.75rem;
+      background: #f7fbff;
+      color: #09111f;
+      text-align: center;
+      font-weight: 900;
+      box-shadow: inset 0 -0.15rem 0 rgba(0,0,0,0.16);
+    }
+    .hudRight { text-align: right; color: #b8c7d9; font-size: 0.9rem; }
+    .meter {
+      display: inline-grid;
+      grid-template-columns: repeat(8, 0.45rem);
+      gap: 0.08rem;
+      margin-left: 0.35rem;
+      vertical-align: middle;
+    }
+    .meter i {
+      display: block;
+      height: 0.45rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+    }
+    .meter i.on { background: #ffba4a; }
+    #canvasWrap { position: relative; min-height: 0; }
+    canvas { width: 100%; height: 100%; display: block; }
+    #message {
+      position: absolute;
+      left: 50%;
+      top: 1rem;
+      transform: translateX(-50%);
+      min-width: min(36rem, calc(100vw - 2rem));
+      padding: 0.7rem 1rem;
+      border-radius: 999px;
+      text-align: center;
+      background: rgba(2, 8, 18, 0.72);
+      border: 1px solid rgba(255,255,255,0.13);
+      color: #f7fbff;
+      box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.22);
+      pointer-events: none;
+    }
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      align-items: center;
+      justify-content: center;
+      padding: 0.65rem 1rem;
+      background: rgba(2, 8, 18, 0.78);
+      border-top: 1px solid rgba(255,255,255,0.10);
+      color: #b8c7d9;
+      font-size: 0.85rem;
+    }
+    kbd {
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.08);
+      border-radius: 0.35rem;
+      padding: 0.1rem 0.35rem;
+      color: #fff;
+      font-weight: 700;
+    }
+    @media (max-width: 780px) {
+      header { grid-template-columns: 1fr; text-align: center; }
+      .hudRight { text-align: center; }
+      #scoreboard { justify-content: center; }
+      .scoreCard { min-width: 7rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="gameShell">
+    <header>
+      <div class="brand">GT <span>Sports</span> Basketball <small>v002</small></div>
+      <div id="scoreboard" data-testid="scoreboard"></div>
+      <div class="hudRight" id="playerPanel">Loading roster...</div>
+    </header>
+    <main id="canvasWrap">
+      <canvas id="gameCanvas" data-testid="game-canvas" width="1280" height="720" aria-label="Gametime Basketball playable court"></canvas>
+      <div id="message">v002 focus: smoother acceleration, momentum, and live dribble feel.</div>
+    </main>
+    <footer>
+      <span><kbd>WASD</kbd>/<kbd>Arrows</kbd> move</span>
+      <span><kbd>Shift</kbd> sprint</span>
+      <span><kbd>Space</kbd> pass</span>
+      <span><kbd>J</kbd> shoot</span>
+      <span><kbd>Tab</kbd> switch player</span>
+      <span><kbd>C</kbd> camera</span>
+      <span><kbd>R</kbd> reset</span>
+    </footer>
+  </div>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('gameCanvas');
+      const ctx = canvas.getContext('2d');
+      const scoreboard = document.getElementById('scoreboard');
+      const playerPanel = document.getElementById('playerPanel');
+      const message = document.getElementById('message');
+
+      const COURT = { w: 940, h: 500 };
+      const hoop = [
+        { x: 42, y: COURT.h / 2 },
+        { x: COURT.w - 42, y: COURT.h / 2 }
+      ];
+      const cameras = ['Full Court', 'Broadcast', 'Player Follow', 'Half Court'];
+      let cameraIndex = 0;
+      let lastTime = performance.now();
+      let gameOver = false;
+      const keys = new Set();
+
+      const teams = [
+        {
+          id: 'MET', city: 'Metro', name: 'Meteors', color: '#30a7ff', trim: '#eaf7ff', score: 0,
+          players: [
+            ['Jace Orbit', 'PG', 88, 84, 91, 77, 72],
+            ['Milo Sparks', 'SG', 82, 89, 78, 73, 69],
+            ['Trey North', 'SF', 80, 81, 78, 80, 75],
+            ['Cal Knox', 'PF', 73, 74, 70, 86, 86],
+            ['Bram Atlas', 'C', 62, 68, 63, 90, 94]
+          ]
+        },
+        {
+          id: 'CYN', city: 'Canyon', name: 'Comets', color: '#ff7a2f', trim: '#fff1e7', score: 0,
+          players: [
+            ['Nico Vale', 'PG', 86, 82, 88, 79, 70],
+            ['Dash Mercer', 'SG', 84, 87, 76, 72, 68],
+            ['Leo Summit', 'SF', 79, 80, 80, 82, 77],
+            ['Otis Ridge', 'PF', 71, 75, 68, 87, 88],
+            ['Hank Stone', 'C', 59, 66, 61, 91, 95]
+          ]
+        }
+      ];
+
+      let players = [];
+      let possessionTeam = 0;
+      let ballHandler = null;
+      let controlledTeam = 0;
+      let controlledIndex = 0;
+      let ball = { x: COURT.w / 2, y: COURT.h / 2, vx: 0, vy: 0, target: null, airborne: 0, bounce: 0 };
+      let gameClock = 180;
+      let shotClock = 24;
+      let possessionCooldown = 0;
+
+      function makePlayers() {
+        players = [];
+        teams.forEach((team, ti) => {
+          team.players.forEach((raw, pi) => {
+            const [name, pos, speed, shoot, pass, defense, rebound] = raw;
+            players.push({
+              id: `${team.id}-${pi}`,
+              team: ti,
+              index: pi,
+              name, pos, speed, shoot, pass, defense, rebound,
+              x: COURT.w / 2 + (ti === 0 ? -120 : 120) + (pi - 2) * 12,
+              y: COURT.h / 2 + (pi - 2) * 48,
+              tx: COURT.w / 2,
+              ty: COURT.h / 2,
+              vx: 0,
+              vy: 0,
+              facing: ti === 0 ? 1 : -1,
+              stride: 0,
+              radius: pos === 'C' ? 13 : pos === 'PF' ? 12 : 11,
+              energy: 100,
+              hasBall: false
+            });
+          });
+        });
+      }
+
+      function resetPossession(teamIndex, reason = '') {
+        possessionTeam = teamIndex;
+        shotClock = 24;
+        possessionCooldown = 0.35;
+        players.forEach(p => { p.hasBall = false; p.vx *= 0.25; p.vy *= 0.25; });
+        const pg = players.find(p => p.team === possessionTeam && p.pos === 'PG');
+        ballHandler = pg;
+        ballHandler.hasBall = true;
+        ball.x = ballHandler.x;
+        ball.y = ballHandler.y;
+        ball.target = null;
+        ball.airborne = 0;
+        const dir = possessionTeam === 0 ? 1 : -1;
+        players.forEach(p => {
+          const lane = p.index - 2;
+          p.x = possessionTeam === p.team ? COURT.w / 2 - dir * 250 + dir * p.index * 18 : COURT.w / 2 + dir * 120;
+          p.y = COURT.h / 2 + lane * 54;
+          p.facing = p.team === 0 ? 1 : -1;
+        });
+        if (reason) flash(reason);
+      }
+
+      function flash(text) {
+        message.textContent = text;
+        message.animate([
+          { opacity: 0, transform: 'translateX(-50%) translateY(-0.4rem)' },
+          { opacity: 1, transform: 'translateX(-50%) translateY(0)' }
+        ], { duration: 180, fill: 'forwards' });
+      }
+
+      function resizeCanvas() {
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(canvas.clientWidth * ratio);
+        canvas.height = Math.floor(canvas.clientHeight * ratio);
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      }
+      window.addEventListener('resize', resizeCanvas);
+
+      function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+      function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+      function attackingHoop(team) { return hoop[team === 0 ? 1 : 0]; }
+      function defendingHoop(team) { return hoop[team === 0 ? 0 : 1]; }
+
+      function controlledPlayer() {
+        return players.find(p => p.team === controlledTeam && p.index === controlledIndex) || players[0];
+      }
+
+      function switchPlayer() {
+        const teamPlayers = players.filter(p => p.team === controlledTeam);
+        const withBall = teamPlayers.find(p => p.hasBall);
+        if (withBall && withBall.index !== controlledIndex) {
+          controlledIndex = withBall.index;
+        } else {
+          controlledIndex = (controlledIndex + 1) % 5;
+        }
+        flash(`Controlling ${controlledPlayer().name} (${controlledPlayer().pos})`);
+      }
+
+      function passBall(from, to) {
+        if (!from || !to || from.team !== to.team || from === to) return;
+        from.hasBall = false;
+        ballHandler = null;
+        ball.target = to;
+        ball.airborne = 0.38;
+        ball.vx = (to.x - ball.x) / ball.airborne;
+        ball.vy = (to.y - ball.y) / ball.airborne;
+        flash(`${from.name} zips it to ${to.name}`);
+      }
+
+      function bestPassTarget(from) {
+        const mates = players.filter(p => p.team === from.team && p !== from);
+        const rim = attackingHoop(from.team);
+        return mates.sort((a, b) => {
+          const da = dist(a, rim) - a.shoot * 0.75;
+          const db = dist(b, rim) - b.shoot * 0.75;
+          return da - db;
+        })[0];
+      }
+
+      function shootBall(shooter) {
+        if (!shooter || !shooter.hasBall || possessionCooldown > 0) return;
+        const rim = attackingHoop(shooter.team);
+        const d = dist(shooter, rim);
+        const closeBonus = d < 90 ? 0.25 : 0;
+        const three = shooter.team === 0 ? shooter.x < COURT.w - 210 : shooter.x > 210;
+        const defenders = players.filter(p => p.team !== shooter.team);
+        const contest = defenders.reduce((best, p) => Math.min(best, dist(p, shooter)), 999);
+        const contestPenalty = contest < 38 ? 0.22 : contest < 70 ? 0.11 : 0;
+        const movementPenalty = clamp(Math.hypot(shooter.vx, shooter.vy) / 780, 0, 0.12);
+        const chance = clamp(0.72 - d / 520 + (shooter.shoot - 75) / 180 + closeBonus - contestPenalty - movementPenalty, 0.10, 0.88);
+        const made = Math.random() < chance;
+        shooter.hasBall = false;
+        ballHandler = null;
+        ball.target = null;
+        ball.x = shooter.x;
+        ball.y = shooter.y;
+        ball.airborne = 0.65;
+        ball.vx = (rim.x - ball.x) / ball.airborne;
+        ball.vy = (rim.y - ball.y) / ball.airborne;
+        setTimeout(() => {
+          const pts = three ? 3 : 2;
+          if (made) {
+            teams[shooter.team].score += pts;
+            flash(`${shooter.name} scores ${pts}! ${Math.round(chance * 100)}% look.`);
+            resetPossession(1 - shooter.team);
+          } else {
+            flash(`${shooter.name} misses. Rebound battle!`);
+            rebound(shooter.team);
+          }
+        }, 520);
+      }
+
+      function rebound(shootingTeam) {
+        const rim = attackingHoop(shootingTeam);
+        const board = players.slice().sort((a, b) => {
+          const aw = dist(a, rim) - a.rebound * 1.1 + Math.random() * 80;
+          const bw = dist(b, rim) - b.rebound * 1.1 + Math.random() * 80;
+          return aw - bw;
+        })[0];
+        possessionTeam = board.team;
+        shotClock = board.team === shootingTeam ? 14 : 24;
+        possessionCooldown = 0.2;
+        players.forEach(p => { p.hasBall = false; });
+        board.hasBall = true;
+        ballHandler = board;
+        ball.x = board.x;
+        ball.y = board.y;
+        ball.airborne = 0;
+        flash(`${board.name} grabs the rebound`);
+      }
+
+      function moveWithMomentum(p, ax, ay, dt, userControlled = false) {
+        const hasInput = Math.abs(ax) + Math.abs(ay) > 0;
+        const sprinting = userControlled && keys.has('shift') && p.energy > 24 && hasInput;
+        const energyFactor = clamp(p.energy / 100, 0.42, 1);
+        const topSpeed = (125 + p.speed * 1.7) * (sprinting ? 1.18 : 1) * energyFactor;
+        const acceleration = (760 + p.speed * 5.5) * (sprinting ? 1.12 : 1);
+        const friction = hasInput ? 0.88 : 0.80;
+
+        if (hasInput) {
+          const mag = Math.hypot(ax, ay) || 1;
+          p.vx += (ax / mag) * acceleration * dt;
+          p.vy += (ay / mag) * acceleration * dt;
+          p.facing = ax < -0.05 ? -1 : ax > 0.05 ? 1 : p.facing;
+          p.energy = clamp(p.energy - (sprinting ? 13 : 4.5) * dt, 18, 100);
+        } else {
+          p.energy = clamp(p.energy + 8 * dt, 18, 100);
+        }
+
+        const speed = Math.hypot(p.vx, p.vy);
+        if (speed > topSpeed) {
+          p.vx = (p.vx / speed) * topSpeed;
+          p.vy = (p.vy / speed) * topSpeed;
+        }
+
+        p.vx *= Math.pow(friction, dt * 60);
+        p.vy *= Math.pow(friction, dt * 60);
+        p.x = clamp(p.x + p.vx * dt, 22, COURT.w - 22);
+        p.y = clamp(p.y + p.vy * dt, 34, COURT.h - 34);
+        if (p.x <= 22 || p.x >= COURT.w - 22) p.vx *= -0.25;
+        if (p.y <= 34 || p.y >= COURT.h - 34) p.vy *= -0.25;
+        p.stride += Math.hypot(p.vx, p.vy) * dt * 0.045;
+      }
+
+      function handleInput(dt) {
+        const p = controlledPlayer();
+        let dx = 0, dy = 0;
+        if (keys.has('arrowleft') || keys.has('a')) dx -= 1;
+        if (keys.has('arrowright') || keys.has('d')) dx += 1;
+        if (keys.has('arrowup') || keys.has('w')) dy -= 1;
+        if (keys.has('arrowdown') || keys.has('s')) dy += 1;
+        moveWithMomentum(p, dx, dy, dt, true);
+      }
+
+      function offensiveSpot(p) {
+        const dir = p.team === 0 ? 1 : -1;
+        const baseX = p.index === 0 ? 0.43 : p.index === 4 ? 0.78 : 0.62;
+        const x = dir === 1 ? COURT.w * baseX : COURT.w * (1 - baseX);
+        const lanes = [0, -120, 118, -54, 54];
+        return { x, y: COURT.h / 2 + lanes[p.index] };
+      }
+
+      function updateAI(dt) {
+        const cp = controlledPlayer();
+        const rim = attackingHoop(possessionTeam);
+        players.forEach(p => {
+          if (p === cp) return;
+          if (p.team === possessionTeam) {
+            if (p.hasBall) {
+              const dir = p.team === 0 ? 1 : -1;
+              p.tx = clamp(p.x + dir * 90, 60, COURT.w - 60);
+              p.ty = clamp(p.y + (rim.y - p.y) * 0.45, 60, COURT.h - 60);
+              const d = dist(p, rim);
+              if (possessionCooldown <= 0 && (d < 105 || shotClock < 6 || Math.random() < 0.004)) shootBall(p);
+              else if (Math.random() < 0.006) passBall(p, bestPassTarget(p));
+            } else {
+              const s = offensiveSpot(p);
+              p.tx = s.x;
+              p.ty = s.y;
+            }
+          } else {
+            const mark = players.filter(o => o.team !== p.team).sort((a, b) => dist(a, p) - dist(b, p))[0] || ballHandler;
+            const home = defendingHoop(p.team);
+            p.tx = mark ? mark.x * 0.82 + home.x * 0.18 : home.x + (p.index - 2) * 28;
+            p.ty = mark ? mark.y * 0.86 + home.y * 0.14 : home.y + (p.index - 2) * 40;
+          }
+          const dx = p.tx - p.x;
+          const dy = p.ty - p.y;
+          moveWithMomentum(p, dx, dy, dt, false);
+        });
+      }
+
+      function updateBall(dt) {
+        ball.bounce += dt * (ballHandler ? 10 + Math.hypot(ballHandler.vx, ballHandler.vy) / 28 : 6);
+        if (ballHandler) {
+          const speed = Math.hypot(ballHandler.vx, ballHandler.vy);
+          const lateral = ballHandler.facing * clamp(speed / 95, 0.15, 1) * 8;
+          const dribbleDrop = Math.abs(Math.sin(ball.bounce)) * (8 + clamp(speed / 32, 0, 10));
+          ball.x += (ballHandler.x + lateral - ball.x) * 0.52;
+          ball.y += (ballHandler.y - 14 + dribbleDrop - ball.y) * 0.52;
+        } else if (ball.target) {
+          ball.airborne -= dt;
+          ball.x += ball.vx * dt;
+          ball.y += ball.vy * dt;
+          if (ball.airborne <= 0) {
+            const target = ball.target;
+            ball.target = null;
+            target.hasBall = true;
+            ballHandler = target;
+            ball.x = target.x;
+            ball.y = target.y;
+          }
+        } else if (ball.airborne > 0) {
+          ball.airborne -= dt;
+          ball.x += ball.vx * dt;
+          ball.y += ball.vy * dt;
+        }
+      }
+
+      function checkSteals() {
+        if (!ballHandler || possessionCooldown > 0) return;
+        players.filter(p => p.team !== ballHandler.team).forEach(d => {
+          const pressure = dist(d, ballHandler);
+          const handlerSpeed = Math.hypot(ballHandler.vx, ballHandler.vy);
+          const riskyDribble = handlerSpeed > 170 ? 1.35 : 1;
+          if (pressure < 24 && Math.random() < (d.defense / 10000) * riskyDribble) {
+            ballHandler.hasBall = false;
+            d.hasBall = true;
+            possessionTeam = d.team;
+            ballHandler = d;
+            shotClock = 24;
+            possessionCooldown = 0.25;
+            flash(`${d.name} pokes it loose!`);
+          }
+        });
+      }
+
+      function updateClock(dt) {
+        if (gameOver) return;
+        gameClock -= dt;
+        shotClock -= dt;
+        possessionCooldown = Math.max(0, possessionCooldown - dt);
+        if (shotClock <= 0) resetPossession(1 - possessionTeam, 'Shot clock violation');
+        if (gameClock <= 0) {
+          gameClock = 0;
+          gameOver = true;
+          const result = teams[0].score === teams[1].score ? 'Tie game. Run it back?' : `${teams[teams[0].score > teams[1].score ? 0 : 1].city} wins the short run!`;
+          flash(`Final: ${teams[0].score}-${teams[1].score}. ${result}`);
+        }
+      }
+
+      function drawCourt() {
+        ctx.fillStyle = '#c98a45';
+        roundRect(0, 0, COURT.w, COURT.h, 18, true, false);
+        ctx.strokeStyle = 'rgba(255,255,255,0.82)';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(28, 28, COURT.w - 56, COURT.h - 56);
+        ctx.beginPath();
+        ctx.moveTo(COURT.w / 2, 28);
+        ctx.lineTo(COURT.w / 2, COURT.h - 28);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(COURT.w / 2, COURT.h / 2, 62, 0, Math.PI * 2);
+        ctx.stroke();
+        hoop.forEach((h, i) => {
+          ctx.strokeStyle = 'rgba(255,255,255,0.82)';
+          ctx.strokeRect(i === 0 ? 28 : COURT.w - 148, COURT.h / 2 - 80, 120, 160);
+          ctx.beginPath();
+          ctx.arc(h.x, h.y, 14, 0, Math.PI * 2);
+          ctx.strokeStyle = '#ffefe0';
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(h.x, h.y, 118, -Math.PI / 2, Math.PI / 2, i === 0);
+          ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+          ctx.stroke();
+        });
+        ctx.fillStyle = 'rgba(4,12,22,0.14)';
+        ctx.fillRect(COURT.w / 2 - 75, COURT.h / 2 - 22, 150, 44);
+        ctx.fillStyle = 'rgba(255,255,255,0.20)';
+        ctx.font = '900 22px system-ui';
+        ctx.textAlign = 'center';
+        ctx.fillText('GAMETIME', COURT.w / 2, COURT.h / 2 + 8);
+      }
+
+      function drawPlayerShadow(p) {
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(0,0,0,0.22)';
+        ctx.ellipse(p.x, p.y + p.radius + 3, p.radius * 1.25, 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawPlayers() {
+        const cp = controlledPlayer();
+        players.forEach(drawPlayerShadow);
+        players.forEach(p => {
+          const leanX = clamp(p.vx / 120, -3, 3);
+          const leanY = clamp(p.vy / 120, -3, 3);
+          ctx.beginPath();
+          ctx.fillStyle = p === cp ? '#fff9a8' : teams[p.team].color;
+          ctx.strokeStyle = p.hasBall ? '#ffffff' : teams[p.team].trim;
+          ctx.lineWidth = p.hasBall ? 4 : 2;
+          ctx.arc(p.x + leanX, p.y + leanY, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+          ctx.strokeStyle = 'rgba(255,255,255,0.60)';
+          ctx.lineWidth = 2;
+          const foot = Math.sin(p.stride) * 3;
+          ctx.beginPath();
+          ctx.moveTo(p.x - 5, p.y + p.radius + 2 + foot);
+          ctx.lineTo(p.x - 1, p.y + p.radius + 5 + foot);
+          ctx.moveTo(p.x + 5, p.y + p.radius + 2 - foot);
+          ctx.lineTo(p.x + 1, p.y + p.radius + 5 - foot);
+          ctx.stroke();
+          ctx.fillStyle = p === cp ? '#061020' : '#ffffff';
+          ctx.font = '800 9px system-ui';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(p.pos, p.x + leanX, p.y + leanY);
+          ctx.fillStyle = 'rgba(255,255,255,0.86)';
+          ctx.font = '700 10px system-ui';
+          ctx.fillText(p.name.split(' ')[0], p.x, p.y + 24);
+        });
+      }
+
+      function drawBall() {
+        ctx.beginPath();
+        ctx.fillStyle = '#ff8f2f';
+        ctx.strokeStyle = '#4d1f08';
+        ctx.lineWidth = 1.5;
+        ctx.arc(ball.x, ball.y, 7 + Math.max(0, ball.airborne) * 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        if (ballHandler) {
+          ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+          ctx.beginPath();
+          ctx.ellipse(ball.x, ball.y + 7, 7, 2.5, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      }
+
+      function applyCamera() {
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        const cp = controlledPlayer();
+        let view = { x: 0, y: 0, w: COURT.w, h: COURT.h };
+        if (cameraIndex === 1) view = { x: 0, y: 50, w: COURT.w, h: 400 };
+        if (cameraIndex === 2) view = { x: clamp(cp.x - 235, 0, COURT.w - 470), y: clamp(cp.y - 135, 0, COURT.h - 270), w: 470, h: 270 };
+        if (cameraIndex === 3) {
+          const bx = ballHandler ? ballHandler.x : ball.x;
+          view = { x: bx < COURT.w / 2 ? 0 : COURT.w / 2, y: 0, w: COURT.w / 2, h: COURT.h };
+        }
+        const scale = Math.min(w / view.w, h / view.h);
+        const ox = (w - view.w * scale) / 2 - view.x * scale;
+        const oy = (h - view.h * scale) / 2 - view.y * scale;
+        ctx.setTransform(scale, 0, 0, scale, ox, oy);
+      }
+
+      function roundRect(x, y, w, h, r, fill, stroke) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        if (fill) ctx.fill();
+        if (stroke) ctx.stroke();
+      }
+
+      function render() {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+        ctx.fillStyle = '#07111f';
+        ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+        applyCamera();
+        drawCourt();
+        drawPlayers();
+        drawBall();
+      }
+
+      function energyMeter(value) {
+        const lit = Math.round(clamp(value, 0, 100) / 12.5);
+        return `<span class="meter" aria-label="Energy ${Math.round(value)}">${Array.from({ length: 8 }, (_, i) => `<i class="${i < lit ? 'on' : ''}"></i>`).join('')}</span>`;
+      }
+
+      function updateHUD() {
+        const min = Math.floor(gameClock / 60);
+        const sec = Math.floor(gameClock % 60).toString().padStart(2, '0');
+        scoreboard.innerHTML = `
+          <div class="scoreCard"><small>${teams[0].city} ${teams[0].name}</small><strong>${teams[0].score}</strong></div>
+          <div class="clockCard"><div>${min}:${sec}</div><small>SHOT ${Math.ceil(shotClock)}</small></div>
+          <div class="scoreCard"><small>${teams[1].city} ${teams[1].name}</small><strong>${teams[1].score}</strong></div>
+        `;
+        const cp = controlledPlayer();
+        const speed = Math.round(Math.hypot(cp.vx, cp.vy));
+        playerPanel.innerHTML = `${cameras[cameraIndex]} | ${cp.name} ${cp.pos} | Speed ${speed} | Energy ${energyMeter(cp.energy)} | ${ballHandler ? ballHandler.name + ' ball' : 'ball in air'}`;
+      }
+
+      function loop(now) {
+        const dt = Math.min(0.033, (now - lastTime) / 1000);
+        lastTime = now;
+        if (!gameOver) {
+          handleInput(dt);
+          updateAI(dt);
+          updateBall(dt);
+          checkSteals();
+          updateClock(dt);
+        }
+        render();
+        updateHUD();
+        requestAnimationFrame(loop);
+      }
+
+      function resetGame() {
+        teams.forEach(t => { t.score = 0; });
+        gameClock = 180;
+        gameOver = false;
+        makePlayers();
+        resetPossession(0, 'Gametime v002: smoother movement and dribble feel');
+      }
+
+      window.addEventListener('keydown', e => {
+        const key = e.key.toLowerCase();
+        if ([' ', 'tab', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(key)) e.preventDefault();
+        keys.add(key);
+        if (key === 'tab') switchPlayer();
+        if (key === 'c') { cameraIndex = (cameraIndex + 1) % cameras.length; flash(`Camera: ${cameras[cameraIndex]}`); }
+        if (key === 'r') resetGame();
+        if (key === 'j') shootBall(controlledPlayer());
+        if (key === ' ') {
+          const cp = controlledPlayer();
+          const passer = cp.hasBall ? cp : players.find(p => p.team === cp.team && p.hasBall);
+          passBall(passer, cp.hasBall ? bestPassTarget(cp) : cp);
+        }
+      });
+      window.addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
+
+      resizeCanvas();
+      resetGame();
+      requestAnimationFrame(loop);
+    })();
+  </script>
+</body>
+</html>
