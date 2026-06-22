@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, live on-court matchup labels, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, live on-court matchup labels, help-defense lane tags, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v030.html`
+- `versions/gametime_v031.html`
 
 ## Current design direction
 
@@ -23,6 +23,7 @@ Current playable version:
 - Stamina should make turbo, repeated jumps, steals, shots, passes, and rebounds matter without turning the game into a pure sim
 - Defensive matchups should become readable so pressure, contests, passing risk, and shot quality feel earned instead of random
 - Live matchup labels should identify the ball handler, primary defender, pressure, and creator edge during play
+- Help-defense tags should identify the nearest second defender, lane shrink, and rotation risk during passes
 - Individual fake-player box scores should show who created points, boards, assists, steals, blocks, fouls, turnovers, and tired-leg value
 - Realistic arcade feel with visible probability tuning and live stat checks
 - Desktop keyboard controls and mobile-friendly touch controls
@@ -51,16 +52,16 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v030
+## Controls in v031
 
 | Control | Action |
 |---|---|
 | WASD / Arrow Keys | Move controlled player, scaled by speed rating and stamina |
 | Shift | Sprint / turbo burst that drains stamina faster |
 | Space | Smart pass or request pass when controlling an off-ball teammate |
-| J | Shoot with shot rating, stamina, and matchup pressure influence |
+| J | Shoot with shot rating, stamina, on-ball pressure, and help-defense influence |
 | K | Jump / contest |
-| L | Defensive poke attempt with defensive rating and stamina influence |
+| L | Defensive poke attempt with defensive rating, stamina, and help-position context |
 | Tab | Switch controlled player and update live context |
 | C | Change camera with quick camera display update |
 | O | Toggle Auto Offense |
@@ -76,10 +77,13 @@ Each build should preserve old playable versions:
 - Denver Peaks remain the default user-controlled team
 - Selectable fake opponents and home teams through the Matchup Builder
 - Compact Teams drawer starts open and can hide after tip-off to keep the court clearer on phones
-- v030 adds live matchup labels above the ball handler and the primary defender
+- v031 adds help-defense lane tags for the nearest second defender
+- Help Defense panel shows helper, lane tag, help-risk percentage, and rotation read
 - Live Matchup panel shows current handler, defender, pressure level, and creator edge
 - On-court dashed matchup tether highlights the defender currently pressuring the ball handler
+- On-court dashed help tether highlights the second defender currently shrinking the lane
 - Shot chance and pass risk respond to the current matchup pressure read
+- Pass risk now also responds to help-defense lane shrink so stunts and traps matter
 - Realism Pulse panel tracks 2PT%, 3PT%, rebounds, and turnovers against realistic-arcade expectations
 - Player movement speed uses each player's SPD rating and stamina
 - Team identities modify fake-player ratings without using real teams or players
