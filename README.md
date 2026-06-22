@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v007.html`
+- `versions/gametime_v008.html`
 
 ## Current design direction
 
@@ -35,7 +35,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v007
+## Controls in v008
 
 | Control | Action |
 |---|---|
@@ -46,10 +46,15 @@ Each build should preserve old playable versions:
 | Tab | Switch controlled player |
 | C | Change camera |
 | H / HUD button | Collapse or expand feedback panels |
+| 1 | Call Cut |
+| 2 | Call Screen |
+| 3 | Call Space |
+| 4 | Call Iso |
 | R | Reset game |
 | Mobile D-pad | Move controlled player |
 | Mobile Run | Sprint |
 | Mobile Pass / Shoot / Switch / Cam | Main basketball actions |
+| Mobile Cut / Screen / Space / Iso | Play-call actions |
 
 ## Current gameplay systems
 
@@ -59,6 +64,9 @@ Each build should preserve old playable versions:
 - Tuned realistic-arcade shot probability ranges for paint, close, midrange, and threes
 - Passing-lane preview, pass-risk feedback, and interceptions
 - Off-ball cuts that create timed passing windows toward the rim
+- Basic play-call system: Cut, Screen, Space, and Iso
+- Screen call sends a big teammate toward the ball handler and can reduce shot contest pressure
+- Space and Iso alter teammate spacing so user-controlled possessions have clearer intent
 - Live realism tuning panel for 2PT%, 3PT%, turnover rate, and sample size
 - Possession direction arrow and attacking-hoop indicator
 - Collapsible feedback HUD so mobile players can keep the court visible
@@ -75,4 +83,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes mobile controls, shows shot/pass/cut/realism feedback, includes HUD collapse behavior, and handles basic keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes mobile controls and play-call controls, shows shot/pass/cut/realism/play-call feedback, includes HUD collapse behavior, and handles basic keyboard actions without page errors.
