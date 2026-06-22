@@ -1,5 +1,32 @@
 # Changelog
 
+## v034 - Live in-game box score panel
+
+Built the next small playable iteration on top of v033.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v034.html`
+- Live In-Game Box Score panel that updates during play instead of waiting for a final summary
+- Box rows for every fake player with PTS, REB, AST, TO, and impact
+- `B` keyboard control plus Box touch/control button to compact or expand the box panel
+- Header production line for the controlled player's PTS / REB / AST
+- On-court LIVE BOX leader callout so the current top contributor is visible during play
+- Shot, roll/pop, rebound, assist, steal, and turnover events now feed the live box panel
+- Updated latest pointer, landing page, README, and Playwright smoke coverage for v034
+
+### Why this was chosen
+
+v033 made the screen action become a live roll, pop, or slip target. The next best foundation step was making player production visible without waiting for an end-of-game overlay. A premium sports game needs the player to understand who is carrying the possession, who is creating assists, and who is hurting the team with turnovers while the game is still being played. v034 adds that broadcast-style feedback loop.
+
+### Recommended next improvements
+
+- Add a defensive tag decision panel showing whether the helper stayed home, tagged the roller, or gave up a kickout
+- Reconnect the screen/roll/pop slice into the fuller foul/free-throw/box-score stack
+- Start extracting shared league/player/UI data into JavaScript modules so the version files stop growing as copied giant HTML files
+- Add practice/free-shoot mode for testing shots, passes, stamina, help defense, screens, rolls, and box-score events quickly
+- Add small player foul-trouble cues to the live box panel once the foul stack is reconnected
+
 ## v033 - Roll/pop screener reads
 
 Built the next small playable iteration on top of v032.
