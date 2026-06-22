@@ -1,5 +1,31 @@
 # Changelog
 
+## v022 - Live lane rebounds on final missed free throws
+
+Built the next small playable iteration on top of v021.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v022.html`
+- Final missed free throws now stay live instead of becoming automatic possession flips
+- Lane-line player alignment during free throws so the court visually prepares for a possible rebound
+- Rebound Battle and Box-Out Timing feedback now call out lane release, lane players, final FT misses, and offensive/defensive board outcomes
+- Game Stats and end summary now surface rebound / offensive rebound results alongside free throws
+- `latest.html` now points to v022
+- `index.html`, README, and Playwright smoke test updated for v022
+
+### Why this was chosen
+
+v021 made free throws skill-based with a timing meter. The next best basketball step was handling what happens after the final miss. v022 keeps the ball live, positions lane rebounders, and lets final missed free throws create offensive or defensive board outcomes. That makes foul shots feel connected to real basketball possessions instead of isolated mini coin flips.
+
+### Recommended next improvements
+
+- Add bonus / one-and-one behavior once team fouls matter late in games
+- Add a dedicated mobile viewport Playwright test that drags the joystick and taps FT
+- Move league/team/player data out of the single HTML file
+- Add clearer lane-violation timing risk on early rebounds
+- Add a practice/free-shoot mode for testing shot, rebound, foul, and free-throw systems quickly
+
 ## v021 - Timed free throw release meter
 
 Built the next small playable iteration on top of v020.
@@ -80,28 +106,3 @@ v018 added a final buzzer recap, which made the live stat model meaningful at th
 - Add a practice/free-shoot mode for testing shot, rebound, and foul systems quickly
 - Add team color/name styling to the final recap table
 - Add foul-shot/free-throw handling after shooting fouls
-
-## v018 - Final buzzer recap and why-they-won summary
-
-Built the next small playable iteration on top of v017.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v018.html`
-- End-of-game recap overlay that appears when the clock reaches 0:00
-- Manual `Show Summary` / `End Game` controls for checking the recap without waiting through a full game
-- Final summary table for score, FG, 3PT, rebounds, offensive rebounds, turnovers, steals, blocks, fouls, and paint points
-- Why-they-won explanation that chooses the strongest visible edge from shooting, rebounding, ball security, steals, or foul discipline
-- `E` keyboard shortcut for summary preview
-- Debug hook for Playwright to force the final buzzer and verify the overlay
-- `latest.html` now points to v018
-- `index.html`, README, and Playwright smoke test updated for v018
-
-### Why this was chosen
-
-v017 made the game track basketball events like shots, rebounds, turnovers, steals, fouls, and blocks. The next best step was to cash those stats out into a game-ending presentation layer. v018 gives every short arcade game a payoff screen and starts moving the project toward broadcast-style context instead of ending with only a clock and score.
-
-### Recommended next improvements
-
-- Add shot-contest fouls for late block attempts
-- Add a dedicated mobile viewport Playwright test that drags the joystick and confirms movement
