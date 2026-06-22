@@ -1,5 +1,32 @@
 # Changelog
 
+## v034 - Defensive tag decisions
+
+Built the next small playable iteration on top of v033.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v034.html`
+- Tag Decision feedback panel showing helper decision, tagged player, kickout risk, and defensive payoff
+- `4` keyboard control plus Tag touch/control button to force a helper tag read
+- Defensive choices now include Stay Home, Soft Tag, Stunt and Recover, and Hard Tag Roller
+- Cyan on-court TAG tether that shows when the helper commits to the roller or stunt decision
+- Pass and shot context now react to kickout risk created by the tag decision
+- Screen → Roll/Pop → Tag sequence creates a more realistic read chain after picks
+- Updated latest pointer, landing page, README, and Playwright smoke coverage for v034
+
+### Why this was chosen
+
+v033 made the screener a live roll, pop, or slip target after a screen. The next basketball step was making the defense answer that second action. Real pick-and-roll possessions hinge on the helper's tag decision: stay home and risk the roll, tag the roller and risk the kickout, or stunt long enough to buy recovery time. v034 makes that defensive choice visible, playable, and connected to pass/shot risk.
+
+### Recommended next improvements
+
+- Reconnect the screen/roll/tag slice into the fuller foul/free-throw/box-score stack
+- Add a compact in-game player box panel that can be toggled without waiting for the summary overlay
+- Add drive-and-kick reads from the tag decision so open shooters can punish hard tags
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- Add practice/free-shoot mode for testing shots, passes, stamina, help defense, screens, rolls, tags, and matchup pressure quickly
+
 ## v033 - Roll/pop screener reads
 
 Built the next small playable iteration on top of v032.
