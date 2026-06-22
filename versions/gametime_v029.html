@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gametime Basketball v029</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;--gold:#ffba4a;--blue:#55bdff}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;height:100%;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;background:#07111f;color:#f7fbff}iframe{position:fixed;inset:0;width:100vw;height:100vh;border:0;background:#07111f}.coach{position:fixed;right:1rem;top:1rem;width:min(24rem,calc(100vw - 2rem));z-index:10;padding:.8rem;border-radius:1rem;background:rgba(2,8,18,.92);border:1px solid rgba(255,255,255,.16);box-shadow:0 1rem 2rem rgba(0,0,0,.28)}h1{margin:0 0 .4rem;font-size:.86rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold)}p{margin:.35rem 0;color:#c8d7e6;font-size:.75rem}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.35rem;margin-top:.55rem}.stat{padding:.42rem .5rem;border-radius:.75rem;background:rgba(255,255,255,.08);font-size:.68rem;color:#b8c7d9}.stat strong{display:block;color:#fff;font-size:.86rem}.bar{height:.42rem;margin-top:.58rem;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden}.bar span{display:block;height:100%;width:var(--value,42%);background:linear-gradient(90deg,var(--blue),var(--gold))}button{font:900 .7rem/1 system-ui;border:1px solid rgba(255,255,255,.18);border-radius:.7rem;background:rgba(255,255,255,.1);color:#fff;padding:.55rem .45rem}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-top:.6rem}.mini{position:fixed;left:50%;top:.85rem;transform:translateX(-50%);z-index:9;padding:.45rem .8rem;border-radius:999px;background:rgba(2,8,18,.76);border:1px solid rgba(255,255,255,.13);font-weight:900;color:#dff3ff}.hidden{display:none}@media(max-width:780px){.coach{left:.55rem;right:.55rem;top:auto;bottom:.8rem;width:auto}p{display:none}.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<iframe src="gametime_v028.html" title="Gametime Basketball v028 playable foundation" data-testid="game-frame"></iframe>
+<div class="mini" data-testid="version-pill">v029: Screen Coverage Coach</div>
+<section class="coach" data-testid="screen-switch-coach" aria-label="Screen Coverage Coach">
+<h1>Screen Coverage Coach v029</h1>
+<p>Small next step on top of v028: a broadcast-style read for screen coverage choices.</p>
+<div class="grid"><div class="stat">Coverage<strong id="coverage">No screen</strong></div><div class="stat">Pressure<strong id="pressure">Moderate</strong></div><div class="stat">Matchup<strong id="matchup">Guard vs Guard</strong></div><div class="stat">Next Read<strong id="nextRead">Call Screen</strong></div></div>
+<div class="bar" id="switchBar" style="--value:42%"><span></span></div>
+<div class="buttons"><button id="cycleCoverage" type="button" data-testid="cycle-coverage">Cycle Coverage</button><button id="hideCoach" type="button" data-testid="hide-coach">Hide Coach</button></div>
+</section>
+<script>
+(()=>{const $=s=>document.querySelector(s);const reads=[['Switch','Soft after mismatch','Guard vs Big','Drive or stepback',78],['Hedge','Heavy at screen','Two defenders near ball','Pass to roller',66],['Fight over','Moderate chase','Guard recovers','Reject or reset',52],['No screen','Moderate','Guard vs Guard','Call Screen',42]];let i=3;function render(){const r=reads[i];$('#coverage').textContent=r[0];$('#pressure').textContent=r[1];$('#matchup').textContent=r[2];$('#nextRead').textContent=r[3];$('#switchBar').style.setProperty('--value',r[4]+'%')}function cycle(){i=(i+1)%reads.length;render()}$('#cycleCoverage').addEventListener('click',cycle);$('#hideCoach').addEventListener('click',()=>$('.coach').classList.toggle('hidden'));window.addEventListener('keydown',e=>{if(e.code==='Digit2')cycle()});render();})();
+</script>
+</body>
+</html>
