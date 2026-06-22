@@ -90,7 +90,7 @@ test('mobile joystick responds without text selection artifacts in v030', async 
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await page.mouse.down();
   await page.mouse.move(box.x + box.width * 0.85, box.y + box.height / 2, { steps: 4 });
-  await expect(page.locator('#joyKnob')).not.toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+  await expect(page.locator('#joyKnob')).not.toHaveCSS('transform', 'none');
   await page.mouse.up();
 
   await expect(page.getByTestId('scoreboard')).toContainText(/SHOT/);
