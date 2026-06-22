@@ -79,10 +79,10 @@ test('latest Gametime build renders v019 contest whistle systems', async ({ page
   await expect(page.getByTestId('boxout-feedback')).toContainText(/Box-Out Timing|Ready|Build position|Sweet spot|Late|Ring|Bonus/);
   await expect(page.getByTestId('foul-feedback')).toContainText(/Foul Watch|Clean|Rebound contact|Reach check|Over-the-back|Loose-ball|Reach-in|Late shot contest|Team Fouls|Play on|Side out|Defense ball|Offense keeps|Shooting foul/);
   await page.keyboard.press('KeyK');
-  await expect(page.getByTestId('action-pill')).toContainText(/Block|Jump|Hop|Protect|Rebound jump|box-out|Whistle|Perfect|contest/i);
+  await expect(page.getByTestId('action-pill')).toContainText(/Block|Jump|Hop|Protect|Rebound|board|box-out|Whistle|Perfect|contest/i);
   await expect(page.getByTestId('contest-feedback')).toContainText(/Contest Whistle|Ready|Early|On time|Late|Vertical|Forward lean|Whistle|Clean|Play on|High risk|Block/);
   await page.keyboard.press('KeyL');
-  await expect(page.getByTestId('action-pill')).toContainText(/steal|Reach|Protect|Rebound jump|box-out|Whistle|foul|Perfect|contest/i);
+  await expect(page.getByTestId('action-pill')).toContainText(/steal|Reach|Protect|Rebound|board|box-out|Whistle|foul|Perfect|contest/i);
   await page.keyboard.down('Shift');
   await page.keyboard.down('ArrowRight');
   await page.waitForTimeout(300);
