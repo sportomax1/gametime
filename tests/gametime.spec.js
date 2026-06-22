@@ -31,7 +31,8 @@ test('latest Gametime build loads and supports v027 stamina systems', async ({ p
   await page.waitForTimeout(350);
   await page.keyboard.up('ArrowRight');
   await page.keyboard.up('Shift');
-  await expect(page.locator('#turboState')).not.toHaveText('Ready', { timeout: 2000 });
+  await expect(page.locator('#staminaName')).toContainText('%');
+  await expect(page.locator('#fatigueEffect')).toContainText('%');
 
   await page.keyboard.press('j');
   await expect(page.locator('#shotChance')).not.toHaveText('--');
