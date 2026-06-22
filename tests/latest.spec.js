@@ -6,7 +6,7 @@ function latestUrl() {
   return pathToFileURL(path.join(__dirname, '..', 'latest.html')).href;
 }
 
-test('latest Gametime build renders v023 bonus free throw systems', async ({ page }) => {
+test('latest Gametime build renders v024 bonus rule systems', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -18,20 +18,20 @@ test('latest Gametime build renders v023 bonus free throw systems', async ({ pag
   });
 
   await page.goto(latestUrl());
-  await expect(page).toHaveTitle(/Gametime Basketball v023|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v024|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
-  await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT|FOULS|FT|BONUS/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT|FOULS|FT|BONUS|2FT/);
   await expect(page.locator('#playerPanel')).toContainText(/Control|Ball|Energy|Camera|Auto O/);
   await expect(page.getByTestId('touch-controls')).toBeAttached();
   await expect(page.getByTestId('joystick')).toBeAttached();
   await expect(page.locator('#joyBase')).toBeAttached();
-  await expect(page.locator('#touchControls button')).toHaveCount(14);
+  await expect(page.locator('#touchControls button')).toHaveCount(15);
   await expect(page.getByTestId('camera-pill')).toContainText(/Camera: Full Court/);
   await expect(page.getByTestId('action-pill')).toContainText(/Ready/);
   await expect(page.getByTestId('auto-offense-toggle')).toContainText(/Auto Offense: On/);
   await expect(page.getByTestId('hud-toggle')).toBeVisible();
   await expect(page.getByTestId('team-toggle')).toBeAttached();
-  await expect(page.getByTestId('team-panel')).toContainText(/Matchup Builder|League|Start|Auto Offense|Next Camera|Show Summary|End Game|Practice FT|Release FT|Force Bonus|Side-Out Foul/i);
+  await expect(page.getByTestId('team-panel')).toContainText(/Matchup Builder|League|Start|Auto Offense|Next Camera|Show Summary|End Game|Practice FT|Release FT|Force Bonus|Side-Out Foul|Bonus Rule|Force 1\+1/i);
   await expect(page.locator('#homeSelect option')).toHaveCount(10);
   await expect(page.locator('#awaySelect option')).toHaveCount(10);
   await expect(page.getByTestId('shot-feedback')).toContainText(/Shot Feedback|Make Chance|Release|Zone/);
@@ -43,7 +43,7 @@ test('latest Gametime build renders v023 bonus free throw systems', async ({ pag
   await expect(page.getByTestId('defense-feedback')).toContainText(/Defense Coverage|Actions|Pressure|Result/);
   await expect(page.getByTestId('contest-feedback')).toContainText(/Contest Whistle|Timing|Verticality|Distance|Whistle/);
   await expect(page.getByTestId('free-throw-feedback')).toContainText(/Free Throw Timing|Shooter|Trip|Meter|Result|Practice FT/);
-  await expect(page.getByTestId('bonus-feedback')).toContainText(/Bonus Watch|Home Bonus|Away Bonus|Threshold|5 team fouls|Outcome|Side-out before bonus/);
+  await expect(page.getByTestId('bonus-feedback')).toContainText(/Bonus Watch|Home Bonus|Away Bonus|Rule|Two-shot bonus|Outcome|Side-out before bonus/);
   await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Timing|Battle|Loose Ball|Outcome/);
   await expect(page.getByTestId('boxout-feedback')).toContainText(/Box-Out Timing|Window|Leverage|Ring|Bonus/);
   await expect(page.getByTestId('foul-feedback')).toContainText(/Foul Watch|Type|Risk|Team Fouls|Outcome/);
@@ -99,19 +99,29 @@ test('latest Gametime build renders v023 bonus free throw systems', async ({ pag
   await expect(page.getByTestId('stat-summary')).toContainText(/REB|OREB|Boards/);
 
   await page.getByTestId('bonus-demo').click();
-  await expect(page.getByTestId('bonus-feedback')).toContainText(/Bonus Watch|Yes|Bonus free throws|5 team fouls/);
+  await expect(page.getByTestId('bonus-feedback')).toContainText(/Bonus Watch|Yes|Bonus free throws|Two-shot bonus/);
   await expect(page.getByTestId('free-throw-feedback')).toContainText(/Bonus|1 of 2|Meter live|Press F/);
-  await expect(page.getByTestId('scoreboard')).toContainText(/BONUS|FOULS|FT/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/BONUS|FOULS|FT|2FT/);
   await page.keyboard.press('KeyF');
   await expect(page.getByTestId('free-throw-feedback')).toContainText(/Perfect|Good|Early|Late|Made|Miss|2 of 2/);
 
+  await page.getByTestId('bonus-rule-toggle').click();
+  await expect(page.getByTestId('bonus-rule-toggle')).toContainText(/Bonus Rule: 1\+1/);
+  await expect(page.getByTestId('bonus-feedback')).toContainText(/One-and-one|double bonus|Outcome/);
+  await page.getByTestId('one-and-one-demo').click();
+  await expect(page.getByTestId('bonus-feedback')).toContainText(/1\+1 bonus|One-and-one/);
+  await expect(page.getByTestId('free-throw-feedback')).toContainText(/1\+1|Bonus|1 of 1|Meter live|Press F/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/BONUS|1\+1/);
+  await page.keyboard.press('KeyF');
+  await expect(page.getByTestId('rebound-feedback')).toContainText(/1\+1 miss live|Lane release|Lane players|Press K|Final FT miss/);
+
   await page.getByTestId('summary-button').click();
   await expect(page.getByTestId('end-summary')).toHaveClass(/show/);
-  await expect(page.getByTestId('end-summary')).toContainText(/Game Summary|Score|FG|3PT|FT|REB|OREB|TO|STL|FOULS|BONUS/);
+  await expect(page.getByTestId('end-summary')).toContainText(/Game Summary|Score|FG|3PT|FT|REB|OREB|TO|STL|FOULS|BONUS|BONUS RULE/);
   await page.locator('#closeSummary').click();
   await page.getByTestId('quick-end').click();
   await expect(page.getByTestId('end-summary')).toHaveClass(/show/);
-  await expect(page.getByTestId('end-summary')).toContainText(/Final Buzzer|FG|3PT|FT|REB|OREB|FOULS|BONUS|Tie game|leads|wins/);
+  await expect(page.getByTestId('end-summary')).toContainText(/Final Buzzer|FG|3PT|FT|REB|OREB|FOULS|BONUS|BONUS RULE|Tie game|leads|wins/);
 
   expect(errors).toEqual([]);
 });
@@ -130,10 +140,12 @@ test('mobile joystick responds without text selection artifacts', async ({ brows
   });
 
   await page.goto(latestUrl());
-  await expect(page).toHaveTitle(/Gametime Basketball v023|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v024|Gametime Latest/);
   await expect(page.getByTestId('touch-controls')).toBeVisible();
   await expect(page.locator('body')).toHaveCSS('user-select', /none/);
-  await expect(page.locator('#touchControls button')).toHaveCount(14);
+  await expect(page.locator('#touchControls button')).toHaveCount(15);
+  await page.locator('[data-action="bonusRule"]').click();
+  await expect(page.getByTestId('bonus-feedback')).toContainText(/One-and-one|double bonus/);
 
   const box = await page.locator('#joyBase').boundingBox();
   expect(box).not.toBeNull();
@@ -143,7 +155,7 @@ test('mobile joystick responds without text selection artifacts', async ({ brows
   await expect(page.locator('#joyKnob')).not.toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
   await page.mouse.up();
 
-  await expect(page.getByTestId('scoreboard')).toContainText(/SHOT|FT|BONUS/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/SHOT|FT|BONUS|1\+1/);
   expect(errors).toEqual([]);
   await context.close();
 });
