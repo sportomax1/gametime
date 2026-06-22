@@ -70,7 +70,7 @@ test('latest Gametime build renders v013 joystick and quick controls', async ({ 
   await page.keyboard.press('KeyK');
   await expect(page.getByTestId('action-pill')).toContainText(/Block|Jump|Hop|Protect/);
   await page.keyboard.press('KeyL');
-  await expect(page.getByTestId('action-pill')).toContainText(/Steal|Reach|Protect/);
+  await expect(page.getByTestId('action-pill')).toContainText(/steal|Reach|Protect/i);
   await page.keyboard.down('Shift');
   await page.keyboard.down('ArrowRight');
   await page.waitForTimeout(300);
