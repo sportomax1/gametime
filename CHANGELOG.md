@@ -1,5 +1,36 @@
 # Changelog
 
+## v006 - Off-ball cuts, mobile HUD collapse, and realistic arcade tuning
+
+Built the next small playable iteration on top of v005.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v006.html`
+- Off-ball cuts that let teammates make timed rim runs instead of holding static spacing
+- Cut-lane feedback panel showing cutter, lane, cut chance, and result
+- Cut-lane indicators drawn on the court so the pass window is visible
+- Smart pass target scoring now rewards active cutters and safer cutter lanes
+- Collapsible HUD button plus `H` keyboard shortcut so mobile players can clear the court view
+- Player HUD now shows active cut count
+- Shot probability tuning for more realistic arcade percentages across layups, close shots, midrange, and threes
+- Slightly lower pass interception and steal rates so turnovers feel earned instead of chaotic
+- `latest.html` now points to v006
+- `index.html` now links to v006, v005, v004, v003, v002, and v001
+- README and Playwright smoke test updated for v006
+
+### Why this was chosen
+
+v005 made passing lanes meaningful. The next logical step was helping teammates create those lanes. Off-ball cuts make the 5v5 game feel more alive and give the user a basketball reason to pass instead of dribbling until a shot appears. The mobile HUD collapse also responds to the need to keep the playing area visible on phones.
+
+### Recommended next improvements
+
+- Add basic play-call buttons such as Cut, Screen, Space, and Iso
+- Add a simple team select screen using the fictional league directory
+- Begin separating shared roster/rating/game constants from the HTML file
+- Add a small stats overlay for FG%, 3PT%, turnovers, rebounds, and steals
+- Add mobile viewport Playwright coverage for the collapsed HUD state
+
 ## v005 - Passing lane risk and interceptions
 
 Built the next small playable iteration on top of v004.
