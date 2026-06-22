@@ -1,5 +1,33 @@
 # Changelog
 
+## v014 - Rebound battles and loose-ball pickups
+
+Built the next small playable iteration on top of v013.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v014.html`
+- Missed shots now create a live rebound / loose-ball state instead of immediately swapping possession
+- Rebound Battle feedback panel showing timing, board battle density, loose-ball type, and result
+- On-court rebound marker so players can chase the ball after misses
+- Jump timing near the loose-ball marker can secure a rebound
+- Offensive rebounds reset the shot clock to 14; defensive rebounds reset it to 24
+- Camera logic can track a loose ball while rebound play is active
+- `latest.html` now points to v014
+- `index.html`, README, and Playwright smoke test updated for v014
+
+### Why this was chosen
+
+v013 improved hands-on control with joystick movement, auto offense, and faster input feedback. The next best basketball foundation step was missed-shot continuation. Rebounds make possessions feel alive, create second-chance offense, and prevent every miss from feeling like an automatic hard reset.
+
+### Recommended next improvements
+
+- Add a dedicated mobile viewport Playwright test that drags the joystick and verifies movement
+- Add clearer rebound timing rings and box-out indicators
+- Add simple end-of-game box score and team stat summary
+- Move league/team/player data out of the single HTML file
+- Add basic fouls/whistles around heavy shot contests and rebound contact
+
 ## v013 - Mobile joystick, auto offense, and quick action response
 
 Built the next small playable iteration on top of v012.
