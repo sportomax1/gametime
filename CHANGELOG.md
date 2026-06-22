@@ -1,5 +1,32 @@
 # Changelog
 
+## v024 - Toggleable one-and-one bonus rules
+
+Built the next small playable iteration on top of v023.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v024.html`
+- Bonus Rule toggle that switches between two-shot bonus and one-and-one / double-bonus style handling
+- `N` keyboard shortcut, Matchup Builder Bonus Rule button, Force 1+1 button, and mobile Rule button for quick rule testing
+- One-and-one free throw logic: the first make earns a second shot; a first miss becomes a live lane rebound
+- Bonus Watch panel now shows the active bonus rule instead of only a fixed threshold
+- Scoreboard and end summary now surface the bonus rule so late-game foul context is visible
+- `latest.html` now points to v024
+- `index.html`, README, and Playwright smoke test updated for v024
+
+### Why this was chosen
+
+v023 made team fouls matter by awarding bonus free throws after the foul limit. The next best rules-engine step was making the bonus system configurable. v024 adds one-and-one behavior alongside the simple two-shot bonus so the arcade game can support different realistic basketball rule flavors without turning into franchise-management soup.
+
+### Recommended next improvements
+
+- Add a compact Rules drawer for game length, foul limit, bonus format, and shot clock presets
+- Add clearer lane-violation timing risk on early free-throw rebounds
+- Add a dedicated mobile viewport Playwright test that taps Rule, Bonus, and FT controls
+- Move league/team/player data out of the single HTML file
+- Add a practice/free-shoot mode for testing shot, rebound, foul, bonus, and free-throw systems quickly
+
 ## v023 - Bonus free throws after team-foul threshold
 
 Built the next small playable iteration on top of v022.
@@ -118,18 +145,3 @@ Built the next small playable iteration on top of v018.
 - Late block / shot-contest logic where aggressive or late contests can create foul outcomes
 - Clean vertical contests can generate pressure or block credit without automatically becoming a foul
 - Shot-contest fouls now feed team foul totals and the end-of-game stat summary
-- Mobile/desktop `K` and Block/Jump behavior now supports contest timing as well as rebound/box-out actions
-- `latest.html` now points to v019
-- `index.html`, README, and Playwright smoke test updated for v019
-
-### Why this was chosen
-
-v018 added a final buzzer recap, which made the live stat model meaningful at the end of each short game. The next best basketball step was making shot defense less binary. v019 adds a readable risk/reward layer: jump straight up and you can contest cleanly; lunge late and the whistle can punish you. That keeps blocks exciting without letting the defense spam free superhero swats.
-
-### Recommended next improvements
-
-- Add a dedicated mobile viewport Playwright test that drags the joystick and confirms movement
-- Move league/team/player data out of the single HTML file
-- Add a practice/free-shoot mode for testing shot, rebound, and foul systems quickly
-- Add team color/name styling to the final recap table
-- Add foul-shot/free-throw handling after shooting fouls
