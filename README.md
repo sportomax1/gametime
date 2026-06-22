@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v021.html`
+- `versions/gametime_v022.html`
 
 ## Current design direction
 
@@ -23,6 +23,7 @@ Current playable version:
 - Desktop keyboard controls and mobile-friendly touch controls
 - Mobile layout should keep the playing area readable, with collapsible HUD panels, a compact Teams drawer, joystick control, and clean touch behavior
 - Missed shots should create realistic rebound / loose-ball events instead of instantly flipping possession
+- Final missed free throws should stay live and create lane-line rebound battles instead of becoming automatic possession flips
 - Rebounds should become readable and skill-based through timing rings, inside position, box-out leverage, and realistic foul risk
 - Late block attempts and aggressive contests should carry realistic whistle risk, while verticality should be rewarded
 - Shooting fouls should produce playable free throws and update the box score
@@ -43,7 +44,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v021
+## Controls in v022
 
 | Control | Action |
 |---|---|
@@ -91,7 +92,9 @@ Each build should preserve old playable versions:
 - Free Throw Timing panel tracks shooter, trip progress, live meter position, release timing, make chance, and result
 - Shooting fouls can create playable free-throw trips
 - Free throws update score, FT made/attempted splits, scoreboard, live stat panel, and end summary
-- The v021 free throw meter rewards pressing F / FT near the green release window
+- The free throw meter rewards pressing F / FT near the green release window
+- v022 adds lane-line player alignment during free throws
+- v022 keeps final missed free throws live and turns them into offensive or defensive rebound outcomes
 - Missed shots now trigger a rebound/loose-ball state instead of instant possession changes
 - Rebound Battle panel tracks timing, battle density, loose-ball type, and outcome
 - Box-Out Timing panel tracks timing window, leverage, ring progress, and rebound bonus
@@ -115,7 +118,7 @@ Each build should preserve old playable versions:
 - Multiple camera modes with actual display changes
 - Desktop and mobile control paths
 
-## Fake league clubs in v021
+## Fake league clubs in v022
 
 | Team | Identity |
 |---|---|
@@ -139,5 +142,3 @@ npm install
 npx playwright install chromium
 npm test
 ```
-
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, mobile joystick controls, action controls, shot/pass/realism/play-call/screen/defense/rebound/box-out/foul/stat/contest/free-throw feedback, end-summary controls, HUD collapse behavior, team drawer behavior, matchup changes, Auto Offense, camera display, free-throw timing controls, and core keyboard actions without page errors.
