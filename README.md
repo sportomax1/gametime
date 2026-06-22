@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v010.html`
+- `versions/gametime_v011.html`
 
 ## Current design direction
 
@@ -20,7 +20,7 @@ Current playable version:
 - Player switching over time
 - Realistic arcade feel with visible probability tuning
 - Desktop keyboard controls and mobile-friendly touch controls
-- Mobile layout should keep the playing area readable, with collapsible HUD panels
+- Mobile layout should keep the playing area readable, with collapsible HUD panels and a compact Teams drawer
 - All useful basketball camera angles over time
 - HTML Canvas foundation first
 - Three.js / 3D path later when the 2D foundation is strong
@@ -35,7 +35,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v010
+## Controls in v011
 
 | Control | Action |
 |---|---|
@@ -50,7 +50,7 @@ Each build should preserve old playable versions:
 | 2 | Call Screen |
 | 3 | Call Space |
 | 4 | Call Iso |
-| T | Minimize or reopen the team selector |
+| T / Teams button | Hide or reopen the compact Teams drawer |
 | R | Reset game |
 | Mobile D-pad | Move controlled player |
 | Mobile Run | Sprint |
@@ -62,13 +62,15 @@ Each build should preserve old playable versions:
 - Fictional team select with 10 fake clubs
 - Denver Peaks remain the default user-controlled team
 - Selectable fake opponents and home teams through the Matchup Builder
+- Compact Teams drawer starts open and auto-hides after tip-off to keep the court clearer on phones
+- Teams can be reopened with `T` or the Teams button without covering the whole game permanently
 - One-player control with teammate/opponent AI
 - Shot feedback for release, contest, zone, and make chance
 - Tuned realistic-arcade shot probability ranges for paint, close, midrange, and threes
 - Passing-lane preview, pass-risk feedback, and interceptions
 - Off-ball cuts that create timed passing windows toward the rim
 - Basic play-call system: Cut, Screen, Space, and Iso
-- Screen call now creates physical screen contact: defenders slow when clipping an active screener
+- Screen call creates physical screen contact: defenders slow when clipping an active screener
 - Screen Feedback panel tracks screen action, contacts, roll/pop outcome, and separation
 - Successful screens can turn the screener into a roll/pop passing target
 - Space and Iso alter teammate spacing so user-controlled possessions have clearer intent
@@ -78,7 +80,7 @@ Each build should preserve old playable versions:
 - Multiple camera modes
 - Desktop and mobile control paths
 
-## Fake league clubs in v010
+## Fake league clubs in v011
 
 | Team | Identity |
 |---|---|
@@ -103,4 +105,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes the team selector, includes mobile controls and play-call controls, shows shot/pass/realism/play-call/screen feedback, includes HUD collapse behavior, supports changing the matchup, and handles basic keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes the team selector and Teams toggle, includes mobile controls and play-call controls, shows shot/pass/realism/play-call/screen feedback, includes HUD collapse behavior, auto-hides the team drawer after starting a matchup, supports reopening the drawer, supports changing the matchup, and handles basic keyboard actions without page errors.
