@@ -1,5 +1,33 @@
 # Changelog
 
+## v018 - Final buzzer recap and why-they-won summary
+
+Built the next small playable iteration on top of v017.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v018.html`
+- End-of-game recap overlay that appears when the clock reaches 0:00
+- Manual `Show Summary` / `End Game` controls for checking the recap without waiting through a full game
+- Final summary table for score, FG, 3PT, rebounds, offensive rebounds, turnovers, steals, blocks, fouls, and paint points
+- Why-they-won explanation that chooses the strongest visible edge from shooting, rebounding, ball security, steals, or foul discipline
+- `E` keyboard shortcut for summary preview
+- Debug hook for Playwright to force the final buzzer and verify the overlay
+- `latest.html` now points to v018
+- `index.html`, README, and Playwright smoke test updated for v018
+
+### Why this was chosen
+
+v017 made the game track basketball events like shots, rebounds, turnovers, steals, fouls, and blocks. The next best step was to cash those stats out into a game-ending presentation layer. v018 gives every short arcade game a payoff screen and starts moving the project toward broadcast-style context instead of ending with only a clock and score.
+
+### Recommended next improvements
+
+- Add shot-contest fouls for late block attempts
+- Add a dedicated mobile viewport Playwright test that drags the joystick and confirms movement
+- Move league/team/player data out of the single HTML file
+- Add a practice/free-shoot mode for testing shot, rebound, and foul systems quickly
+- Add team color/name styling to the final recap table
+
 ## v017 - Live team stat summary and box-score pacing
 
 Built the next small playable iteration on top of v016.
@@ -52,7 +80,7 @@ v015 made rebounds skill-based with timing rings and inside-position bonuses. Th
 - Add a mobile viewport Playwright test that drags the joystick and confirms movement
 - Add shot-contest fouls for late block attempts
 - Move league/team/player data out of the single HTML file
-- Add a practice/free-shoot mode for testing shot, rebound, and foul systems quickly
+- Add a practice/free-shoot mode for testing shot and rebound systems quickly
 
 ## v015 - Box-out timing rings and rebound leverage
 
