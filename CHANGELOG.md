@@ -1,5 +1,32 @@
 # Changelog
 
+## v023 - Bonus free throws after team-foul threshold
+
+Built the next small playable iteration on top of v022.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v023.html`
+- Bonus Watch feedback panel showing home bonus, away bonus, threshold, and foul outcome
+- Team-foul bonus rule: non-shooting fouls are side-out fouls before bonus, then become bonus free throws after 5 defending-team fouls
+- Force Bonus button, mobile Bonus button, and `B` shortcut for quick rules testing
+- Scoreboard now calls out bonus status alongside fouls and free throws
+- End-of-game summary now includes bonus status as part of the rules/stat recap
+- `latest.html` now points to v023
+- `index.html`, README, and Playwright smoke test updated for v023
+
+### Why this was chosen
+
+v022 connected final missed free throws to live lane rebounds. The next best basketball step was making accumulated fouls matter. v023 adds a simple bonus threshold so defensive mistakes have realistic arcade consequences: early non-shooting fouls are side-outs, but once a team reaches the limit, the offense gets free throws. That turns team fouls from scoreboard decoration into actual game pressure.
+
+### Recommended next improvements
+
+- Add one-and-one versus two-shot bonus variations as game rules mature
+- Add a dedicated mobile viewport Playwright test that drags the joystick and taps Bonus / FT
+- Add clearer lane-violation timing risk on early rebounds
+- Move league/team/player data out of the single HTML file
+- Add a practice/free-shoot mode for testing shot, rebound, foul, bonus, and free-throw systems quickly
+
 ## v022 - Live lane rebounds on final missed free throws
 
 Built the next small playable iteration on top of v021.
