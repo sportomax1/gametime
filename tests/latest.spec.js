@@ -2,19 +2,26 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-test('latest Gametime build renders v006 basics', async ({ page }) => {
+test('latest Gametime build renders v007 basics', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', msg => {
+    if (msg.type() === 'error') errors.push(msg.text());
+  });
+
   const latestPath = path.join(__dirname, '..', 'latest.html');
   await page.goto(pathToFileURL(latestPath).href);
-  await expect(page).toHaveTitle(/Gametime Basketball v006|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v007|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
-  await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT/);
   await expect(page.locator('#playerPanel')).toContainText(/Energy|Speed|Cuts/);
   await expect(page.getByTestId('touch-controls')).toBeAttached();
   await expect(page.locator('#touchControls button')).toHaveCount(9);
   await expect(page.getByTestId('hud-toggle')).toBeVisible();
-  await expect(page.getByTestId('shot-feedback')).toContainText(/Shot Feedback|Make Chance|Release/);
+  await expect(page.getByTestId('shot-feedback')).toContainText(/Shot Feedback|Make Chance|Release|Zone/);
   await expect(page.getByTestId('pass-feedback')).toContainText(/Pass Feedback|Risk|Lane/);
   await expect(page.getByTestId('cut-feedback')).toContainText(/Off-Ball Cuts|Cut Chance|Lane/);
+  await expect(page.getByTestId('realism-panel')).toContainText(/Realism Tuning|2PT FG|3PT FG|Turnover/);
 
   await page.getByTestId('hud-toggle').click();
   await expect(page.locator('body')).toHaveClass(/hudExpanded/);
@@ -29,4 +36,6 @@ test('latest Gametime build renders v006 basics', async ({ page }) => {
   await page.waitForTimeout(300);
   await page.keyboard.up('ArrowRight');
   await page.keyboard.up('Shift');
+
+  expect(errors).toEqual([]);
 });
