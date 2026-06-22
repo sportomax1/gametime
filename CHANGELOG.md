@@ -1,5 +1,32 @@
 # Changelog
 
+## v029 - Individual fake-player box scores
+
+Built the next small playable iteration on top of v028.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v029.html`
+- Player-level box-score rows in the end summary for every fake player on both teams
+- Individual tracking for points, rebounds, offensive rebounds, assists, steals, blocks, fouls, turnovers, and remaining stamina
+- Made field goals, threes, free throws, rebounds, offensive rebounds, pass interceptions, shot-clock violations, and fouls now feed player stat lines
+- The header now surfaces the controlled player's PTS / REB / AST line so production is visible before the final buzzer
+- End summary now identifies a top scorer and keeps average stamina alongside the new player rows
+- `latest.html` now points to v029
+- `index.html`, README, and Playwright smoke test updated for v029
+
+### Why this was chosen
+
+v028 made defensive pressure readable. The next best foundation step was making player production readable. A premium sports game needs to explain not just which team won, but which fake players actually drove the result. v029 creates the first lightweight box-score model so future ratings, stamina, AI roles, matchups, assists, foul trouble, substitutions, and broadcast overlays have a believable statistical backbone.
+
+### Recommended next improvements
+
+- Add visible matchup labels above the ball handler and primary defender during live play
+- Add help-defense tags for the nearest second defender in passing lanes
+- Add a compact in-game player box panel that can be toggled without waiting for the summary overlay
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- Add a practice/free-shoot mode for testing shots, passes, stamina, free throws, and matchup pressure quickly
+
 ## v028 - Defensive matchup reads and on-ball pressure
 
 Built the next small playable iteration on top of v027.
@@ -17,7 +44,7 @@ Built the next small playable iteration on top of v027.
 
 ### Why this was chosen
 
-v027 made stamina and turbo affect player effectiveness. The next best foundation step was making defensive assignments readable. v028 tells the player who is guarding the ball, how much pressure that defender creates, and whether the ball handler has an athletic/scoring edge. That is a small but important bridge toward real 5v5 basketball because future AI, screens, switches, mismatches, help defense, and shot selection all need visible matchup context.
+v027 made stamina and turbo affect player effectiveness. The next best foundation step was making defensive assignments readable. v028 tells the player who is guarding the ball, how much pressure that defender creates, and whether the ball handler has an athletic/scoring edge.
 
 ### Recommended next improvements
 
@@ -46,7 +73,7 @@ Built the next small playable iteration on top of v026.
 
 ### Why this was chosen
 
-v026 made fake-player ratings matter. The next best foundation step was adding stamina so those ratings are not static all game. v027 makes sprinting, repeated jumps, reach attempts, shots, passes, rebounds, and free throws carry a realistic arcade cost: fresh players pop, tired players lose efficiency. That is a core sports-game loop before deeper AI, rotations, and matchup logic.
+v026 made fake-player ratings matter. The next best foundation step was adding stamina so those ratings are not static all game. v027 makes sprinting, repeated jumps, reach attempts, shots, passes, rebounds, and free throws carry a realistic arcade cost.
 
 ### Recommended next improvements
 
@@ -78,7 +105,7 @@ Built the next small playable iteration on top of v025.
 
 ### Why this was chosen
 
-v025 made game rules easier to test. The next best foundation step was making fake players matter. v026 adds a lightweight rating model so Denver Peaks players, opposing fake teams, guards, wings, and bigs no longer feel like identical circles wearing different shoes. This is a key bridge toward a real 5v5 simulator because future AI, shot selection, rotations, and matchups need player attributes underneath them.
+v025 made game rules easier to test. The next best foundation step was making fake players matter. v026 adds a lightweight rating model so fake players no longer feel identical.
 
 ### Recommended next improvements
 
@@ -107,7 +134,7 @@ Built the next small playable iteration on top of v024.
 
 ### Why this was chosen
 
-v024 made bonus behavior configurable. The next best foundation step was moving rule configuration into its own compact drawer instead of cramming every setup control into Matchup Builder. v025 makes short arcade game tuning easier to test while protecting the playable court view on mobile.
+v024 made bonus behavior configurable. The next best foundation step was moving rule configuration into its own compact drawer instead of cramming every setup control into Matchup Builder.
 
 ### Recommended next improvements
 
@@ -134,7 +161,7 @@ Built the next small playable iteration on top of v023.
 
 ### Why this was chosen
 
-v023 made team fouls matter by awarding bonus free throws after the foul limit. The next best rules-engine step was making the bonus system configurable. v024 adds one-and-one behavior alongside the simple two-shot bonus so the arcade game can support different realistic basketball rule flavors without turning into franchise-management soup.
+v023 made team fouls matter by awarding bonus free throws after the foul limit. v024 adds one-and-one behavior alongside the simple two-shot bonus so the arcade game can support different realistic basketball rule flavors.
 
 ### Recommended next improvements
 
