@@ -1,5 +1,32 @@
 # Changelog
 
+## v021 - Timed free throw release meter
+
+Built the next small playable iteration on top of v020.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v021.html`
+- Free Throw Timing feedback panel showing shooter, trip progress, live meter position, and result
+- Green-window free throw release meter on the canvas so pressing `F` / mobile `FT` is skill-based instead of only random
+- Free throw chance now changes with release quality: Perfect, Good, Early, or Late
+- Matchup Builder `Practice FT` and `Release FT` buttons remain available for quick testing
+- FT made/attempted stats continue to update the scoreboard, live stat panel, and end-of-game summary
+- `latest.html` now points to v021
+- `index.html`, README, and Playwright smoke test updated for v021
+
+### Why this was chosen
+
+v020 connected shooting fouls to free throws, which was the right rules-engine step. The next best improvement was making those free throws playable. v021 adds a simple timing meter so the user has a real input moment at the line, while still preserving realistic arcade make percentages and visible FT stats.
+
+### Recommended next improvements
+
+- Add lane-line rebound positioning for missed final free throws
+- Add a dedicated mobile viewport Playwright test that drags the joystick and taps FT
+- Move league/team/player data out of the single HTML file
+- Add one-and-one / bonus behavior once team fouls matter late in games
+- Add a practice/free-shoot mode for testing shot, rebound, foul, and free-throw systems quickly
+
 ## v020 - Playable free throw flow after shooting fouls
 
 Built the next small playable iteration on top of v019.
@@ -78,30 +105,3 @@ v017 made the game track basketball events like shots, rebounds, turnovers, stea
 
 - Add shot-contest fouls for late block attempts
 - Add a dedicated mobile viewport Playwright test that drags the joystick and confirms movement
-- Move league/team/player data out of the single HTML file
-- Add a practice/free-shoot mode for testing shot, rebound, and foul systems quickly
-- Add team color/name styling to the final recap table
-
-## v017 - Live team stat summary and box-score pacing
-
-Built the next small playable iteration on top of v016.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v017.html`
-- Game Stats feedback panel showing live FG, 3PT, rebounds, offensive rebounds, turnovers, and steals
-- Live stat model for field goals, threes, rebounds, offensive rebounds, turnovers, steals, blocks, fouls, and paint points
-- Shot makes/misses now update shooting splits instead of only changing the score
-- Interceptions and shot-clock violations now add turnovers; steals and rebounds update the box-score totals
-- Rebound outcomes now feed live team rebound and offensive rebound counts
-- `latest.html` now points to v017
-- `index.html`, README, and Playwright smoke test updated for v017
-
-### Why this was chosen
-
-v016 added whistles and foul consequences around rebounds and reach-ins. The next best step was a lightweight team-stat layer so the game can start checking whether its arcade systems produce believable basketball outcomes over time. This also gives every small system a scoreboard-level footprint: shots affect percentages, rebounds affect possession quality, and bad passes show up as turnovers.
-
-### Recommended next improvements
-
-- Add a dedicated mobile viewport Playwright test that drags the joystick and confirms movement
-- Add shot-contest fouls for late block attempts
