@@ -1,5 +1,34 @@
 # Changelog
 
+## v013 - Mobile joystick, auto offense, and quick action response
+
+Built the next small playable iteration on top of v012.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v013.html`
+- Mobile analog joystick movement, replacing the older button-only movement pad foundation
+- No-highlight/tap-cleanup CSS to reduce accidental mobile text selection and touch artifacts
+- Auto Offense toggle so AI can keep the possession moving when the user switches to an off-ball teammate
+- Off-ball pass request behavior: pressing pass while controlling a teammate can ask the ball handler to pass to that player
+- Quick camera display pill and actual zoom/center changes for Full Court, Broadcast, Player Follow, and Half Court
+- Jump/block and steal actions on desktop and mobile
+- Action feedback pill and on-court action pulses for quicker pass, shoot, switch, jump/block, and steal response
+- `latest.html` now points to v013
+- `index.html`, README, and Playwright smoke test updated for v013
+
+### Why this was chosen
+
+v012 made screen defense more basketball-aware. The next best step was improving feel and control clarity, especially on mobile: analog movement, no accidental text highlighting, a clear Auto Offense setting, and faster visual response to camera/action inputs. This keeps the game playable while pushing it closer to a responsive realistic-arcade sports game.
+
+### Recommended next improvements
+
+- Add a dedicated mobile viewport Playwright test that drags the joystick and verifies movement
+- Add clearer button cooldowns for steal/block so defensive inputs feel skill-based instead of spammable
+- Add rebound timing and loose-ball pickup after missed shots
+- Move league/team/player data out of the single HTML file
+- Add a simple end-of-game box score and team stat summary
+
 ## v012 - Defensive switching and hedge coverage
 
 Built the next small playable iteration on top of v011.
@@ -79,7 +108,7 @@ v009 added the fake-league matchup builder, but the Screen call still behaved mo
 - Add clearer on-court screen arrows and ball-handler path hints
 - Add a compact mobile-only team selector that hides automatically after tip-off
 - Move league/team/player data out of the single HTML file
-- Add a mobile viewport Playwright test for team select plus clear-court HUD behavior
+- Add a mobile viewport test for team select plus clear-court HUD behavior
 
 ## v009 - Fictional team select and matchup identity
 
@@ -137,4 +166,4 @@ v009 added the fake-league matchup builder, but the Screen call still behaved mo
 ## v001 - First playable foundation
 
 - Added the first playable HTML Canvas basketball prototype
-- Established preserved version files, `latest.html`, landing page, README, changelog, and Playwright smoke test foundation
+- Established preserved version files, `latest.html`, landing page, changelog, and Playwright smoke test foundation
