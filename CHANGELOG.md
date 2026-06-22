@@ -1,5 +1,34 @@
 # Changelog
 
+## v025 - Compact Rules drawer and game presets
+
+Built the next small playable iteration on top of v024.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v025.html`
+- Compact Rules drawer separated from the Teams drawer so mobile players can adjust rules without burying the court
+- Game length presets for 2:00 Quick, 3:00 Arcade, and 5:00 Showcase
+- Shot-clock presets for 14, 18, and 24 seconds
+- Team-foul bonus limit presets for 4, 5, and 6 fouls
+- Bonus format selector for two-shot bonus or one-and-one behavior
+- `G` keyboard shortcut, Rules button, mobile Rules button, and Apply Rules button
+- Scoreboard and end summary now surface the active rules preset alongside score, shot clock, fouls, bonus, and FT splits
+- `latest.html` now points to v025
+- `index.html`, README, and Playwright smoke test updated for v025
+
+### Why this was chosen
+
+v024 made bonus behavior configurable. The next best foundation step was moving rule configuration into its own compact drawer instead of cramming every setup control into Matchup Builder. v025 makes short arcade game tuning easier to test while protecting the playable court view on mobile.
+
+### Recommended next improvements
+
+- Reconnect the full v024 free-throw lane and box-out systems into the v025 rules preset structure
+- Add lane-violation timing risk on early free-throw rebounds
+- Move league/team/player/rule data out of the single HTML file
+- Add a practice/free-shoot mode for testing shot, rebound, foul, bonus, and free-throw systems quickly
+- Add modular shared JavaScript so future versions can evolve without copying giant HTML files
+
 ## v024 - Toggleable one-and-one bonus rules
 
 Built the next small playable iteration on top of v023.
@@ -75,7 +104,7 @@ v021 made free throws skill-based with a timing meter. The next best basketball 
 ### Recommended next improvements
 
 - Add bonus / one-and-one behavior once team fouls matter late in games
-- Add a dedicated mobile viewport Playwright test that drags the joystick and taps FT
+- Add a dedicated mobile viewport test that drags the joystick and taps FT
 - Move league/team/player data out of the single HTML file
 - Add clearer lane-violation timing risk on early rebounds
 - Add a practice/free-shoot mode for testing shot, rebound, foul, and free-throw systems quickly
@@ -102,7 +131,7 @@ v020 connected shooting fouls to free throws, which was the right rules-engine s
 ### Recommended next improvements
 
 - Add lane-line rebound positioning for missed final free throws
-- Add a dedicated mobile viewport Playwright test that drags the joystick and taps FT
+- Add a dedicated mobile viewport test that drags the joystick and taps FT
 - Move league/team/player data out of the single HTML file
 - Add one-and-one / bonus behavior once team fouls matter late in games
 - Add a practice/free-shoot mode for testing shot, rebound, foul, and free-throw systems quickly
@@ -128,7 +157,7 @@ v019 made shot defense more realistic by adding late-contest whistle risk and ve
 
 ### Recommended next improvements
 
-- Add a dedicated mobile viewport Playwright test that drags the joystick and confirms movement
+- Add a dedicated mobile viewport test that drags the joystick and confirms movement
 - Move league/team/player data out of the single HTML file
 - Add a practice/free-shoot mode for testing shot, rebound, foul, and free-throw systems quickly
 - Add lane-line rebound positioning during free throws
