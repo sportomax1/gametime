@@ -1,5 +1,32 @@
 # Changelog
 
+## v015 - Box-out timing rings and rebound leverage
+
+Built the next small playable iteration on top of v014.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v015.html`
+- Box-Out Timing feedback panel showing timing window, leverage, ring progress, and rebound bonus
+- On-court rebound timing ring that grows during live loose-ball states
+- Box-out / jump timing logic that rewards inside position and better timing near the loose ball
+- Rebound resolution now accounts for size, distance, timing, and box-out bonus rather than only proximity
+- Updated mobile/desktop control copy so `K` and Jump clearly support rebound box-out timing
+- `latest.html` now points to v015
+- `index.html`, README, and Playwright smoke test updated for v015
+
+### Why this was chosen
+
+v014 made missed shots continue into live rebound battles. The next best step was making those board battles more readable and more skill-based. v015 gives the user a visible timing ring, a box-out feedback panel, and a small reward loop for getting inside position before jumping.
+
+### Recommended next improvements
+
+- Add a dedicated mobile viewport Playwright test that drags the joystick and verifies movement
+- Add basic foul/over-the-back outcomes around bad rebound contact
+- Add simple end-of-game box score and team stat summary
+- Move league/team/player data out of the single HTML file
+- Add a practice/free-shoot mode for testing shot and rebound systems quickly
+
 ## v014 - Rebound battles and loose-ball pickups
 
 Built the next small playable iteration on top of v013.
