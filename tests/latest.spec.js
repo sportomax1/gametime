@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-test('latest Gametime build renders v014 rebound and loose-ball systems', async ({ page }) => {
+test('latest Gametime build renders v015 box-out timing systems', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -11,7 +11,7 @@ test('latest Gametime build renders v014 rebound and loose-ball systems', async 
 
   const latestPath = path.join(__dirname, '..', 'latest.html');
   await page.goto(pathToFileURL(latestPath).href);
-  await expect(page).toHaveTitle(/Gametime Basketball v014|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v015|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT/);
   await expect(page.locator('#playerPanel')).toContainText(/Control|Ball|Energy|Speed|Camera|Auto O/);
@@ -34,6 +34,7 @@ test('latest Gametime build renders v014 rebound and loose-ball systems', async 
   await expect(page.getByTestId('screen-feedback')).toContainText(/Screen Feedback|Contact|Roll\/Pop|Separation/);
   await expect(page.getByTestId('defense-feedback')).toContainText(/Defense Coverage|Actions|Pressure|Result/);
   await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Timing|Battle|Loose Ball|Outcome/);
+  await expect(page.getByTestId('boxout-feedback')).toContainText(/Box-Out Timing|Window|Leverage|Ring|Bonus/);
 
   await page.selectOption('#homeSelect', '2');
   await page.selectOption('#awaySelect', '3');
@@ -68,11 +69,12 @@ test('latest Gametime build renders v014 rebound and loose-ball systems', async 
   await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Intercepted|Risk|Lane/);
   await page.keyboard.press('KeyJ');
   await expect(page.getByTestId('shot-feedback')).toContainText(/Make Chance|Paint|Close|Mid|Three|Logo/);
-  await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Ready|Ball up|Track|Jump now|Waiting|Chase|Secured/);
+  await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Ready|Track|Box out|Jump now|Waiting|Chase|Secured/);
+  await expect(page.getByTestId('boxout-feedback')).toContainText(/Box-Out Timing|Ready|Build position|Sweet spot|Late|Ring|Bonus/);
   await page.keyboard.press('KeyK');
-  await expect(page.getByTestId('action-pill')).toContainText(/Block|Jump|Hop|Protect|Rebound jump/);
+  await expect(page.getByTestId('action-pill')).toContainText(/Block|Jump|Hop|Protect|Rebound jump|box-out/i);
   await page.keyboard.press('KeyL');
-  await expect(page.getByTestId('action-pill')).toContainText(/steal|Reach|Protect|Rebound jump/i);
+  await expect(page.getByTestId('action-pill')).toContainText(/steal|Reach|Protect|Rebound jump|box-out/i);
   await page.keyboard.down('Shift');
   await page.keyboard.down('ArrowRight');
   await page.waitForTimeout(300);
