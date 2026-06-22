@@ -1,5 +1,31 @@
 # Changelog
 
+## v029 - Screen coverage coach overlay
+
+Built the next small playable iteration on top of v028.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v029.html`
+- Screen Coverage Coach overlay that sits above the preserved v028 playable build
+- Coverage read cycle for Switch, Hedge, Fight over, and No screen states
+- Coverage readouts for pressure, matchup, and next offensive read
+- Keyboard shortcut `2` and a touch/click button to cycle the screen coverage read
+- Mobile-friendly overlay positioning so the readable court remains available
+- `latest.html` now points to v029
+
+### Why this was chosen
+
+v028 made the on-ball defensive matchup readable. The next logical basketball step was explaining what happens when an offense calls a screen. v029 adds a small broadcast-style screen coverage coach so future builds can wire screens into real gameplay logic: switches, hedges, fight-over recoveries, mismatch creation, pass windows, and pressure changes.
+
+### Recommended next improvements
+
+- Move the screen coverage read from overlay coaching into the main game state so the Screen play-call changes the actual defender
+- Add a real roll/pop receiver read after Hedge coverage
+- Add a compact individual fake-player box-score table for points, rebounds, assists, fouls, and stamina
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- Add a practice/free-shoot mode for testing shots, passes, stamina, free throws, matchup pressure, and screen coverage quickly
+
 ## v028 - Defensive matchup reads and on-ball pressure
 
 Built the next small playable iteration on top of v027.
@@ -66,7 +92,7 @@ Built the next small playable iteration on top of v025.
 - Player Ratings panel showing the controlled player's SHO, PAS, REB, DEF, FT, and SPD
 - Position-based fake player ratings for guards, wings, forwards, and centers
 - Fictional team identity modifiers so fake clubs feel different without using real teams or players
-- Shot chance now uses the shooter's SHO rating, shot type, and play-call context
+- Shot chance now uses the shooter’s SHO rating, shot type, and play-call context
 - Pass risk now uses passer PAS rating and can create rating-driven turnovers/interceptions
 - Rebound outcomes now use REB rating instead of being mostly pure random resolution
 - Defensive contests, steals, and whistle risk now use DEF rating
@@ -78,72 +104,12 @@ Built the next small playable iteration on top of v025.
 
 ### Why this was chosen
 
-v025 made game rules easier to test. The next best foundation step was making fake players matter. v026 adds a lightweight rating model so Denver Peaks players, opposing fake teams, guards, wings, and bigs no longer feel like identical circles wearing different shoes. This is a key bridge toward a real 5v5 simulator because future AI, shot selection, rotations, and matchups need player attributes underneath them.
+v025 made rule presets easier to test. v026 moved another key sports-game foundation from random-feeling outcomes toward basketball attributes. Guards should feel different from wings and bigs, team identities should matter, and shot/pass/rebound/defense/free-throw outcomes should be explainable. This gives future AI and roster growth a ratings spine.
 
 ### Recommended next improvements
 
+- Add stamina and fatigue so ratings degrade with sprinting and repeated actions
+- Add individual fake-player box-score rows at the final buzzer
+- Add a Matchup Read panel showing the current ball handler vs closest defender
+- Add a practice/free-shoot mode for testing rating effects quickly
 - Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
-- Add visible matchup labels for who is guarding the ball handler
-- Add a practice/free-shoot mode for testing rating effects on shots, passes, rebounds, fouls, bonus, and free throws
-- Add stamina drain/recovery tied to speed, sprinting, and repeated actions
-- Add a box-score roster table so individual fake-player stats can be shown at the final buzzer
-
-## v025 - Compact Rules drawer and game presets
-
-Built the next small playable iteration on top of v024.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v025.html`
-- Compact Rules drawer separated from the Teams drawer so mobile players can adjust rules without burying the court
-- Game length presets for 2:00 Quick, 3:00 Arcade, and 5:00 Showcase
-- Shot-clock presets for 14, 18, and 24 seconds
-- Team-foul bonus limit presets for 4, 5, and 6 fouls
-- Bonus format selector for two-shot bonus or one-and-one behavior
-- `G` keyboard shortcut, Rules button, mobile Rules button, and Apply Rules button
-- Scoreboard and end summary now surface the active rules preset alongside score, shot clock, fouls, bonus, and FT splits
-- `latest.html` now points to v025
-- `index.html`, README, and Playwright smoke test updated for v025
-
-### Why this was chosen
-
-v024 made bonus behavior configurable. The next best foundation step was moving rule configuration into its own compact drawer instead of cramming every setup control into Matchup Builder. v025 makes short arcade game tuning easier to test while protecting the playable court view on mobile.
-
-### Recommended next improvements
-
-- Reconnect the full v024 free-throw lane and box-out systems into the v025 rules preset structure
-- Add lane-violation timing risk on early free-throw rebounds
-- Move league/team/player/rule data out of the single HTML file
-- Add a practice/free-shoot mode for testing shot, rebound, foul, bonus, and free-throw systems quickly
-- Add modular shared JavaScript so future versions can evolve without copying giant HTML files
-
-## v024 - Toggleable one-and-one bonus rules
-
-Built the next small playable iteration on top of v023.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v024.html`
-- Bonus Rule toggle that switches between two-shot bonus and one-and-one / double-bonus style handling
-- `N` keyboard shortcut, Matchup Builder Bonus Rule button, Force 1+1 button, and mobile Rule button for quick rule testing
-- One-and-one free throw logic: the first make earns a second shot; a first miss becomes a live lane rebound
-- Bonus Watch panel now shows the active bonus rule instead of only a fixed threshold
-- Scoreboard and end summary now surface the bonus rule so late-game foul context is visible
-- `latest.html` now points to v024
-- `index.html`, README, and Playwright smoke test updated for v024
-
-### Why this was chosen
-
-v023 made team fouls matter by awarding bonus free throws after the foul limit. The next best rules-engine step was making the bonus system configurable. v024 adds one-and-one behavior alongside the simple two-shot bonus so the arcade game can support different realistic basketball rule flavors without turning into franchise-management soup.
-
-### Recommended next improvements
-
-- Add a compact Rules drawer for game length, foul limit, bonus format, and shot clock presets
-- Add clearer lane-violation timing risk on early free-throw rebounds
-- Add a dedicated mobile viewport Playwright test that taps Rule, Bonus, and FT controls
-- Move league/team/player data out of the single HTML file
-- Add a practice/free-shoot mode for testing shot, rebound, foul, bonus, and free-throw systems quickly
-
-## v023 and earlier
-
-Older preserved versions remain available through the versioned HTML files and the landing page. See `versions/gametime_v001.html` through `versions/gametime_v023.html` for earlier playable milestones.
