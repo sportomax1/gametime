@@ -70,18 +70,6 @@ Built the next small playable iteration on top of v026.
 - `latest.html` now points to v027
 - `index.html`, README, and Playwright smoke test updated for v027
 
-### Why this was chosen
-
-v026 made fake-player ratings matter. The next best foundation step was adding stamina so those ratings are not static all game. v027 makes sprinting, repeated jumps, reach attempts, shots, passes, rebounds, and free throws carry a realistic arcade cost: fresh players pop, tired players lose efficiency. That is a core sports-game loop before deeper AI, rotations, and matchup logic.
-
-### Recommended next improvements
-
-- Add individual fake-player box-score rows for points, rebounds, assists, steals, blocks, fouls, and stamina at the final buzzer
-- Add visible matchup labels for who is guarding the ball handler
-- Add a practice/free-shoot mode for testing rating and stamina effects quickly
-- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
-- Add fatigue-aware AI substitutions later only if the project eventually expands beyond short arcade games
-
 ## v026 - Player ratings drive basketball outcomes
 
 Built the next small playable iteration on top of v025.
@@ -92,7 +80,7 @@ Built the next small playable iteration on top of v025.
 - Player Ratings panel showing the controlled player's SHO, PAS, REB, DEF, FT, and SPD
 - Position-based fake player ratings for guards, wings, forwards, and centers
 - Fictional team identity modifiers so fake clubs feel different without using real teams or players
-- Shot chance now uses the shooter’s SHO rating, shot type, and play-call context
+- Shot chance now uses the shooter's SHO rating, shot type, and play-call context
 - Pass risk now uses passer PAS rating and can create rating-driven turnovers/interceptions
 - Rebound outcomes now use REB rating instead of being mostly pure random resolution
 - Defensive contests, steals, and whistle risk now use DEF rating
@@ -102,14 +90,30 @@ Built the next small playable iteration on top of v025.
 - `latest.html` now points to v026
 - `index.html`, README, and Playwright smoke test updated for v026
 
-### Why this was chosen
+## Earlier preserved versions
 
-v025 made rule presets easier to test. v026 moved another key sports-game foundation from random-feeling outcomes toward basketball attributes. Guards should feel different from wings and bigs, team identities should matter, and shot/pass/rebound/defense/free-throw outcomes should be explainable. This gives future AI and roster growth a ratings spine.
-
-### Recommended next improvements
-
-- Add stamina and fatigue so ratings degrade with sprinting and repeated actions
-- Add individual fake-player box-score rows at the final buzzer
-- Add a Matchup Read panel showing the current ball handler vs closest defender
-- Add a practice/free-shoot mode for testing rating effects quickly
-- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- v025 - Compact Rules drawer for game length, shot clock, foul limit, and bonus format presets
+- v024 - Toggleable bonus rules with two-shot or one-and-one behavior
+- v023 - Bonus Watch panel and team-foul threshold behavior
+- v022 - Live final-missed-free-throw rebounds
+- v021 - Free throw timing meter and release feedback
+- v020 - Playable free throws after shooting fouls
+- v019 - Shot-contest whistle risk
+- v018 - Final buzzer recap overlay
+- v017 - Live team stats
+- v016 - Rebound foul risk and Foul Watch
+- v015 - Box-out timing rings and rebound leverage
+- v014 - Rebound timing and loose-ball battles
+- v013 - Mobile joystick and clean touch behavior
+- v012 - Defensive coverage reads
+- v011 - Clear-court Teams drawer
+- v010 - Screen contact and roll/pop reads
+- v009 - Fictional team select
+- v008 - Basic play-call controls
+- v007 - Realistic percentage tuning
+- v006 - Off-ball cuts and mobile HUD collapse
+- v005 - Passing lane risk and interceptions
+- v004 - Shot feedback and make-chance UI
+- v003 - Denver Peaks and mobile controls
+- v002 - Early basketball prototype
+- v001 - First preserved playable version
