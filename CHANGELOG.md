@@ -1,5 +1,30 @@
 # Changelog
 
+## v030 - Live matchup labels
+
+Built the next small playable iteration on top of v029.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v030.html`
+- Live on-court labels above the ball handler and the primary defender
+- Dashed matchup tether that updates as possession, control, and spacing change
+- Live Matchup panel showing handler, defender, pressure level, and creator edge
+- A compact playable Canvas build with fake teams, fake players, desktop controls, mobile joystick/touch controls, no text selection, team select, camera changes, auto offense, player switching, shot/pass/jump/steal actions, and realism pulse stats
+- Shot and pass outcomes now respond to the live pressure read so the labels are not cosmetic only
+
+### Why this was chosen
+
+v029 made individual player production visible in the box score. The next logical foundation step was making the current one-on-one matchup visible during live play. A premium basketball game needs the player to understand who has the ball, who is guarding them, whether pressure is heavy, and whether the creator has an edge before shooting or passing.
+
+### Recommended next improvements
+
+- Reconnect v030 live matchup labels into the full v029 feature stack instead of keeping this as a compact playable slice
+- Add help-defense tags for the nearest second defender in passing lanes
+- Add screen-switch matchup updates so picks can change the primary defender
+- Add a compact in-game player box panel that can be toggled without waiting for the summary overlay
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+
 ## v029 - Individual fake-player box scores
 
 Built the next small playable iteration on top of v028.
