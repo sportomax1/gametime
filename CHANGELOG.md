@@ -1,5 +1,32 @@
 # Changelog
 
+## v035 - Drive-and-kick reads
+
+Built the next small playable iteration on top of v034.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v035.html`
+- Drive / Kick Read feedback panel showing drive lane, kick target, corner chance, and result
+- `5` keyboard control plus Drive touch/control button to force a drive-and-kick read
+- Hard tags and stunt decisions now create punishable kickout opportunities
+- Yellow on-court DRIVE/KICK tether showing the driver-to-shooter relationship
+- Pass and shot context now react to open-corner probability after the helper over-commits
+- Screen → Roll/Pop → Tag → Drive/Kick sequence creates a clearer advantage chain
+- Updated latest pointer, landing page, README, and Playwright smoke coverage for v035
+
+### Why this was chosen
+
+v034 made the helper's tag decision visible after roll/pop pressure. The next basketball step was punishing over-help. Real pick-and-roll offenses do not stop after the big is tagged: the ball handler attacks the gap, draws the low man, and fires to a corner or wing shooter. v035 makes that drive-and-kick read visible, playable, and connected to pass and shot outcomes.
+
+### Recommended next improvements
+
+- Reconnect the compact screen/roll/tag/drive slice into the fuller foul/free-throw/box-score stack
+- Add a compact in-game player box panel that can be toggled without waiting for the summary overlay
+- Add closeout quality so late rotations can create a side-step three, drive-by, or chasedown contest
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- Add practice/free-shoot mode for testing shots, passes, stamina, help defense, screens, rolls, tags, drive/kick, and matchup pressure quickly
+
 ## v034 - Defensive tag decisions
 
 Built the next small playable iteration on top of v033.
