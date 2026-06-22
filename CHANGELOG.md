@@ -1,5 +1,32 @@
 # Changelog
 
+## v019 - Shot contest whistle risk and verticality feedback
+
+Built the next small playable iteration on top of v018.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v019.html`
+- Contest Whistle feedback panel showing timing, verticality, distance, and whistle result
+- Late block / shot-contest logic where aggressive or late contests can create foul outcomes
+- Clean vertical contests can generate pressure or block credit without automatically becoming a foul
+- Shot-contest fouls now feed team foul totals and the end-of-game stat summary
+- Mobile/desktop `K` and Block/Jump behavior now supports contest timing as well as rebound/box-out actions
+- `latest.html` now points to v019
+- `index.html`, README, and Playwright smoke test updated for v019
+
+### Why this was chosen
+
+v018 added a final buzzer recap, which made the live stat model meaningful at the end of each short game. The next best basketball step was making shot defense less binary. v019 adds a readable risk/reward layer: jump straight up and you can contest cleanly; lunge late and the whistle can punish you. That keeps blocks exciting without letting the defense spam free superhero swats.
+
+### Recommended next improvements
+
+- Add a dedicated mobile viewport Playwright test that drags the joystick and confirms movement
+- Move league/team/player data out of the single HTML file
+- Add a practice/free-shoot mode for testing shot, rebound, and foul systems quickly
+- Add team color/name styling to the final recap table
+- Add foul-shot/free-throw handling after shooting fouls
+
 ## v018 - Final buzzer recap and why-they-won summary
 
 Built the next small playable iteration on top of v017.
