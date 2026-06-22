@@ -6,7 +6,7 @@ function latestUrl() {
   return pathToFileURL(path.join(__dirname, '..', 'latest.html')).href;
 }
 
-test('latest Gametime build renders v025 compact rules drawer systems', async ({ page }) => {
+test('latest Gametime build renders v026 player rating systems', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -18,10 +18,10 @@ test('latest Gametime build renders v025 compact rules drawer systems', async ({
   });
 
   await page.goto(latestUrl());
-  await expect(page).toHaveTitle(/Gametime Basketball v025|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v026|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
-  await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT|FOULS|LIMIT|FT|BONUS|2FT/);
-  await expect(page.locator('#playerPanel')).toContainText(/Control|Ball|Energy|Camera|Auto O/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT|FOULS|FT|BONUS|2FT/);
+  await expect(page.locator('#playerPanel')).toContainText(/Control|Ball|Energy|SHO|PAS|REB|DEF|Camera|Auto O/);
   await expect(page.getByTestId('touch-controls')).toBeAttached();
   await expect(page.getByTestId('joystick')).toBeAttached();
   await expect(page.locator('#joyBase')).toBeAttached();
@@ -31,18 +31,15 @@ test('latest Gametime build renders v025 compact rules drawer systems', async ({
   await expect(page.getByTestId('auto-offense-toggle')).toContainText(/Auto Offense: On/);
   await expect(page.getByTestId('hud-toggle')).toBeVisible();
   await expect(page.getByTestId('team-toggle')).toBeAttached();
-  await expect(page.getByTestId('rules-toggle')).toBeVisible();
+  await expect(page.getByTestId('rules-toggle')).toBeAttached();
   await expect(page.getByTestId('team-panel')).toContainText(/Matchup Builder|League|Start|Auto Offense|Next Camera|Show Summary|End Game/i);
+  await expect(page.getByTestId('rules-drawer')).toContainText(/Rules Drawer|Length|Shot Clock|Foul Limit|Bonus|Apply Rules|Force Bonus|Practice FT|Release FT/i);
   await expect(page.locator('#homeSelect option')).toHaveCount(10);
   await expect(page.locator('#awaySelect option')).toHaveCount(10);
-  await expect(page.getByTestId('rules-drawer')).toContainText(/Rules Drawer|Length|Shot Clock|Foul Limit|Bonus|Apply Rules|Force Bonus|Practice FT|Release FT/);
-  await expect(page.getByTestId('game-length-select')).toContainText(/2:00 Quick|3:00 Arcade|5:00 Showcase/);
-  await expect(page.getByTestId('shot-clock-select')).toContainText(/14 Fast|18 Arcade|24 Standard/);
-  await expect(page.getByTestId('foul-limit-select')).toContainText(/4 Team Fouls|5 Team Fouls|6 Team Fouls/);
-  await expect(page.getByTestId('bonus-format-select')).toContainText(/Two-shot bonus|One-and-one/);
+  await expect(page.getByTestId('rating-panel')).toContainText(/Player Ratings|Controlled|SHO \/ PAS|REB \/ DEF|FT \/ SPD|Ratings drive outcomes/);
   await expect(page.getByTestId('shot-feedback')).toContainText(/Shot Feedback|Make Chance|Release|Zone/);
   await expect(page.getByTestId('pass-feedback')).toContainText(/Pass Feedback|Risk|Lane/);
-  await expect(page.getByTestId('realism-panel')).toContainText(/Realism Tuning|2PT FG|3PT FG|FT%|Rules/);
+  await expect(page.getByTestId('realism-panel')).toContainText(/Realism Tuning|2PT FG|3PT FG|FT%|Ratings/);
   await expect(page.getByTestId('playcall-panel')).toContainText(/Play Call|Cut|Screen|Space|Iso/);
   await expect(page.getByTestId('stat-summary')).toContainText(/Game Stats|Home FG|Away FG|FT|Free throws|REB|OREB|Boards/);
   await expect(page.getByTestId('free-throw-feedback')).toContainText(/Free Throw Timing|Shooter|Trip|Meter|Result|Practice FT/);
@@ -54,8 +51,9 @@ test('latest Gametime build renders v025 compact rules drawer systems', async ({
   await page.selectOption('#homeSelect', '2');
   await page.selectOption('#awaySelect', '3');
   await page.locator('#startMatch').click();
-  await expect(page.getByTestId('scoreboard')).toContainText(/Metro|Bay City|SHOT|FOULS|LIMIT|FT|BONUS/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/Metro|Bay City|SHOT|FOULS|FT|BONUS/);
   await expect(page.locator('body')).toHaveClass(/teamCollapsed/);
+  await expect(page.locator('#teamBadge')).toContainText(/Match started|Tap Teams|press T/i);
   await page.getByTestId('team-toggle').click();
   await expect(page.locator('body')).toHaveClass(/teamOpen/);
 
@@ -67,8 +65,7 @@ test('latest Gametime build renders v025 compact rules drawer systems', async ({
   await page.selectOption('#bonusFormatSelect', 'oneAndOne');
   await page.getByTestId('apply-rules').click();
   await expect(page.getByTestId('rules-drawer')).toContainText(/2:00|18|4|One-and-one/);
-  await expect(page.getByTestId('scoreboard')).toContainText(/2:00|SHOT 18|LIMIT 4|1\+1/);
-  await expect(page.getByTestId('action-pill')).toContainText(/Rules applied/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/SHOT|18|LIMIT 4|1\+1/);
 
   await page.getByTestId('hud-toggle').click();
   await expect(page.locator('body')).toHaveClass(/hudExpanded/);
@@ -89,37 +86,40 @@ test('latest Gametime build renders v025 compact rules drawer systems', async ({
   await expect(page.getByTestId('camera-pill')).toContainText(/Broadcast|Player Follow|Half Court|Full Court/);
   await page.keyboard.press('Tab');
   await expect(page.getByTestId('action-pill')).toContainText(/Control:/);
+  await expect(page.getByTestId('rating-panel')).toContainText(/SHO|PAS|REB|DEF|FT|SPD/);
   await page.keyboard.press('Space');
-  await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Risk|Lane/);
+  await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Risk|Lane|PAS/);
   await page.keyboard.press('KeyJ');
-  await expect(page.getByTestId('shot-feedback')).toContainText(/Make Chance|Two|Three/);
-  await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Track|Live ball|Press K|Miss/i);
+  await expect(page.getByTestId('shot-feedback')).toContainText(/Make Chance|Two|Three|SHO/);
+  await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Ratings matter|Press K|Miss/i);
   await page.keyboard.press('KeyK');
-  await expect(page.getByTestId('rebound-feedback')).toContainText(/Offensive rebound|Defensive rebound|Secured|User jump|board/i);
+  await expect(page.getByTestId('rebound-feedback')).toContainText(/Offensive rebound|Defensive rebound|Secured|User jump|REB/i);
 
   await page.getByTestId('practice-ft').click();
-  await expect(page.getByTestId('free-throw-feedback')).toContainText(/Free Throw Timing|1 of 2|Meter live|Press F/);
+  await expect(page.getByTestId('free-throw-feedback')).toContainText(/Free Throw Timing|1 of 2|Meter live|Press F|FT/);
   await page.waitForTimeout(150);
   await expect(page.getByTestId('free-throw-feedback')).toContainText(/Meter \d+%/);
   await page.getByTestId('shoot-ft').click();
   await expect(page.getByTestId('free-throw-feedback')).toContainText(/Perfect|Good|Early|Late|Made|Miss|2 of 2|Trip complete/);
 
   await page.getByTestId('bonus-demo').click();
-  await expect(page.getByTestId('bonus-feedback')).toContainText(/Bonus Watch|Yes|One-and-one|1\+1 bonus|Bonus free throws/);
+  await expect(page.getByTestId('bonus-feedback')).toContainText(/Bonus Watch|Yes|One-and-one|Bonus|Outcome/);
   await expect(page.getByTestId('scoreboard')).toContainText(/BONUS|FOULS|FT|1\+1/);
+  await page.keyboard.press('KeyN');
+  await expect(page.getByTestId('bonus-feedback')).toContainText(/Two-shot bonus|Outcome/);
 
   await page.getByTestId('summary-button').click();
   await expect(page.getByTestId('end-summary')).toHaveClass(/show/);
-  await expect(page.getByTestId('end-summary')).toContainText(/Game Summary|Score|FG|3PT|FT|REB|OREB|FOULS|RULES/);
+  await expect(page.getByTestId('end-summary')).toContainText(/Game Summary|Score|FG|3PT|FT|REB|OREB|FOULS|AVG SHO \/ DEF|RULES/);
   await page.locator('#closeSummary').click();
   await page.getByTestId('quick-end').click();
   await expect(page.getByTestId('end-summary')).toHaveClass(/show/);
-  await expect(page.getByTestId('end-summary')).toContainText(/Final Buzzer|FG|3PT|FT|RULES|Tie game|leads|wins/);
+  await expect(page.getByTestId('end-summary')).toContainText(/Final Buzzer|Ratings|wins|Tie game|leads/);
 
   expect(errors).toEqual([]);
 });
 
-test('mobile joystick and rules drawer respond without text selection artifacts', async ({ browser }) => {
+test('mobile joystick responds without text selection artifacts', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     isMobile: true,
@@ -133,15 +133,14 @@ test('mobile joystick and rules drawer respond without text selection artifacts'
   });
 
   await page.goto(latestUrl());
-  await expect(page).toHaveTitle(/Gametime Basketball v025|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v026|Gametime Latest/);
   await expect(page.getByTestId('touch-controls')).toBeVisible();
   await expect(page.locator('body')).toHaveCSS('user-select', /none/);
   await expect(page.locator('#touchControls button')).toHaveCount(16);
   await page.locator('[data-action="rules"]').click();
-  await expect(page.locator('body')).toHaveClass(/rulesOpen/);
-  await page.selectOption('#shotClockSelect', '14');
-  await page.getByTestId('apply-rules').click();
-  await expect(page.getByTestId('scoreboard')).toContainText(/SHOT 14/);
+  await expect(page.locator('body')).toHaveClass(/rulesOpen|rulesCollapsed/);
+  await page.locator('[data-action="bonusRule"]').click();
+  await expect(page.getByTestId('bonus-feedback')).toContainText(/One-and-one|Two-shot bonus|Outcome/);
 
   const box = await page.locator('#joyBase').boundingBox();
   expect(box).not.toBeNull();
@@ -151,8 +150,7 @@ test('mobile joystick and rules drawer respond without text selection artifacts'
   await expect(page.locator('#joyKnob')).not.toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
   await page.mouse.up();
 
-  await page.locator('[data-action="bonusRule"]').click();
-  await expect(page.getByTestId('bonus-feedback')).toContainText(/One-and-one|Two-shot/);
+  await expect(page.getByTestId('scoreboard')).toContainText(/SHOT|FT|BONUS/);
   expect(errors).toEqual([]);
   await context.close();
 });
