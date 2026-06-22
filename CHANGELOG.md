@@ -1,5 +1,32 @@
 # Changelog
 
+## v016 - Rebound foul risk and whistle feedback
+
+Built the next small playable iteration on top of v015.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v016.html`
+- Foul Watch feedback panel showing contact type, foul risk, team foul count, and outcome
+- Rebound crash logic where late or out-of-position board attempts can become over-the-back or loose-ball fouls
+- Reach-in steal attempts now carry foul risk instead of being free poke attempts every time
+- Team fouls are shown in the scoreboard and tracked separately for both fake teams
+- On-court rebound copy now warns when late crashes may trigger a whistle
+- `latest.html` now points to v016
+- `index.html`, README, and Playwright smoke test updated for v016
+
+### Why this was chosen
+
+v015 made rebounds skill-based with timing rings and inside-position bonuses. The next best basketball step was consequences for bad rebound attempts. v016 keeps the board battle playable but adds realistic arcade risk: crash from the wrong side or jump late and the whistle can punish you. That should make rebounds feel less like bumper cars and more like basketball contact.
+
+### Recommended next improvements
+
+- Add a small end-of-game team stat summary with fouls, turnovers, rebounds, and shooting splits
+- Add a mobile viewport Playwright test that drags the joystick and confirms movement
+- Add shot-contest fouls for late block attempts
+- Move league/team/player data out of the single HTML file
+- Add a practice/free-shoot mode for testing shot, rebound, and foul systems quickly
+
 ## v015 - Box-out timing rings and rebound leverage
 
 Built the next small playable iteration on top of v014.
