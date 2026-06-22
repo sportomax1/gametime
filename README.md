@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v014.html`
+- `versions/gametime_v015.html`
 
 ## Current design direction
 
@@ -23,6 +23,7 @@ Current playable version:
 - Desktop keyboard controls and mobile-friendly touch controls
 - Mobile layout should keep the playing area readable, with collapsible HUD panels, a compact Teams drawer, joystick control, and clean touch behavior
 - Missed shots should create realistic rebound / loose-ball events instead of instantly flipping possession
+- Rebounds should become readable and skill-based through timing rings, inside position, and box-out leverage
 - All useful basketball camera angles over time
 - HTML Canvas foundation first
 - Three.js / 3D path later when the 2D foundation is strong
@@ -37,7 +38,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v014
+## Controls in v015
 
 | Control | Action |
 |---|---|
@@ -45,7 +46,7 @@ Each build should preserve old playable versions:
 | Shift | Sprint |
 | Space | Smart pass or request pass when controlling an off-ball teammate |
 | J | Shoot |
-| K | Jump / rebound / block contest |
+| K | Jump / rebound / box-out / block contest |
 | L | Defensive poke attempt |
 | Tab | Switch controlled player |
 | C | Change camera with quick camera display update |
@@ -59,7 +60,7 @@ Each build should preserve old playable versions:
 | R | Reset game |
 | Mobile joystick | Analog movement for the controlled player |
 | Mobile Pass / Shoot / Switch / Cam | Main basketball actions |
-| Mobile Jump / Block / Poke | Quick defensive and rebound actions |
+| Mobile Jump / Block / Poke | Quick defensive, rebound, and box-out actions |
 | Mobile Auto O | Toggle Auto Offense |
 | Mobile Cut / Screen / Space / Iso | Play-call actions |
 
@@ -79,6 +80,8 @@ Each build should preserve old playable versions:
 - Tuned realistic-arcade shot probability ranges for paint, close, midrange, and threes
 - Missed shots now trigger a rebound/loose-ball state instead of instant possession changes
 - Rebound Battle panel tracks timing, battle density, loose-ball type, and outcome
+- Box-Out Timing panel tracks timing window, leverage, ring progress, and rebound bonus
+- On-court rebound timing rings show when to build position and when to jump
 - Offensive rebounds reset the shot clock to 14; defensive rebounds reset it to 24
 - Jumping near the loose-ball marker can claim the rebound with better timing
 - Passing-lane preview, pass-risk feedback, pass requests, and interceptions
@@ -92,7 +95,7 @@ Each build should preserve old playable versions:
 - Multiple camera modes with actual display changes
 - Desktop and mobile control paths
 
-## Fake league clubs in v014
+## Fake league clubs in v015
 
 | Team | Identity |
 |---|---|
@@ -117,4 +120,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, mobile joystick controls, action controls, shot/pass/realism/play-call/screen/defense/rebound feedback, HUD collapse behavior, team drawer behavior, matchup changes, Auto Offense, camera display, and core keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, mobile joystick controls, action controls, shot/pass/realism/play-call/screen/defense/rebound/box-out feedback, HUD collapse behavior, team drawer behavior, matchup changes, Auto Offense, camera display, and core keyboard actions without page errors.
