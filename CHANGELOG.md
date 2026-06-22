@@ -1,5 +1,34 @@
 # Changelog
 
+## v027 - Stamina and turbo affect ratings
+
+Built the next small playable iteration on top of v026.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v027.html`
+- Stamina / Turbo feedback panel showing controlled-player energy, turbo state, fatigue effect, and recovery state
+- Sprint movement with `Shift` that boosts speed but drains stamina faster
+- Stamina drain for shots, passes, jumps, steals, free throws, and rebound attempts
+- Off-ball stamina recovery so switching and spacing have a gameplay reason
+- Fatigue-adjusted effective SHO, PAS, REB, DEF, FT, and SPD outcomes
+- Stamina bars under players on the court so tired legs are visible during play
+- End-of-game summary now includes average team stamina
+- `latest.html` now points to v027
+- `index.html`, README, and Playwright smoke test updated for v027
+
+### Why this was chosen
+
+v026 made fake-player ratings matter. The next best foundation step was adding stamina so those ratings are not static all game. v027 makes sprinting, repeated jumps, reach attempts, shots, passes, rebounds, and free throws carry a realistic arcade cost: fresh players pop, tired players lose efficiency. That is a core sports-game loop before deeper AI, rotations, and matchup logic.
+
+### Recommended next improvements
+
+- Add individual fake-player box-score rows for points, rebounds, assists, steals, blocks, fouls, and stamina at the final buzzer
+- Add visible matchup labels for who is guarding the ball handler
+- Add a practice/free-shoot mode for testing rating and stamina effects quickly
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- Add fatigue-aware AI substitutions later only if the project eventually expands beyond short arcade games
+
 ## v026 - Player ratings drive basketball outcomes
 
 Built the next small playable iteration on top of v025.
@@ -110,7 +139,7 @@ v022 connected final missed free throws to live lane rebounds. The next best bas
 ### Recommended next improvements
 
 - Add one-and-one versus two-shot bonus variations as game rules mature
-- Add a dedicated mobile viewport Playwright test that drags the joystick and taps Bonus / FT
+- Add a dedicated mobile viewport test that drags the joystick and taps Bonus / FT
 - Add clearer lane-violation timing risk on early rebounds
 - Move league/team/player data out of the single HTML file
 - Add a practice/free-shoot mode for testing shot, rebound, foul, bonus, and free-throw systems quickly
