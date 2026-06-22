@@ -1,5 +1,31 @@
 # Changelog
 
+## v011 - Compact Teams drawer and clear-court mobile flow
+
+Built the next small playable iteration on top of v010.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v011.html`
+- Compact Teams drawer behavior focused on keeping the playing area readable
+- Teams drawer now starts open for setup, then auto-hides after pressing Start
+- New Teams button reopens or hides the matchup drawer without needing the keyboard
+- `T` now uses the same drawer state as the Teams button
+- Player HUD now shows whether the Teams drawer is open or hidden
+- Landing page, latest pointer, README, and Playwright smoke test updated for v011
+
+### Why this was chosen
+
+v010 made screens matter physically, which improved basketball feel. The next best step was not another gameplay feature; it was protecting the court view, especially on mobile. Team select is useful, but it should not sit on top of the action forever. v011 keeps setup accessible while making the actual game area clearer after tip-off.
+
+### Recommended next improvements
+
+- Add defensive switching or hedge behavior against screens
+- Add clearer on-court screen arrows and ball-handler path hints
+- Move league/team/player data out of the single HTML file
+- Add a dedicated mobile viewport Playwright test for clear-court behavior
+- Add simple end-of-game box score and team stat summary
+
 ## v010 - Screen contact and pick-and-roll reads
 
 Built the next small playable iteration on top of v009.
