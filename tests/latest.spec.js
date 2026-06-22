@@ -6,7 +6,7 @@ function latestUrl() {
   return pathToFileURL(path.join(__dirname, '..', 'latest.html')).href;
 }
 
-test('latest Gametime build renders v030 live matchup labels', async ({ page }) => {
+test('latest Gametime build renders v031 help defense tags', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -18,7 +18,7 @@ test('latest Gametime build renders v030 live matchup labels', async ({ page }) 
   });
 
   await page.goto(latestUrl());
-  await expect(page).toHaveTitle(/Gametime Basketball v030|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v031|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/DEN|CAN|SHOT/);
   await expect(page.locator('#playerPanel')).toContainText(/Control|Ball|Energy|Camera|Auto O/);
@@ -33,6 +33,7 @@ test('latest Gametime build renders v030 live matchup labels', async ({ page }) 
   await expect(page.locator('#homeSelect option')).toHaveCount(10);
   await expect(page.locator('#awaySelect option')).toHaveCount(10);
   await expect(page.getByTestId('matchup-panel')).toContainText(/Live Matchup|Handler|Defender|Pressure|Edge/);
+  await expect(page.getByTestId('help-defense-panel')).toContainText(/Help Defense|Helper|Lane Tag|Help Risk|Rotation/);
   await expect(page.getByTestId('shot-feedback')).toContainText(/Shot Feedback|Make Chance|Release|Zone/);
   await expect(page.getByTestId('pass-feedback')).toContainText(/Pass Feedback|Risk|Lane/);
   await expect(page.getByTestId('stats-panel')).toContainText(/Realism Pulse|2PT|3PT|REB|TO/);
@@ -42,30 +43,31 @@ test('latest Gametime build renders v030 live matchup labels', async ({ page }) 
   await page.locator('#startMatch').click();
   await expect(page.getByTestId('scoreboard')).toContainText(/MET|BAY|SHOT/);
   await expect(page.locator('body')).toHaveClass(/teamCollapsed/);
-  await expect(page.locator('#teamBadge')).toContainText(/Match started|Tap Teams/i);
+  await expect(page.locator('#teamBadge')).toContainText(/Match started|Tap Teams|Help tags/i);
   await page.getByTestId('team-toggle').click();
   await expect(page.locator('body')).toHaveClass(/teamOpen/);
 
   await page.getByTestId('hud-toggle').click();
   await expect(page.locator('body')).toHaveClass(/hudExpanded/);
   await expect(page.getByTestId('matchup-panel')).toContainText(/Handler|Defender|Pressure|Edge/);
+  await expect(page.getByTestId('help-defense-panel')).toContainText(/Gap|Stunt|Trap|Stay Home|Helper|Lane Tag|Help Risk|Rotation/);
   await page.keyboard.press('KeyC');
   await expect(page.getByTestId('camera-pill')).toContainText(/Broadcast|Player Follow|Half Court|Full Court/);
   await page.keyboard.press('Tab');
   await expect(page.getByTestId('action-pill')).toContainText(/Control switched/);
   await page.keyboard.press('Space');
-  await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Turnover|Risk|Lane/);
+  await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Turnover|Risk|Lane|Help trap|Stunted|Open/);
   await page.keyboard.press('KeyJ');
   await expect(page.getByTestId('shot-feedback')).toContainText(/Make Chance|Paint|Close|Mid|Three/);
   await page.keyboard.press('KeyK');
-  await expect(page.getByTestId('action-pill')).toBeVisible();
+  await expect(page.getByTestId('action-pill')).toContainText(/jumps|contests/i);
   await page.keyboard.press('KeyL');
-  await expect(page.getByTestId('action-pill')).toBeVisible();
+  await expect(page.getByTestId('action-pill')).toContainText(/reaches|help tag/i);
 
   expect(errors).toEqual([]);
 });
 
-test('mobile layout keeps joystick controls visible without selection artifacts in v030', async ({ browser }) => {
+test('mobile joystick responds without text selection artifacts in v031', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     isMobile: true,
@@ -79,15 +81,22 @@ test('mobile layout keeps joystick controls visible without selection artifacts 
   });
 
   await page.goto(latestUrl());
-  await expect(page).toHaveTitle(/Gametime Basketball v030|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v031|Gametime Latest/);
   await expect(page.getByTestId('touch-controls')).toBeVisible();
   await expect(page.locator('body')).toHaveCSS('user-select', /none/);
-  await expect(page.locator('#joyBase')).toBeVisible();
-  await expect(page.locator('#joyKnob')).toBeVisible();
   await expect(page.locator('#touchControls button')).toHaveCount(8);
   await expect(page.getByTestId('matchup-panel')).toBeAttached();
-  await expect(page.getByTestId('scoreboard')).toContainText(/SHOT/);
+  await expect(page.getByTestId('help-defense-panel')).toBeAttached();
 
+  const box = await page.locator('#joyBase').boundingBox();
+  expect(box).not.toBeNull();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.85, box.y + box.height / 2, { steps: 4 });
+  await expect(page.locator('#joyKnob')).toHaveAttribute('style', /translate/);
+  await page.mouse.up();
+
+  await expect(page.getByTestId('scoreboard')).toContainText(/SHOT/);
   expect(errors).toEqual([]);
   await context.close();
 });
