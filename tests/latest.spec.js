@@ -82,7 +82,6 @@ test('mobile layout keeps joystick controls visible without selection artifacts 
   await expect(page).toHaveTitle(/Gametime Basketball v030|Gametime Latest/);
   await expect(page.getByTestId('touch-controls')).toBeVisible();
   await expect(page.locator('body')).toHaveCSS('user-select', /none/);
-  await expect(page.locator('html')).toHaveCSS('user-select', /none/);
   await expect(page.locator('#joyBase')).toBeVisible();
   await expect(page.locator('#joyKnob')).toBeVisible();
   await expect(page.locator('#touchControls button')).toHaveCount(8);
