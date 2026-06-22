@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v022.html`
+- `versions/gametime_v023.html`
 
 ## Current design direction
 
@@ -27,6 +27,7 @@ Current playable version:
 - Rebounds should become readable and skill-based through timing rings, inside position, box-out leverage, and realistic foul risk
 - Late block attempts and aggressive contests should carry realistic whistle risk, while verticality should be rewarded
 - Shooting fouls should produce playable free throws and update the box score
+- Team-foul bonus rules should make late sloppy defense produce realistic free throws
 - Free throws should reward timing instead of resolving as invisible dice rolls
 - Team stats should surface whether the arcade systems are producing believable basketball outcomes
 - End-of-game summaries should explain who won and why
@@ -44,7 +45,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v022
+## Controls in v023
 
 | Control | Action |
 |---|---|
@@ -55,6 +56,7 @@ Each build should preserve old playable versions:
 | K | Jump / rebound / box-out / block contest with late-whistle risk |
 | F | Release current free throw / open practice free-throw flow |
 | L | Defensive poke attempt with reach-in risk |
+| B | Force a bonus-rule test foul |
 | Tab | Switch controlled player |
 | C | Change camera with quick camera display update |
 | O | Toggle Auto Offense |
@@ -68,7 +70,7 @@ Each build should preserve old playable versions:
 | R | Reset game |
 | Mobile joystick | Analog movement for the controlled player |
 | Mobile Pass / Shot / Switch / Cam | Main basketball actions |
-| Mobile Jump / Block / Poke / FT | Quick defensive, rebound, box-out, contest, foul-risk, and free-throw actions |
+| Mobile Jump / Block / Poke / FT / Bonus | Quick defensive, rebound, box-out, contest, foul-risk, free-throw, and bonus-rule actions |
 | Mobile Auto O | Toggle Auto Offense |
 | Mobile Cut / Screen / Space / Iso | Play-call actions |
 
@@ -93,8 +95,11 @@ Each build should preserve old playable versions:
 - Shooting fouls can create playable free-throw trips
 - Free throws update score, FT made/attempted splits, scoreboard, live stat panel, and end summary
 - The free throw meter rewards pressing F / FT near the green release window
-- v022 adds lane-line player alignment during free throws
+- v022 added lane-line player alignment during free throws
 - v022 keeps final missed free throws live and turns them into offensive or defensive rebound outcomes
+- v023 adds Bonus Watch feedback for home bonus, away bonus, threshold, and outcome
+- v023 makes non-shooting fouls side-out fouls before bonus, then bonus free throws once the defending team reaches 5 team fouls
+- v023 adds a Force Bonus button, mobile Bonus button, and `B` shortcut for quick rules testing
 - Missed shots now trigger a rebound/loose-ball state instead of instant possession changes
 - Rebound Battle panel tracks timing, battle density, loose-ball type, and outcome
 - Box-Out Timing panel tracks timing window, leverage, ring progress, and rebound bonus
@@ -103,7 +108,7 @@ Each build should preserve old playable versions:
 - Reach-in steal attempts can trigger a foul instead of always being free poke attempts
 - Game Stats panel tracks field goals, 3PT rate, free throws, rebounds, offensive rebounds, turnovers, steals, blocks, and fouls during play
 - Shot makes, misses, interceptions, shot-clock violations, steals, rebounds, blocks, fouls, and free throws feed the live team stat model
-- End-of-game summary overlay explains the final score with FG, 3PT, FT, rebounds, offensive rebounds, turnovers, steals, blocks, fouls, and why-they-won text
+- End-of-game summary overlay explains the final score with FG, 3PT, FT, rebounds, offensive rebounds, turnovers, steals, blocks, fouls, bonus status, and why-they-won text
 - On-court rebound timing rings show when to build position and when to jump
 - Offensive rebounds reset the shot clock to 14; defensive rebounds reset it to 24
 - Jumping near the loose-ball marker can claim the rebound with better timing
@@ -112,13 +117,13 @@ Each build should preserve old playable versions:
 - Basic play-call system: Cut, Screen, Space, and Iso
 - Screen call creates physical screen contact: defenders slow when clipping an active screener
 - Defense Coverage panel tracks screen response, pressure, contest behavior, and rebound outcomes
-- Live realism tuning panel for 2PT%, 3PT%, FT%, offensive rebound rate, foul pace, and sample notes
+- Live realism tuning panel for 2PT%, 3PT%, FT%, offensive rebound rate, foul pace, bonus threshold, and sample notes
 - Possession direction arrow and attacking-hoop indicator
 - Collapsible feedback HUD so mobile players can keep the court visible
 - Multiple camera modes with actual display changes
 - Desktop and mobile control paths
 
-## Fake league clubs in v022
+## Fake league clubs in v023
 
 | Team | Identity |
 |---|---|
@@ -142,3 +147,5 @@ npm install
 npx playwright install chromium
 npm test
 ```
+
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, mobile joystick controls, action controls, shot/pass/realism/play-call/screen/defense/rebound/box-out/foul/free-throw/bonus feedback, HUD collapse behavior, team drawer behavior, matchup changes, Auto Offense, camera display, core keyboard actions, practice FT, bonus-rule behavior, and summary overlay without page errors.
