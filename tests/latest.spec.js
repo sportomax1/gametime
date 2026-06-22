@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-test('latest Gametime build renders v008 basics', async ({ page }) => {
+test('latest Gametime build renders v009 team select basics', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -11,18 +11,26 @@ test('latest Gametime build renders v008 basics', async ({ page }) => {
 
   const latestPath = path.join(__dirname, '..', 'latest.html');
   await page.goto(pathToFileURL(latestPath).href);
-  await expect(page).toHaveTitle(/Gametime Basketball v008|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v009|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT/);
-  await expect(page.locator('#playerPanel')).toContainText(/Energy|Speed|Cuts|Call/);
+  await expect(page.locator('#playerPanel')).toContainText(/Energy|Speed|Team|Call/);
   await expect(page.getByTestId('touch-controls')).toBeAttached();
   await expect(page.locator('#touchControls button')).toHaveCount(13);
   await expect(page.getByTestId('hud-toggle')).toBeVisible();
+  await expect(page.getByTestId('team-panel')).toContainText(/Matchup Builder|League|Start/);
+  await expect(page.locator('#homeSelect option')).toHaveCount(10);
+  await expect(page.locator('#awaySelect option')).toHaveCount(10);
+  await expect(page.getByTestId('team-feedback')).toContainText(/Team Identity|User Team|Opponent/);
   await expect(page.getByTestId('shot-feedback')).toContainText(/Shot Feedback|Make Chance|Release|Zone/);
   await expect(page.getByTestId('pass-feedback')).toContainText(/Pass Feedback|Risk|Lane/);
-  await expect(page.getByTestId('cut-feedback')).toContainText(/Off-Ball Cuts|Cut Chance|Lane/);
   await expect(page.getByTestId('realism-panel')).toContainText(/Realism Tuning|2PT FG|3PT FG|Turnover/);
   await expect(page.getByTestId('playcall-panel')).toContainText(/Play Call|Cut|Screen|Space|Iso/);
+
+  await page.selectOption('#homeSelect', '2');
+  await page.selectOption('#awaySelect', '3');
+  await page.locator('#startMatch').click();
+  await expect(page.getByTestId('scoreboard')).toContainText(/Metro|Bay City|SHOT/);
 
   await page.getByTestId('hud-toggle').click();
   await expect(page.locator('body')).toHaveClass(/hudExpanded/);
@@ -34,6 +42,7 @@ test('latest Gametime build renders v008 basics', async ({ page }) => {
   await expect(page.getByTestId('playcall-panel')).toContainText(/Space|Widen lanes/);
   await page.keyboard.press('Digit4');
   await expect(page.getByTestId('playcall-panel')).toContainText(/Iso|Clear side/);
+  await page.keyboard.press('KeyT');
   await page.keyboard.press('KeyH');
   await expect(page.locator('body')).toHaveClass(/hudCollapsed/);
   await page.keyboard.press('KeyC');
