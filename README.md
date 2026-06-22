@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v011.html`
+- `versions/gametime_v012.html`
 
 ## Current design direction
 
@@ -35,13 +35,13 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v011
+## Controls in v012
 
 | Control | Action |
 |---|---|
 | WASD / Arrow Keys | Move controlled player |
 | Shift | Sprint |
-| Space | Smart pass using passing-lane risk, cutter priority, and screen roll/pop priority |
+| Space | Smart pass using passing-lane risk, cutter priority, and screen advantage |
 | J | Shoot |
 | Tab | Switch controlled player |
 | C | Change camera |
@@ -72,15 +72,15 @@ Each build should preserve old playable versions:
 - Basic play-call system: Cut, Screen, Space, and Iso
 - Screen call creates physical screen contact: defenders slow when clipping an active screener
 - Screen Feedback panel tracks screen action, contacts, roll/pop outcome, and separation
-- Successful screens can turn the screener into a roll/pop passing target
-- Space and Iso alter teammate spacing so user-controlled possessions have clearer intent
+- Defense Coverage panel tracks basic screen response: man, hedge, switch, pressure, and result
+- Basic hedge/switch logic makes defenders react to screens instead of sliding through every pick the same way
 - Live realism tuning panel for 2PT%, 3PT%, turnover rate, screen hits, and sample size
 - Possession direction arrow and attacking-hoop indicator
 - Collapsible feedback HUD so mobile players can keep the court visible
 - Multiple camera modes
 - Desktop and mobile control paths
 
-## Fake league clubs in v011
+## Fake league clubs in v012
 
 | Team | Identity |
 |---|---|
@@ -105,4 +105,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes the team selector and Teams toggle, includes mobile controls and play-call controls, shows shot/pass/realism/play-call/screen feedback, includes HUD collapse behavior, auto-hides the team drawer after starting a matchup, supports reopening the drawer, supports changing the matchup, and handles basic keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes the team selector and Teams toggle, includes mobile controls and play-call controls, shows shot/pass/realism/play-call/screen/defense feedback, includes HUD collapse behavior, auto-hides the team drawer after starting a matchup, supports reopening the drawer, supports changing the matchup, and handles basic keyboard actions without page errors.

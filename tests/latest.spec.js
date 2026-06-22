@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-test('latest Gametime build renders v011 clear-court team drawer basics', async ({ page }) => {
+test('latest Gametime build renders v012 defensive coverage basics', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -11,10 +11,10 @@ test('latest Gametime build renders v011 clear-court team drawer basics', async 
 
   const latestPath = path.join(__dirname, '..', 'latest.html');
   await page.goto(pathToFileURL(latestPath).href);
-  await expect(page).toHaveTitle(/Gametime Basketball v011|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v012|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT/);
-  await expect(page.locator('#playerPanel')).toContainText(/Energy|Speed|Team|Call|Screens|Teams/);
+  await expect(page.locator('#playerPanel')).toContainText(/Energy|Speed|Team|Call|Defense/);
   await expect(page.getByTestId('touch-controls')).toBeAttached();
   await expect(page.locator('#touchControls button')).toHaveCount(13);
   await expect(page.getByTestId('hud-toggle')).toBeVisible();
@@ -27,6 +27,7 @@ test('latest Gametime build renders v011 clear-court team drawer basics', async 
   await expect(page.getByTestId('realism-panel')).toContainText(/Realism Tuning|2PT FG|3PT FG|Turnover/);
   await expect(page.getByTestId('playcall-panel')).toContainText(/Play Call|Cut|Screen|Space|Iso/);
   await expect(page.getByTestId('screen-feedback')).toContainText(/Screen Feedback|Contact|Roll\/Pop|Separation/);
+  await expect(page.getByTestId('defense-feedback')).toContainText(/Defense Coverage|Switch\/Hedge|Pressure|Result/);
 
   await page.selectOption('#homeSelect', '2');
   await page.selectOption('#awaySelect', '3');
@@ -40,10 +41,11 @@ test('latest Gametime build renders v011 clear-court team drawer basics', async 
   await page.getByTestId('hud-toggle').click();
   await expect(page.locator('body')).toHaveClass(/hudExpanded/);
   await page.keyboard.press('Digit1');
-  await expect(page.getByTestId('playcall-panel')).toContainText(/Cut|Attack rim/);
+  await expect(page.getByTestId('playcall-panel')).toContainText(/Cut|Rim pressure/);
   await page.keyboard.press('Digit2');
-  await expect(page.getByTestId('playcall-panel')).toContainText(/Screen|Free ball/);
-  await expect(page.getByTestId('screen-feedback')).toContainText(/Screen Feedback|Set screen|Contact|Roll|Pop|Building/);
+  await expect(page.getByTestId('playcall-panel')).toContainText(/Screen|Create advantage/);
+  await expect(page.getByTestId('screen-feedback')).toContainText(/Screen Feedback|Set screen|Contact|Building/);
+  await expect(page.getByTestId('defense-feedback')).toContainText(/Defense Coverage|Switch\/Hedge|Pressure|Result/);
   await page.keyboard.press('Digit3');
   await expect(page.getByTestId('playcall-panel')).toContainText(/Space|Widen lanes/);
   await page.keyboard.press('Digit4');

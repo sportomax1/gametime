@@ -1,5 +1,31 @@
 # Changelog
 
+## v012 - Defensive switching and hedge coverage
+
+Built the next small playable iteration on top of v011.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v012.html`
+- Defense Coverage panel showing scheme, action, pressure, and result
+- Basic screen-response logic where defenders can hedge or switch against a called screen
+- Screen coverage feedback connected to the existing Screen Feedback panel
+- On-court coverage rings/colors so hedge and switch defenders are easier to read
+- `latest.html` now points to v012
+- `index.html`, README, and Playwright smoke test updated for v012
+
+### Why this was chosen
+
+v011 made the court easier to see on mobile. The next best basketball foundation step was making the defense react to the screen system added in v010. Screens now create a defensive decision instead of only creating offensive advantage, which moves the game closer to realistic arcade basketball.
+
+### Recommended next improvements
+
+- Add clearer on-court screen arrows and ball-handler path hints
+- Add a simple end-of-game box score and team stat summary
+- Move league/team/player data out of the single HTML file
+- Add mobile viewport Playwright coverage for HUD and controls
+- Add basic fouls/whistles around heavy screen contact and shot contests
+
 ## v011 - Compact Teams drawer and clear-court mobile flow
 
 Built the next small playable iteration on top of v010.
