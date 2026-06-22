@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-test('latest Gametime build renders v010 screen contact basics', async ({ page }) => {
+test('latest Gametime build renders v011 clear-court team drawer basics', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -11,14 +11,15 @@ test('latest Gametime build renders v010 screen contact basics', async ({ page }
 
   const latestPath = path.join(__dirname, '..', 'latest.html');
   await page.goto(pathToFileURL(latestPath).href);
-  await expect(page).toHaveTitle(/Gametime Basketball v010|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v011|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT/);
-  await expect(page.locator('#playerPanel')).toContainText(/Energy|Speed|Team|Call|Screens/);
+  await expect(page.locator('#playerPanel')).toContainText(/Energy|Speed|Team|Call|Screens|Teams/);
   await expect(page.getByTestId('touch-controls')).toBeAttached();
   await expect(page.locator('#touchControls button')).toHaveCount(13);
   await expect(page.getByTestId('hud-toggle')).toBeVisible();
-  await expect(page.getByTestId('team-panel')).toContainText(/Matchup Builder|League|Start/);
+  await expect(page.getByTestId('team-toggle')).toBeAttached();
+  await expect(page.getByTestId('team-panel')).toContainText(/Matchup Builder|League|Start|Clear court|Auto-hide/);
   await expect(page.locator('#homeSelect option')).toHaveCount(10);
   await expect(page.locator('#awaySelect option')).toHaveCount(10);
   await expect(page.getByTestId('shot-feedback')).toContainText(/Shot Feedback|Make Chance|Release|Zone/);
@@ -31,6 +32,10 @@ test('latest Gametime build renders v010 screen contact basics', async ({ page }
   await page.selectOption('#awaySelect', '3');
   await page.locator('#startMatch').click();
   await expect(page.getByTestId('scoreboard')).toContainText(/Metro|Bay City|SHOT/);
+  await expect(page.locator('body')).toHaveClass(/teamCollapsed/);
+  await expect(page.locator('#teamBadge')).toContainText(/auto-hidden|Tap Teams|press T/i);
+  await page.getByTestId('team-toggle').click();
+  await expect(page.locator('body')).toHaveClass(/teamOpen/);
 
   await page.getByTestId('hud-toggle').click();
   await expect(page.locator('body')).toHaveClass(/hudExpanded/);
@@ -44,6 +49,7 @@ test('latest Gametime build renders v010 screen contact basics', async ({ page }
   await page.keyboard.press('Digit4');
   await expect(page.getByTestId('playcall-panel')).toContainText(/Iso|Clear side/);
   await page.keyboard.press('KeyT');
+  await expect(page.locator('body')).toHaveClass(/teamCollapsed/);
   await page.keyboard.press('KeyH');
   await expect(page.locator('body')).toHaveClass(/hudCollapsed/);
   await page.keyboard.press('KeyC');
