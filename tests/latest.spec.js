@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-test('latest Gametime build renders v016 foul watch systems', async ({ page }) => {
+test('latest Gametime build renders v017 live stat systems', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -11,7 +11,7 @@ test('latest Gametime build renders v016 foul watch systems', async ({ page }) =
 
   const latestPath = path.join(__dirname, '..', 'latest.html');
   await page.goto(pathToFileURL(latestPath).href);
-  await expect(page).toHaveTitle(/Gametime Basketball v016|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v017|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT|FOULS/);
   await expect(page.locator('#playerPanel')).toContainText(/Control|Ball|Energy|Speed|Camera|Auto O/);
@@ -31,6 +31,7 @@ test('latest Gametime build renders v016 foul watch systems', async ({ page }) =
   await expect(page.getByTestId('pass-feedback')).toContainText(/Pass Feedback|Risk|Lane/);
   await expect(page.getByTestId('realism-panel')).toContainText(/Realism Tuning|2PT FG|3PT FG|OREB|Fouls/);
   await expect(page.getByTestId('playcall-panel')).toContainText(/Play Call|Cut|Screen|Space|Iso/);
+  await expect(page.getByTestId('stat-summary')).toContainText(/Game Stats|Home FG|Away FG|REB|OREB|TO|STL|Board control|Ball security/);
   await expect(page.getByTestId('screen-feedback')).toContainText(/Screen Feedback|Contact|Roll\/Pop|Separation/);
   await expect(page.getByTestId('defense-feedback')).toContainText(/Defense Coverage|Actions|Pressure|Result/);
   await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Timing|Battle|Loose Ball|Outcome/);
@@ -68,15 +69,17 @@ test('latest Gametime build renders v016 foul watch systems', async ({ page }) =
   await expect(page.getByTestId('action-pill')).toContainText(/Control:/);
   await page.keyboard.press('Space');
   await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Intercepted|Risk|Lane/);
+  await expect(page.getByTestId('stat-summary')).toContainText(/0\/0|TO|STL|REB|FG/);
   await page.keyboard.press('KeyJ');
   await expect(page.getByTestId('shot-feedback')).toContainText(/Make Chance|Paint|Close|Mid|Three|Logo/);
+  await expect(page.getByTestId('stat-summary')).toContainText(/FG|3PT|REB|OREB|TO|STL/);
   await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Ready|Track|Box out|Jump now|Waiting|Chase|Secured/);
   await expect(page.getByTestId('boxout-feedback')).toContainText(/Box-Out Timing|Ready|Build position|Sweet spot|Late|Ring|Bonus/);
   await expect(page.getByTestId('foul-feedback')).toContainText(/Foul Watch|Clean|Rebound contact|Reach check|Over-the-back|Loose-ball|Reach-in|Team Fouls|Play on|Side out|Defense ball|Offense keeps/);
   await page.keyboard.press('KeyK');
-  await expect(page.getByTestId('action-pill')).toContainText(/Block|Jump|Hop|Protect|Rebound jump|box-out|Whistle/i);
+  await expect(page.getByTestId('action-pill')).toContainText(/Block|Jump|Hop|Protect|Rebound jump|box-out|Whistle|Perfect/i);
   await page.keyboard.press('KeyL');
-  await expect(page.getByTestId('action-pill')).toContainText(/steal|Reach|Protect|Rebound jump|box-out|Whistle|foul/i);
+  await expect(page.getByTestId('action-pill')).toContainText(/steal|Reach|Protect|Rebound jump|box-out|Whistle|foul|Perfect/i);
   await page.keyboard.down('Shift');
   await page.keyboard.down('ArrowRight');
   await page.waitForTimeout(300);
