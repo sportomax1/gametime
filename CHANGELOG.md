@@ -1,225 +1,88 @@
 # Changelog
 
-## v009 - Fictional team select and matchup identity
+## v010 - Screen contact and pick-and-roll reads
 
-Built the next small playable iteration on top of v008.
+Built the next small playable iteration on top of v009.
 
 ### Added
 
-- New versioned playable file at `versions/gametime_v009.html`
-- Matchup Builder panel for choosing the user-controlled home team and fake opponent
-- Expanded fake league directory to 10 selectable fictional clubs, including Denver Peaks, Canyon Comets, Metro Meteors, Bay City Breakers, Desert Sparks, Harbor Knights, Prairie Cyclones, Summit Owls, River City Rooks, and Mesa Mirage
-- Team identity feedback panel showing current user team, opponent, roster setup, and fake-league context
-- `T` keyboard shortcut to minimize or reopen the team selector
-- Team selection integrates with scoreboard, center-court branding, possession messages, and live rosters
-- `latest.html` now points to v009
-- `index.html` now links to v009 through v001
-- README and Playwright smoke test updated for v009
+- New versioned playable file at `versions/gametime_v010.html`
+- Screen Feedback panel showing screen action, defender contact count, roll/pop outcome, and separation
+- Screen contact behavior: defenders are slowed when they clip an active screener instead of sliding through every pick cleanly
+- Successful screen contact can turn the screener into a roll/pop passing target
+- Passing target logic now rewards roll/pop targets created by screens
+- Shot logic can reward screen-created separation without making percentages cartoonishly high
+- Live realism panel now includes screen hits in the sample notes
+- `latest.html` now points to v010
+- `index.html` now links to v010 through v001
+- README and Playwright smoke test updated for v010
 
 ### Why this was chosen
 
-v008 gave possessions direct intent with Cut, Screen, Space, and Iso. The next best foundation step was widening the fictional league without making the project a franchise mode. A simple matchup builder makes Denver Peaks feel like part of a larger fake league while keeping the game playable and arcade-focused.
+v009 added the fake-league matchup builder, but the Screen call still behaved more like a suggestion than basketball contact. The next best foundation step was making screens physically matter: defenders slow down when they run into a pick, the screener can roll or pop, and the pass system can recognize that new advantage. This keeps the project moving toward realistic arcade basketball before adding larger playbook systems.
 
 ### Recommended next improvements
 
-- Improve screen contact with defender slowdown and clearer pick-and-roll behavior
-- Add a compact mobile-only team selector layout that hides automatically after tip-off
-- Add rebounds, steals, and team matchup data to the live stats overlay
-- Start separating rosters, ratings, play-call logic, and tuning constants from the single HTML file
-- Add mobile viewport Playwright coverage for choosing a matchup and keeping the court visible
+- Add defensive switching or hedge behavior against screens
+- Add clearer on-court screen arrows and ball-handler path hints
+- Add a compact mobile-only team selector that hides automatically after tip-off
+- Move league/team/player data out of the single HTML file
+- Add a mobile viewport Playwright test for team select plus clear-court HUD behavior
+
+## v009 - Fictional team select and matchup identity
+
+- Added `versions/gametime_v009.html`
+- Added Matchup Builder for choosing the user-controlled home team and fake opponent
+- Expanded the fake league directory to 10 selectable fictional clubs
+- Added team identity feedback and `T` to minimize/reopen the selector
+- Updated latest pointer, landing page, README, and tests
 
 ## v008 - Basic play-call controls
 
-Built the next small playable iteration on top of v007.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v008.html`
-- Basic play-call system with Cut, Screen, Space, and Iso
-- Desktop shortcuts: `1` Cut, `2` Screen, `3` Space, `4` Iso
-- Mobile touch buttons for Cut, Screen, Space, and Iso alongside pass/shoot/switch/camera
-- Play Call feedback panel showing active call, timer, intent, and result
-- Cut call accelerates teammate cut windows toward the rim
-- Screen call sends a big teammate toward the ball handler and can reduce shot contest pressure
-- Space call widens offensive spots and slightly lowers risky passing lanes
-- Iso call clears teammates away from the ball handler and gives a small user-controlled isolation shot bump
-- On-court possession label now includes the active play call
-- `latest.html` now points to v008
-- `index.html` now links to v008 through v001
-- README and Playwright smoke test updated for v008
-
-### Why this was chosen
-
-v007 made the game measure whether outcomes were basketball-shaped. The next logical foundation step was letting the player influence teammate behavior directly. Cut, Screen, Space, and Iso give possessions readable intent without jumping into a complicated playbook or franchise mode.
-
-### Recommended next improvements
-
-- Add a simple team select screen using the fictional league directory
-- Improve screen contact with defender slowdown and clearer pick-and-roll behavior
-- Add rebounds and steals to the live stats overlay
-- Start separating rosters, ratings, play-call logic, and tuning constants from the single HTML file
-- Add mobile viewport Playwright coverage for the expanded/collapsed HUD and play-call buttons
+- Added `versions/gametime_v008.html`
+- Added Cut, Screen, Space, and Iso calls on desktop and mobile
+- Added Play Call feedback panel with timer, intent, and result
+- Space and Iso alter spacing; Cut accelerates cutter windows; Screen sends a big toward the ball handler
 
 ## v007 - Realism tuning and possession direction
 
-Built the next small playable iteration on top of v006.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v007.html`
-- Live Realism Tuning panel showing 2PT FG%, 3PT FG%, turnover rate, possession count, and shot sample size
-- More visible target ranges for realistic arcade outcomes: 2PT, 3PT, and turnover rates
-- Possession direction arrow in the scoreboard and on-court attacking-hoop indicator
-- Shot feedback now reports shot zone instead of only raw distance, making the probability easier to understand
-- Tuned shot, pass, steal, and cut probability caps to reduce extreme outcomes
-- `latest.html` now points to v007
-- `index.html` now links to v007 through v001
-- README and Playwright smoke test updated for v007
-
-### Why this was chosen
-
-v006 added off-ball cuts and improved mobile court visibility. The next foundation step was making the game explain and police its own basketball math. A realistic-arcade game should show whether the action is producing believable 2PT, 3PT, and turnover rates instead of hiding everything behind invisible dice rolls. The possession arrow also makes direction easier to read, especially on mobile.
-
-### Recommended next improvements
-
-- Add basic play-call buttons such as Cut, Screen, Space, and Iso
-- Add a simple team select screen using the fictional league directory
-- Start separating rosters, ratings, and tuning constants from the single HTML file
-- Add rebounds and steals to the live stats overlay
-- Add mobile viewport Playwright coverage for the collapsed HUD state
+- Added `versions/gametime_v007.html`
+- Added live 2PT%, 3PT%, turnover, possession, and shot sample tracking
+- Added possession direction arrows and clearer attacking-hoop indicators
+- Tuned shot, pass, steal, and cut probability caps toward realistic arcade outcomes
 
 ## v006 - Off-ball cuts, mobile HUD collapse, and realistic arcade tuning
 
-Built the next small playable iteration on top of v005.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v006.html`
-- Off-ball cuts that let teammates make timed rim runs instead of holding static spacing
-- Cut-lane feedback panel showing cutter, lane, cut chance, and result
-- Cut-lane indicators drawn on the court so the pass window is visible
-- Smart pass target scoring now rewards active cutters and safer cutter lanes
-- Collapsible HUD button plus `H` keyboard shortcut so mobile players can clear the court view
-- Player HUD now shows active cut count
-- Shot probability tuning for more realistic arcade percentages across layups, close shots, midrange, and threes
-- Slightly lower pass interception and steal rates so turnovers feel earned instead of chaotic
-- `latest.html` now points to v006
-- `index.html` now links to v006, v005, v004, v003, v002, and v001
-- README and Playwright smoke test updated for v006
-
-### Why this was chosen
-
-v005 made passing lanes meaningful. The next logical step was helping teammates create those lanes. Off-ball cuts make the 5v5 game feel more alive and give the user a basketball reason to pass instead of dribbling until a shot appears. The mobile HUD collapse also responds to the need to keep the playing area visible on phones.
-
-### Recommended next improvements
-
-- Add basic play-call buttons such as Cut, Screen, Space, and Iso
-- Add a simple team select screen using the fictional league directory
-- Begin separating shared roster/rating/game constants from the HTML file
-- Add a small stats overlay for FG%, 3PT%, turnovers, rebounds, and steals
-- Add mobile viewport Playwright coverage for the collapsed HUD state
+- Added `versions/gametime_v006.html`
+- Added off-ball cuts with visible passing windows
+- Added collapsible HUD behavior for keeping the mobile court readable
+- Tuned shot/pass/steal/cut probability ranges
 
 ## v005 - Passing lane risk and interceptions
 
-Built the next small playable iteration on top of v004.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v005.html`
-- Pass feedback panel showing target, lane quality, interception risk, and outcome
-- Passing lane preview drawn on the court for the user-controlled ball handler
-- Defender proximity checks along the passing segment, not just near the passer or receiver
-- Interception outcomes when a risky pass is thrown through a defender's lane
-- Smarter pass target selection that weighs shooting value, spacing, advancement, target separation, and lane danger
-- AI pass selection now avoids high-risk passes unless the shot clock is forcing action
-- `latest.html` now points to v005
-- `index.html` now links to v005, v004, v003, and v001
-
-### Why this was chosen
-
-v004 made shooting understandable with release, contest, distance, and make chance. The next best foundation step was doing the same for passing. Basketball feels more real when passing lanes matter, defenders can jump bad decisions, and the player understands why a pass was safe or risky.
-
-### Recommended next improvements
-
-- Add off-ball cuts so teammates actively create better passing lanes
-- Add possession arrows and clearer offensive direction indicators
-- Add a simple fictional team select screen using the league directory
-- Begin separating shared rosters, ratings, and game constants from the HTML file
-- Add a Playwright check for v005 pass feedback after pressing Space
+- Added `versions/gametime_v005.html`
+- Added pass feedback, pass lane preview, defender lane checks, and interception outcomes
+- Added smarter pass target scoring with shooting value, spacing, advancement, separation, and lane danger
 
 ## v004 - Shot feedback and make-chance UI
 
-Built the next small playable iteration on top of v003.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v004.html`
-- Shot feedback panel showing release grade, contest level, shot distance, and expected make chance
-- Make-chance bar that fills based on the computed shot probability
-- Shot outcome copy that updates after makes and misses
-- Dashed shot arc indicator while the ball is airborne
-- `latest.html` now points to v004
-- `index.html` now links to v004, v003, v002, and v001
-- Playwright smoke test now verifies the v004 shot feedback panel and shoot action
-
-### Why this was chosen
-
-v003 made the game playable on desktop and mobile with the Denver Peaks identity in place. The next most valuable small improvement was explaining every shot. A realistic-arcade basketball game needs shots to feel earned, so v004 exposes the hidden calculation instead of making shooting feel like a mystery coin flip.
-
-### Recommended next improvements
-
-- Improve pass selection with safer passing lanes and interception risk
-- Add off-ball cuts so teammates relocate instead of holding static spacing
-- Add a simple team select screen using the fictional league directory
-- Add clearer possession arrows and offensive direction indicators
-- Begin separating shared game data from the HTML file once the SPA gets larger
+- Added `versions/gametime_v004.html`
+- Added shot feedback for release, contest, zone/distance, and expected make chance
+- Added shot outcome copy and dashed shot arc indicator
 
 ## v003 - Denver Peaks and mobile controls
 
-Built the next small playable iteration on top of v002.
-
-### Added
-
-- New versioned playable file at `versions/gametime_v003.html`
-- Denver Peaks as the primary fictional user-controlled team
-- A lightweight fictional league directory in code to support more fake teams over time
-- Mobile-friendly touch controls with a movement pad, sprint button, pass, shoot, switch, and camera buttons
-- Shared input handling so keyboard and touch controls drive the same player movement/actions
-- Mobile layout refinements for the scoreboard, HUD, footer, and control overlay
-- Center-court Denver Peaks branding
-- `latest.html` now points to v003
-- `index.html` now links to v003, v002, and v001
-- README updated for v003 controls and team direction
-
-### Why this was chosen
-
-The newest project direction explicitly called for mobile-friendly controls and Denver Peaks. This was the best next foundation step because the game needs to be playable on phones before deeper basketball systems are layered on. It also establishes the preferred fictional-team identity early without locking the project into real NBA teams.
-
-### Recommended next improvements
-
-- Add shot feedback UI: release quality, contest level, and expected make chance
-- Add a simple team select screen using the fictional league directory
-- Improve pass selection with safer passing lanes and interception risk
-- Add off-ball cuts so teammates do more than hold spacing spots
-- Add Playwright mobile viewport coverage for the touch controls
+- Added `versions/gametime_v003.html`
+- Added Denver Peaks as the primary fictional user-controlled team
+- Added a lightweight fictional league directory
+- Added mobile touch controls and shared keyboard/touch input handling
 
 ## v002 - Movement and dribble polish
 
-Built the next small playable iteration on top of v001.
+- Added `versions/gametime_v002.html`
+- Added momentum-based movement, sprint/energy behavior, dribble bounce, body lean, and speed readout
 
-### Added
+## v001 - First playable foundation
 
-- New versioned playable file at `versions/gametime_v002.html`
-- Momentum-based movement with velocity, acceleration, friction, and softer stopping
-- Sprint behavior tied more directly to energy and player speed ratings
-- Live dribble bounce that follows the ball handler instead of sticking rigidly to the player
-- Player body lean, foot movement, and shadows to make motion easier to read
-- Speed readout and visual energy meter in the HUD
-- Small moving-shot penalty so sprinting straight into a jumper is less automatic
-- Slight possession cooldown after rebounds and steals to reduce instant chaos
-- `latest.html` now points to v002
-- `index.html` now links to v002 and v001
-
-### Why this was chosen
-
-v001 was already a playable 5v5 foundation. The next most valuable improvement was the core feel of controlling a player. Basketball games live or die on movement, momentum, and dribble feel, so v002 improves the foundation before adding flashier features.
+- Added the first playable HTML Canvas basketball prototype
+- Established preserved version files, `latest.html`, landing page, README, changelog, and Playwright smoke test foundation
