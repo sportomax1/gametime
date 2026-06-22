@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-test('latest Gametime build loads and supports v027 stamina systems', async ({ page }) => {
+test('latest Gametime build loads and supports v029 player box scores', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -11,7 +11,7 @@ test('latest Gametime build loads and supports v027 stamina systems', async ({ p
 
   const latestUrl = pathToFileURL(path.join(__dirname, '..', 'latest.html')).href;
   await page.goto(latestUrl);
-  await expect(page).toHaveTitle(/Gametime Basketball v027/);
+  await expect(page).toHaveTitle(/Gametime Basketball v029/);
 
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText('SHOT');
@@ -19,19 +19,20 @@ test('latest Gametime build loads and supports v027 stamina systems', async ({ p
   await expect(page.getByTestId('rules-drawer')).toContainText('Rules Drawer');
   await expect(page.getByTestId('rating-panel')).toContainText('Player Ratings');
   await expect(page.getByTestId('stamina-panel')).toContainText('Stamina / Turbo');
+  await expect(page.getByTestId('matchup-feedback')).toContainText('Matchup Read');
   await expect(page.getByTestId('touch-controls')).toHaveCount(1);
 
   await page.getByTestId('hud-toggle').click();
   await page.keyboard.press('Tab');
   await expect(page.locator('#ratingName')).not.toHaveText('--');
-  await expect(page.locator('#staminaName')).not.toHaveText('--');
+  await expect(page.locator('#staminaName')).toContainText('%');
+  await expect(page.locator('#playerPanel')).toContainText('PTS');
 
   await page.keyboard.down('Shift');
   await page.keyboard.down('ArrowRight');
-  await page.waitForTimeout(350);
+  await page.waitForTimeout(250);
   await page.keyboard.up('ArrowRight');
   await page.keyboard.up('Shift');
-  await expect(page.locator('#staminaName')).toContainText('%');
   await expect(page.locator('#fatigueEffect')).toContainText('%');
 
   await page.keyboard.press('j');
@@ -55,10 +56,13 @@ test('latest Gametime build loads and supports v027 stamina systems', async ({ p
   await page.getByTestId('shoot-ft').click();
   await expect(page.locator('#ftResult')).not.toHaveText('Practice FT');
   await page.getByTestId('bonus-demo').click();
-  await expect(page.locator('#bonusOutcome')).toHaveText(/Forced|Side-out|Bonus|test/i);
+  await expect(page.locator('#bonusOutcome')).toHaveText(/Forced|Side-out|Bonus|test|free throws/i);
 
   await page.getByTestId('summary-button').click();
   await expect(page.getByTestId('end-summary')).toContainText('Avg stamina');
+  await expect(page.getByTestId('player-box')).toContainText('PTS');
+  await expect(page.getByTestId('player-box')).toContainText('AST');
+  await expect(page.getByTestId('player-box')).toContainText('STA');
 
   const userSelect = await page.evaluate(() => getComputedStyle(document.body).userSelect);
   expect(userSelect).toBe('none');
