@@ -2,15 +2,22 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { pathToFileURL } = require('url');
 
-test('latest Gametime build renders v022 lane free throw rebounds', async ({ page }) => {
+function latestUrl() {
+  return pathToFileURL(path.join(__dirname, '..', 'latest.html')).href;
+}
+
+test('latest Gametime build renders v022 lane free throw rebound systems', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
     if (msg.type() === 'error') errors.push(msg.text());
   });
 
-  const latestPath = path.join(__dirname, '..', 'latest.html');
-  await page.goto(pathToFileURL(latestPath).href);
+  await page.addInitScript(() => {
+    Math.random = () => 0.99;
+  });
+
+  await page.goto(latestUrl());
   await expect(page).toHaveTitle(/Gametime Basketball v022|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/Denver|Canyon|SHOT|FOULS|FT/);
@@ -74,9 +81,9 @@ test('latest Gametime build renders v022 lane free throw rebounds', async ({ pag
   await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Risk|Lane/);
   await page.keyboard.press('KeyJ');
   await expect(page.getByTestId('shot-feedback')).toContainText(/Make Chance|Two|Three/);
-  await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Ready|Track|Live|Chase|Waiting|Press K/);
+  await expect(page.getByTestId('rebound-feedback')).toContainText(/Rebound Battle|Track|Live ball|Press K|Miss/i);
   await page.keyboard.press('KeyK');
-  await expect(page.getByTestId('contest-feedback')).toContainText(/Contest Whistle|Ready|On time|Late|Vertical|Whistle risk|Clean/);
+  await expect(page.getByTestId('rebound-feedback')).toContainText(/Offensive rebound|Defensive rebound|Secured|User jump|board/i);
 
   await page.getByTestId('practice-ft').click();
   await expect(page.getByTestId('free-throw-feedback')).toContainText(/Free Throw Timing|1 of 2|Meter live|Press F/);
@@ -84,10 +91,11 @@ test('latest Gametime build renders v022 lane free throw rebounds', async ({ pag
   await page.waitForTimeout(150);
   await expect(page.getByTestId('free-throw-feedback')).toContainText(/Meter \d+%/);
   await page.getByTestId('shoot-ft').click();
-  await expect(page.getByTestId('free-throw-feedback')).toContainText(/Perfect|Good|Early|Late|Made|Miss|Trip complete|2 of 2/);
+  await expect(page.getByTestId('free-throw-feedback')).toContainText(/Perfect|Good|Early|Late|Made|Miss|2 of 2/);
   await page.keyboard.press('KeyF');
-  await expect(page.getByTestId('scoreboard')).toContainText(/FT/);
-  await expect(page.getByTestId('stat-summary')).toContainText(/FT|Free throws|REB|OREB|Boards/);
+  await expect(page.getByTestId('rebound-feedback')).toContainText(/Final FT miss|Lane release|Lane players|Press K/);
+  await page.keyboard.press('KeyK');
+  await expect(page.getByTestId('stat-summary')).toContainText(/REB|OREB|Boards/);
 
   await page.getByTestId('summary-button').click();
   await expect(page.getByTestId('end-summary')).toHaveClass(/show/);
@@ -98,4 +106,35 @@ test('latest Gametime build renders v022 lane free throw rebounds', async ({ pag
   await expect(page.getByTestId('end-summary')).toContainText(/Final Buzzer|FG|3PT|FT|REB|OREB|FOULS|Tie game|leads|wins/);
 
   expect(errors).toEqual([]);
+});
+
+test('mobile joystick responds without text selection artifacts', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true
+  });
+  const page = await context.newPage();
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', msg => {
+    if (msg.type() === 'error') errors.push(msg.text());
+  });
+
+  await page.goto(latestUrl());
+  await expect(page).toHaveTitle(/Gametime Basketball v022|Gametime Latest/);
+  await expect(page.getByTestId('touch-controls')).toBeVisible();
+  await expect(page.locator('body')).toHaveCSS('user-select', /none/);
+
+  const box = await page.locator('#joyBase').boundingBox();
+  expect(box).not.toBeNull();
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.85, box.y + box.height / 2, { steps: 4 });
+  await expect(page.locator('#joyKnob')).not.toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+  await page.mouse.up();
+
+  await expect(page.getByTestId('scoreboard')).toContainText(/SHOT|FT/);
+  expect(errors).toEqual([]);
+  await context.close();
 });
