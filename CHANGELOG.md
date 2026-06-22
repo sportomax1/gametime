@@ -1,5 +1,31 @@
 # Changelog
 
+## v032 - Screen-switch coverage reads
+
+Built the next small playable iteration on top of v031.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v032.html`
+- Screen Switch feedback panel showing coverage type, screener, new defender, and slip-risk percentage
+- `2` keyboard control plus a Screen touch/control button to call a pick during live play
+- Switch / Hedge / Drop / Fight Over / Trap coverage reads that can change the primary defender and recalculate help defense
+- Purple on-court screen tether so the active screener is visible during the pick action
+- Shot and pass outcomes now account for the active screen coverage read, not just static on-ball pressure
+- Updated latest pointer, landing page, README, and Playwright smoke coverage for v032
+
+### Why this was chosen
+
+v031 made the second defender readable through help-defense lane tags. The next logical basketball step was making screens change those reads. Real 5v5 possessions constantly create new matchups through picks: defenses switch, hedge, drop, fight over, or trap. v032 gives that decision a dedicated panel, lets a screen actually change the live defender, and makes help-defense risk recalculate from the new coverage.
+
+### Recommended next improvements
+
+- Reconnect v032 screen-switch reads into the fuller foul/free-throw/box-score stack
+- Add a compact in-game player box panel that can be toggled without waiting for the summary overlay
+- Add roll/pop outcomes after screens so the screener becomes a scoring or passing target
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- Add practice/free-shoot mode for testing shots, passes, stamina, help defense, screens, and matchup pressure quickly
+
 ## v031 - Help defense lane tags
 
 Built the next small playable iteration on top of v030.
