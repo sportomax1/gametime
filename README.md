@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v008.html`
+- `versions/gametime_v009.html`
 
 ## Current design direction
 
@@ -35,7 +35,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v008
+## Controls in v009
 
 | Control | Action |
 |---|---|
@@ -50,6 +50,7 @@ Each build should preserve old playable versions:
 | 2 | Call Screen |
 | 3 | Call Space |
 | 4 | Call Iso |
+| T | Minimize or reopen the team selector |
 | R | Reset game |
 | Mobile D-pad | Move controlled player |
 | Mobile Run | Sprint |
@@ -58,7 +59,10 @@ Each build should preserve old playable versions:
 
 ## Current gameplay systems
 
-- Denver Peaks vs Canyon Comets playable short game
+- Fictional team select with 10 fake clubs
+- Denver Peaks remain the default user-controlled team
+- Selectable fake opponents and home teams through the Matchup Builder
+- Team identity panel showing user team, opponent, roster setup, and fake-league context
 - One-player control with teammate/opponent AI
 - Shot feedback for release, contest, zone, and make chance
 - Tuned realistic-arcade shot probability ranges for paint, close, midrange, and threes
@@ -67,11 +71,26 @@ Each build should preserve old playable versions:
 - Basic play-call system: Cut, Screen, Space, and Iso
 - Screen call sends a big teammate toward the ball handler and can reduce shot contest pressure
 - Space and Iso alter teammate spacing so user-controlled possessions have clearer intent
-- Live realism tuning panel for 2PT%, 3PT%, turnover rate, and sample size
+- Live realism tuning panel for 2PT%, 3PT%, turnover rate, rebounds, and sample size
 - Possession direction arrow and attacking-hoop indicator
 - Collapsible feedback HUD so mobile players can keep the court visible
 - Multiple camera modes
 - Desktop and mobile control paths
+
+## Fake league clubs in v009
+
+| Team | Identity |
+|---|---|
+| Denver Peaks | Default user team |
+| Canyon Comets | Default opponent |
+| Metro Meteors | Fast guard/shooting team |
+| Bay City Breakers | Balanced coastal team |
+| Desert Sparks | Shooting-heavy team |
+| Harbor Knights | Defensive team |
+| Prairie Cyclones | Speed and rebounding team |
+| Summit Owls | Smart balanced team |
+| River City Rooks | Physical balanced team |
+| Mesa Mirage | Spacing and scoring team |
 
 ## Testing
 
@@ -83,4 +102,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes mobile controls and play-call controls, shows shot/pass/cut/realism/play-call feedback, includes HUD collapse behavior, and handles basic keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes the team selector, includes mobile controls and play-call controls, shows shot/pass/realism/play-call/team feedback, includes HUD collapse behavior, supports changing the matchup, and handles basic keyboard actions without page errors.
