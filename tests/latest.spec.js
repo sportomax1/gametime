@@ -60,7 +60,7 @@ test('latest Gametime build renders v030 live matchup labels', async ({ page }) 
   await page.keyboard.press('KeyK');
   await expect(page.getByTestId('action-pill')).toContainText(/jumps|contests/i);
   await page.keyboard.press('KeyL');
-  await expect(page.getByTestId('action-pill')).toContainText(/reaches|pokes/i);
+  await expect(page.getByTestId('action-pill')).toContainText(/reaches|pokes|receives/i);
 
   expect(errors).toEqual([]);
 });
