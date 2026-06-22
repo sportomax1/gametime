@@ -1,5 +1,33 @@
 # Changelog
 
+## v009 - Fictional team select and matchup identity
+
+Built the next small playable iteration on top of v008.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v009.html`
+- Matchup Builder panel for choosing the user-controlled home team and fake opponent
+- Expanded fake league directory to 10 selectable fictional clubs, including Denver Peaks, Canyon Comets, Metro Meteors, Bay City Breakers, Desert Sparks, Harbor Knights, Prairie Cyclones, Summit Owls, River City Rooks, and Mesa Mirage
+- Team identity feedback panel showing current user team, opponent, roster setup, and fake-league context
+- `T` keyboard shortcut to minimize or reopen the team selector
+- Team selection integrates with scoreboard, center-court branding, possession messages, and live rosters
+- `latest.html` now points to v009
+- `index.html` now links to v009 through v001
+- README and Playwright smoke test updated for v009
+
+### Why this was chosen
+
+v008 gave possessions direct intent with Cut, Screen, Space, and Iso. The next best foundation step was widening the fictional league without making the project a franchise mode. A simple matchup builder makes Denver Peaks feel like part of a larger fake league while keeping the game playable and arcade-focused.
+
+### Recommended next improvements
+
+- Improve screen contact with defender slowdown and clearer pick-and-roll behavior
+- Add a compact mobile-only team selector layout that hides automatically after tip-off
+- Add rebounds, steals, and team matchup data to the live stats overlay
+- Start separating rosters, ratings, play-call logic, and tuning constants from the single HTML file
+- Add mobile viewport Playwright coverage for choosing a matchup and keeping the court visible
+
 ## v008 - Basic play-call controls
 
 Built the next small playable iteration on top of v007.
@@ -105,8 +133,7 @@ Built the next small playable iteration on top of v004.
 - Smarter pass target selection that weighs shooting value, spacing, advancement, target separation, and lane danger
 - AI pass selection now avoids high-risk passes unless the shot clock is forcing action
 - `latest.html` now points to v005
-- `index.html` now links to v005, v004, v003, v002, and v001
-- README and Playwright smoke test updated for v005
+- `index.html` now links to v005, v004, v003, and v001
 
 ### Why this was chosen
 
@@ -196,43 +223,3 @@ Built the next small playable iteration on top of v001.
 ### Why this was chosen
 
 v001 was already a playable 5v5 foundation. The next most valuable improvement was the core feel of controlling a player. Basketball games live or die on movement, momentum, and dribble feel, so v002 improves the foundation before adding flashier features.
-
-### Recommended next improvements
-
-- Add shot feedback UI: release quality, contest level, and expected make chance
-- Improve pass selection with safer passing lanes and interception risk
-- Add off-ball cuts so teammates do more than hold spacing spots
-- Add clearer possession arrows and team direction indicators
-- Add Playwright coverage for v002-specific HUD and camera behavior
-
-## v001 - First playable foundation
-
-Created the first playable Gametime Basketball prototype.
-
-### Added
-
-- Single-file HTML Canvas SPA at `versions/gametime_v001.html`
-- Fictional teams: Metro Meteors and Canyon Comets
-- Fictional 5-player rosters with position-based ratings
-- Short 3-minute arcade game clock
-- Shot clock
-- Scoreboard and broadcast-inspired HUD
-- One-player control model with player switching
-- Passing, shooting, rebounding, steals, made/missed shot outcomes
-- Basic teammate spacing and opponent defensive tracking
-- Four camera modes: Full Court, Broadcast, Player Follow, Half Court
-- `latest.html` pointer to the current playable version
-- Project landing page at `index.html`
-- Lightweight Playwright smoke-test setup
-
-### Why this was chosen
-
-The repo was empty, so the most valuable first step was establishing a playable foundation instead of adding isolated systems. v001 creates the first comparable build and gives future runs a clear file/version structure.
-
-### Recommended next improvements
-
-- Improve ball handling feel and player acceleration
-- Add cleaner possession transitions after rebounds and steals
-- Add visible shot feedback meter or shot quality label
-- Improve AI spacing so off-ball players cut and relocate more intelligently
-- Expand camera polish before moving toward 3D
