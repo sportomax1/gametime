@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v028.html`
+- `versions/gametime_v029.html`
 
 ## Current design direction
 
@@ -22,6 +22,7 @@ Current playable version:
 - Player ratings should gradually drive believable basketball differences between guards, wings, bigs, and team identities
 - Stamina should make turbo, repeated jumps, steals, shots, passes, and rebounds matter without turning the game into a pure sim
 - Defensive matchups should become readable so pressure, contests, passing risk, and shot quality feel earned instead of random
+- Individual fake-player box scores should show who created points, boards, assists, steals, blocks, fouls, turnovers, and tired-leg value
 - Realistic arcade feel with visible probability tuning and live stat checks
 - Desktop keyboard controls and mobile-friendly touch controls
 - Mobile layout should keep the playing area readable, with collapsible HUD panels, a compact Teams drawer, a compact Rules drawer, joystick control, and clean touch behavior
@@ -50,7 +51,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v028
+## Controls in v029
 
 | Control | Action |
 |---|---|
@@ -64,11 +65,11 @@ Each build should preserve old playable versions:
 | B | Force a bonus-rule test foul |
 | N | Toggle bonus rule between two-shot and one-and-one |
 | G / Rules button | Hide or reopen the compact Rules drawer |
-| Tab | Switch controlled player and update the Player Ratings, Stamina, and Matchup Read panels |
+| Tab | Switch controlled player and update the Player Ratings, Stamina, Matchup Read, and box-score context |
 | C | Change camera with quick camera display update |
 | O | Toggle Auto Offense |
 | H / HUD button | Collapse or expand feedback panels |
-| E / Summary button | Show end-of-game summary overlay |
+| E / Summary button | Show end-of-game summary overlay with player box-score rows |
 | 1 | Call Cut |
 | 2 | Call Screen |
 | 3 | Call Space |
@@ -94,6 +95,8 @@ Each build should preserve old playable versions:
 - Rules drawer supports two-shot bonus and one-and-one bonus formats
 - Scoreboard surfaces current shot-clock preset, foul limit, bonus status, bonus format, and FT splits
 - End summary includes the active rules preset so game results can be interpreted against pace and foul settings
+- v029 adds individual fake-player box-score rows for points, rebounds, assists, steals, blocks, fouls, turnovers, and stamina
+- Made shots, free throws, rebounds, offensive rebounds, steals, fouls, turnovers, and assists now feed player-level stat lines
 - Player Ratings for SHO, PAS, REB, DEF, FT, and SPD
 - Player Ratings panel updates when the controlled player changes
 - Stamina / Turbo panel for controlled-player energy, sprint state, fatigue effect, and recovery state
@@ -101,9 +104,9 @@ Each build should preserve old playable versions:
 - Shots, passes, jumps, steals, free throws, and rebound attempts drain stamina in small amounts
 - Off-ball players recover faster than ball handlers
 - Fatigue lowers effective SHO, PAS, REB, DEF, FT, and SPD values for basketball outcomes
-- v028 adds a Matchup Read panel for the current handler, primary defender, pressure level, and creator edge
+- Matchup Read panel shows the current handler, primary defender, pressure level, and creator edge
 - On-court dashed matchup tether highlights the defender currently pressuring the ball handler
-- Shot chance and pass risk now respond to the current matchup pressure read
+- Shot chance and pass risk respond to the current matchup pressure read
 - End-of-game summary includes average team stamina so results can be read against tired legs
 - Shooting chance uses the shooter rating, stamina/fatigue, shot type, play-call context, and matchup pressure
 - Passing risk uses passer rating, stamina/fatigue, and matchup pressure and can create rating-driven turnovers/interceptions
@@ -118,50 +121,26 @@ Each build should preserve old playable versions:
 - Clean mobile touch CSS reduces accidental selection and tap artifacts
 - Quick camera pill shows camera changes immediately
 - Action pill and on-court player labels make actions and ratings more readable
-- Shot feedback for release, contest, zone, make chance, shooter rating, stamina effect, and matchup pressure
-- Tuned realistic-arcade shot probability ranges for paint, close, midrange, and threes
-- Contest and foul feedback track whistle risk for block/contest attempts
-- Shooting fouls can create playable free-throw trips
-- Free throws update score, FT made/attempted splits, scoreboard, live stat panel, and end summary
-- The free throw meter rewards pressing F / FT near the green release window
-- Final missed free throws can turn into offensive or defensive rebound outcomes
-- Bonus Watch feedback tracks home bonus, away bonus, current bonus rule, and outcome
-- Non-shooting fouls are side-out fouls before bonus, then bonus free throws once the defending team reaches the selected foul limit
-- Missed shots can trigger rebound/loose-ball states instead of instant possession changes
-- Rebound Battle panel tracks timing, battle density, loose-ball type, rating influence, stamina influence, and outcome
-- Foul Watch panel tracks contact type, whistle risk, team fouls, and foul outcome
-- Game Stats panel tracks field goals, 3PT rate, free throws, rebounds, offensive rebounds, turnovers, steals, blocks, and fouls during play
-- End-of-game summary overlay explains the final score with shooting, free throws, rebounds, fouls, active rules, team rating averages, team stamina averages, matchup read notes, and why-they-won text
-- Passing-lane preview, pass-risk feedback, pass requests, and interceptions
-- Basic play-call system: Cut, Screen, Space, and Iso
-- Live realism tuning panel for 2PT%, 3PT%, FT%, offensive rebound rate, foul pace, bonus threshold, player ratings, stamina notes, and matchup pressure notes
-- Collapsible feedback HUD so mobile players can keep the court visible
-- Multiple camera modes with actual display changes
-- Desktop and mobile control paths
 
-## Fake league clubs in v028
+## Fake league teams
 
 | Team | Identity |
 |---|---|
-| Denver Peaks | Default user team, altitude balance and rebounding |
-| Canyon Comets | Shooting guard team |
-| Metro Meteors | Fast guard/passing team |
-| Bay City Breakers | Balanced coastal team |
-| Desert Sparks | Shooting-heavy team |
-| Harbor Knights | Defensive team |
-| Prairie Cyclones | Speed and rebounding team |
-| Summit Owls | Smart passing/defense team |
-| River City Rooks | Physical rebounding/defense team |
-| Mesa Mirage | Spacing and scoring team |
+| Denver Peaks | Altitude / balanced boards |
+| Canyon Comets | Shooting |
+| Metro Meteors | Pace |
+| Bay City Breakers | Balanced |
+| Desert Sparks | Range |
+| Harbor Knights | Defense |
+| Prairie Cyclones | Boards |
+| Summit Owls | IQ / passing |
+| River City Rooks | Power |
+| Mesa Mirage | Spacing |
 
 ## Testing
-
-A lightweight Playwright smoke test is included. After installing dependencies:
 
 ```bash
 npm install
 npx playwright install chromium
 npm test
 ```
-
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, compact Rules drawer, Player Ratings panel, Stamina / Turbo panel, Matchup Read panel, mobile joystick controls, action controls, shot/pass/realism/play-call/rebound/foul/free-throw/bonus feedback, rule preset changes, rating-driven player switching, stamina-changing sprint/action behavior, matchup-pressure shot/pass feedback, HUD collapse behavior, team drawer behavior, rules drawer behavior, matchup changes, Auto Offense, camera display, core keyboard actions, practice FT, bonus behavior, summary overlay, and mobile no-selection behavior without page errors.
