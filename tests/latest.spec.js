@@ -6,7 +6,7 @@ function latestUrl() {
   return pathToFileURL(path.join(__dirname, '..', 'latest.html')).href;
 }
 
-test('latest Gametime build renders v033 roll pop reads', async ({ page }) => {
+test('latest Gametime build renders v034 live box panel', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', msg => {
@@ -18,20 +18,22 @@ test('latest Gametime build renders v033 roll pop reads', async ({ page }) => {
   });
 
   await page.goto(latestUrl());
-  await expect(page).toHaveTitle(/Gametime Basketball v033|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v034|Gametime Latest/);
   await expect(page.getByTestId('game-canvas')).toBeVisible();
   await expect(page.getByTestId('scoreboard')).toContainText(/DEN|CAN|SHOT/);
-  await expect(page.locator('#playerPanel')).toContainText(/Control|Ball|Energy|Camera|Auto O/);
+  await expect(page.locator('#playerPanel')).toContainText(/Control|Ball|PTS|REB|AST|Energy|Camera|Auto O/);
   await expect(page.getByTestId('touch-controls')).toBeAttached();
   await expect(page.getByTestId('joystick')).toBeAttached();
   await expect(page.locator('#joyBase')).toBeAttached();
-  await expect(page.locator('#touchControls button')).toHaveCount(9);
+  await expect(page.locator('#touchControls button')).toHaveCount(10);
   await expect(page.getByTestId('camera-pill')).toContainText(/Camera: Full Court/);
   await expect(page.getByTestId('action-pill')).toContainText(/Ready/);
   await expect(page.getByTestId('auto-offense-toggle')).toContainText(/Auto Offense: On/);
-  await expect(page.getByTestId('team-panel')).toContainText(/Matchup Builder|League|Start|Auto Offense|Next Camera|Call Screen|Hit Roll\/Pop/i);
+  await expect(page.getByTestId('team-panel')).toContainText(/Matchup Builder|League|Start|Auto Offense|Next Camera|Call Screen|Hit Roll\/Pop|Box Panel/i);
   await expect(page.locator('#homeSelect option')).toHaveCount(10);
   await expect(page.locator('#awaySelect option')).toHaveCount(10);
+  await expect(page.getByTestId('box-score-panel')).toContainText(/In-Game Box Score|Leader|Last Play|Team Edge|Mode/);
+  await expect(page.getByTestId('box-rows')).toContainText(/PLAYER|PTS|REB|AST|TO|IMPACT/);
   await expect(page.getByTestId('matchup-panel')).toContainText(/Live Matchup|Handler|Defender|Pressure|Edge/);
   await expect(page.getByTestId('help-defense-panel')).toContainText(/Help Defense|Helper|Lane Tag|Help Risk|Rotation/);
   await expect(page.getByTestId('screen-switch-panel')).toContainText(/Screen Switch|Coverage|Screener|New Defender|Slip Risk/);
@@ -45,13 +47,18 @@ test('latest Gametime build renders v033 roll pop reads', async ({ page }) => {
   await page.locator('#startMatch').click();
   await expect(page.getByTestId('scoreboard')).toContainText(/MET|BAY|SHOT/);
   await expect(page.locator('body')).toHaveClass(/teamCollapsed/);
-  await expect(page.locator('#teamBadge')).toContainText(/Match started|screens|Roll\/Pop|coverage/i);
+  await expect(page.locator('#teamBadge')).toContainText(/Match started|live box panel|production/i);
 
   await page.getByTestId('team-toggle').click();
   await expect(page.locator('body')).toHaveClass(/teamOpen/);
   await page.getByTestId('hud-toggle').click();
   await expect(page.locator('body')).toHaveClass(/hudExpanded/);
-  await expect(page.getByTestId('roll-pop-panel')).toContainText(/Ready|Roll|Pop|Slip|Window|Result|Target/);
+  await expect(page.getByTestId('box-score-panel')).toContainText(/Leader|Last Play|Team Edge|Full/);
+  await page.getByTestId('box-toggle').click();
+  await expect(page.locator('body')).toHaveClass(/boxCompact/);
+  await expect(page.getByTestId('box-score-panel')).toContainText(/Compact/);
+  await page.keyboard.press('KeyB');
+  await expect(page.getByTestId('box-score-panel')).toContainText(/Full/);
 
   await page.keyboard.press('Digit2');
   await expect(page.getByTestId('screen-switch-panel')).toContainText(/Switch|Hedge|Drop|Fight Over|Trap/);
@@ -60,14 +67,15 @@ test('latest Gametime build renders v033 roll pop reads', async ({ page }) => {
 
   await page.keyboard.press('Digit3');
   await expect(page.getByTestId('roll-pop-panel')).toContainText(/Pick-and-pop|Roll finish|Slip catch|Deflected|Result|Window/);
-  await expect(page.getByTestId('action-pill')).toContainText(/Pop|Roll|Slip|Deflected|screener/i);
+  await expect(page.getByTestId('box-score-panel')).toContainText(/PTS|REB|AST|TO|IMPACT/);
+  await expect(page.locator('#boxLast')).toContainText(/PTS|REB|STL|TO|Ready/i);
 
   await page.keyboard.press('KeyC');
   await expect(page.getByTestId('camera-pill')).toContainText(/Broadcast|Player Follow|Half Court|Full Court/);
   await page.keyboard.press('Tab');
   await expect(page.getByTestId('action-pill')).toContainText(/Control switched/);
   await page.keyboard.press('Space');
-  await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Turnover|Risk|Lane|Help trap|Stunted|Open|Roll\/Pop hit/);
+  await expect(page.getByTestId('pass-feedback')).toContainText(/Complete|Turnover|Risk|Lane|Help trap|Stunted|Open/);
   await page.keyboard.press('KeyJ');
   await expect(page.getByTestId('shot-feedback')).toContainText(/Make Chance|Paint|Three|Contested|Pocket|Pop window/);
   await page.keyboard.press('KeyK');
@@ -78,7 +86,7 @@ test('latest Gametime build renders v033 roll pop reads', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test('mobile joystick responds without text selection artifacts in v033', async ({ browser }) => {
+test('mobile joystick and box panel respond without text selection artifacts in v034', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     isMobile: true,
@@ -92,14 +100,17 @@ test('mobile joystick responds without text selection artifacts in v033', async 
   });
 
   await page.goto(latestUrl());
-  await expect(page).toHaveTitle(/Gametime Basketball v033|Gametime Latest/);
+  await expect(page).toHaveTitle(/Gametime Basketball v034|Gametime Latest/);
   await expect(page.getByTestId('touch-controls')).toBeVisible();
   await expect(page.locator('body')).toHaveCSS('user-select', /none/);
-  await expect(page.locator('#touchControls button')).toHaveCount(9);
+  await expect(page.locator('#touchControls button')).toHaveCount(10);
+  await expect(page.getByTestId('box-score-panel')).toBeAttached();
   await expect(page.getByTestId('matchup-panel')).toBeAttached();
   await expect(page.getByTestId('help-defense-panel')).toBeAttached();
   await expect(page.getByTestId('screen-switch-panel')).toBeAttached();
   await expect(page.getByTestId('roll-pop-panel')).toBeAttached();
+  await page.locator('[data-act="box"]').click();
+  await expect(page.locator('body')).toHaveClass(/boxCompact/);
 
   const box = await page.locator('#joyBase').boundingBox();
   expect(box).not.toBeNull();
