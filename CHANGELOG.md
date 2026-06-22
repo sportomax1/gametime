@@ -1,5 +1,37 @@
 # Changelog
 
+## v026 - Player ratings drive basketball outcomes
+
+Built the next small playable iteration on top of v025.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v026.html`
+- Player Ratings panel showing the controlled player's SHO, PAS, REB, DEF, FT, and SPD
+- Position-based fake player ratings for guards, wings, forwards, and centers
+- Fictional team identity modifiers so fake clubs feel different without using real teams or players
+- Shot chance now uses the shooter's SHO rating, shot type, and play-call context
+- Pass risk now uses passer PAS rating and can create rating-driven turnovers/interceptions
+- Rebound outcomes now use REB rating instead of being mostly pure random resolution
+- Defensive contests, steals, and whistle risk now use DEF rating
+- Free throws now use the player's FT rating plus timing-meter release quality
+- Movement speed now scales from the controlled player's SPD rating
+- End-of-game summary now includes average team SHO / DEF ratings
+- `latest.html` now points to v026
+- `index.html`, README, and Playwright smoke test updated for v026
+
+### Why this was chosen
+
+v025 made game rules easier to test. The next best foundation step was making fake players matter. v026 adds a lightweight rating model so Denver Peaks players, opposing fake teams, guards, wings, and bigs no longer feel like identical circles wearing different shoes. This is a key bridge toward a real 5v5 simulator because future AI, shot selection, rotations, and matchups need player attributes underneath them.
+
+### Recommended next improvements
+
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- Add visible matchup labels for who is guarding the ball handler
+- Add a practice/free-shoot mode for testing rating effects on shots, passes, rebounds, fouls, bonus, and free throws
+- Add stamina drain/recovery tied to speed, sprinting, and repeated actions
+- Add a box-score roster table so individual fake-player stats can be shown at the final buzzer
+
 ## v025 - Compact Rules drawer and game presets
 
 Built the next small playable iteration on top of v024.
