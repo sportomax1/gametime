@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, live on-court matchup labels, help-defense lane tags, screen-switch coverage reads, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, live on-court matchup labels, help-defense lane tags, screen-switch coverage reads, roll/pop reads after screens, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v032.html`
+- `versions/gametime_v033.html`
 
 ## Current design direction
 
@@ -25,6 +25,7 @@ Current playable version:
 - Live matchup labels should identify the ball handler, primary defender, pressure, and creator edge during play
 - Help-defense tags should identify the nearest second defender, lane shrink, and rotation risk during passes
 - Screen-switch reads should explain whether a pick creates a switch, hedge, drop, fight-over, or trap result
+- Roll/pop reads should make the screener a live scoring or passing target after a screen
 - Individual fake-player box scores should show who created points, boards, assists, steals, blocks, fouls, turnovers, and tired-leg value
 - Realistic arcade feel with visible probability tuning and live stat checks
 - Desktop keyboard controls and mobile-friendly touch controls
@@ -53,17 +54,18 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v032
+## Controls in v033
 
 | Control | Action |
 |---|---|
 | WASD / Arrow Keys | Move controlled player, scaled by speed rating and stamina |
 | Shift | Sprint / turbo burst that drains stamina faster |
 | Space | Smart pass or request pass when controlling an off-ball teammate |
-| J | Shoot with shot rating, stamina, on-ball pressure, help-defense, and screen coverage influence |
+| J | Shoot with shot rating, stamina, on-ball pressure, help-defense, screen coverage, and roll/pop influence |
 | K | Jump / contest |
 | L | Defensive poke attempt with defensive rating, stamina, and help-position context |
 | 2 / Screen button | Call a screen and generate a switch / hedge / drop / fight-over / trap read |
+| 3 / Roll button | Hit the screener on a roll, pop, or slip read after the screen |
 | Tab | Switch controlled player and update live context |
 | C | Change camera with quick camera display update |
 | O | Toggle Auto Offense |
@@ -71,7 +73,7 @@ Each build should preserve old playable versions:
 | T / Teams button | Hide or reopen the compact Teams drawer |
 | Mobile joystick | Analog movement for the controlled player |
 | Mobile Pass / Shoot / Switch / Cam | Main basketball actions |
-| Mobile Jump / Steal / Screen / HUD | Quick action controls |
+| Mobile Jump / Steal / Screen / Roll / HUD | Quick action controls |
 
 ## Current gameplay systems
 
@@ -79,6 +81,10 @@ Each build should preserve old playable versions:
 - Denver Peaks remain the default user-controlled team
 - Selectable fake opponents and home teams through the Matchup Builder
 - Compact Teams drawer starts open and can hide after tip-off to keep the court clearer on phones
+- v033 adds Roll / Pop Read feedback after calling a screen
+- Roll / Pop Read panel shows action, screener target, window percentage, and result
+- The screener can become a roll, pop, or slip target after screen coverage is read
+- Roll/pop results can create a made roll finish, pick-and-pop look, or help-defense deflection
 - v032 adds screen-switch coverage reads after calling a pick
 - Screen Switch panel shows coverage type, screener, new defender, and slip-risk percentage
 - Screen coverage can change the live primary defender and recalculate the help defender
@@ -88,6 +94,7 @@ Each build should preserve old playable versions:
 - On-court dashed matchup tether highlights the defender currently pressuring the ball handler
 - On-court dashed help tether highlights the second defender currently shrinking the lane
 - On-court purple screen tether highlights the screener path during active screen actions
+- On-court orange roll/pop lane shows where the screener is attacking after the pick
 - Shot chance and pass risk respond to the current matchup pressure read
 - Pass risk now also responds to help-defense lane shrink so stunts and traps matter
 - Realism Pulse panel tracks 2PT%, 3PT%, rebounds, and turnovers against realistic-arcade expectations
