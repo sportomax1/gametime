@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v020.html`
+- `versions/gametime_v021.html`
 
 ## Current design direction
 
@@ -26,6 +26,7 @@ Current playable version:
 - Rebounds should become readable and skill-based through timing rings, inside position, box-out leverage, and realistic foul risk
 - Late block attempts and aggressive contests should carry realistic whistle risk, while verticality should be rewarded
 - Shooting fouls should produce playable free throws and update the box score
+- Free throws should reward timing instead of resolving as invisible dice rolls
 - Team stats should surface whether the arcade systems are producing believable basketball outcomes
 - End-of-game summaries should explain who won and why
 - All useful basketball camera angles over time
@@ -42,7 +43,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v020
+## Controls in v021
 
 | Control | Action |
 |---|---|
@@ -51,7 +52,7 @@ Each build should preserve old playable versions:
 | Space | Smart pass or request pass when controlling an off-ball teammate |
 | J | Shoot |
 | K | Jump / rebound / box-out / block contest with late-whistle risk |
-| F | Shoot current free throw / open practice free-throw flow |
+| F | Release current free throw / open practice free-throw flow |
 | L | Defensive poke attempt with reach-in risk |
 | Tab | Switch controlled player |
 | C | Change camera with quick camera display update |
@@ -65,7 +66,7 @@ Each build should preserve old playable versions:
 | T / Teams button | Hide or reopen the compact Teams drawer |
 | R | Reset game |
 | Mobile joystick | Analog movement for the controlled player |
-| Mobile Pass / Shoot / Switch / Cam | Main basketball actions |
+| Mobile Pass / Shot / Switch / Cam | Main basketball actions |
 | Mobile Jump / Block / Poke / FT | Quick defensive, rebound, box-out, contest, foul-risk, and free-throw actions |
 | Mobile Auto O | Toggle Auto Offense |
 | Mobile Cut / Screen / Space / Iso | Play-call actions |
@@ -87,9 +88,10 @@ Each build should preserve old playable versions:
 - Contest Whistle panel tracks timing, verticality, distance, and whistle result for block/contest attempts
 - Late or leaning shot contests can create shooting-foul / side-out outcomes instead of always being free blocks
 - Clean vertical contests can create block credit or pressure without a whistle
-- Free Throw Flow panel tracks shooter, trip progress, free-throw rate, and result
-- Shooting fouls can now create playable free-throw trips
+- Free Throw Timing panel tracks shooter, trip progress, live meter position, release timing, make chance, and result
+- Shooting fouls can create playable free-throw trips
 - Free throws update score, FT made/attempted splits, scoreboard, live stat panel, and end summary
+- The v021 free throw meter rewards pressing F / FT near the green release window
 - Missed shots now trigger a rebound/loose-ball state instead of instant possession changes
 - Rebound Battle panel tracks timing, battle density, loose-ball type, and outcome
 - Box-Out Timing panel tracks timing window, leverage, ring progress, and rebound bonus
@@ -113,7 +115,7 @@ Each build should preserve old playable versions:
 - Multiple camera modes with actual display changes
 - Desktop and mobile control paths
 
-## Fake league clubs in v020
+## Fake league clubs in v021
 
 | Team | Identity |
 |---|---|
@@ -138,4 +140,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, mobile joystick controls, action controls, shot/pass/realism/play-call/screen/defense/rebound/box-out/foul/stat/contest/free-throw feedback, end-summary controls, HUD collapse behavior, team drawer behavior, matchup changes, Auto Offense, camera display, free-throw controls, and core keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, mobile joystick controls, action controls, shot/pass/realism/play-call/screen/defense/rebound/box-out/foul/stat/contest/free-throw feedback, end-summary controls, HUD collapse behavior, team drawer behavior, matchup changes, Auto Offense, camera display, free-throw timing controls, and core keyboard actions without page errors.
