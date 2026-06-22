@@ -1,5 +1,37 @@
 # Changelog
 
+## v008 - Basic play-call controls
+
+Built the next small playable iteration on top of v007.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v008.html`
+- Basic play-call system with Cut, Screen, Space, and Iso
+- Desktop shortcuts: `1` Cut, `2` Screen, `3` Space, `4` Iso
+- Mobile touch buttons for Cut, Screen, Space, and Iso alongside pass/shoot/switch/camera
+- Play Call feedback panel showing active call, timer, intent, and result
+- Cut call accelerates teammate cut windows toward the rim
+- Screen call sends a big teammate toward the ball handler and can reduce shot contest pressure
+- Space call widens offensive spots and slightly lowers risky passing lanes
+- Iso call clears teammates away from the ball handler and gives a small user-controlled isolation shot bump
+- On-court possession label now includes the active play call
+- `latest.html` now points to v008
+- `index.html` now links to v008 through v001
+- README and Playwright smoke test updated for v008
+
+### Why this was chosen
+
+v007 made the game measure whether outcomes were basketball-shaped. The next logical foundation step was letting the player influence teammate behavior directly. Cut, Screen, Space, and Iso give possessions readable intent without jumping into a complicated playbook or franchise mode.
+
+### Recommended next improvements
+
+- Add a simple team select screen using the fictional league directory
+- Improve screen contact with defender slowdown and clearer pick-and-roll behavior
+- Add rebounds and steals to the live stats overlay
+- Start separating rosters, ratings, play-call logic, and tuning constants from the single HTML file
+- Add mobile viewport Playwright coverage for the expanded/collapsed HUD and play-call buttons
+
 ## v007 - Realism tuning and possession direction
 
 Built the next small playable iteration on top of v006.
