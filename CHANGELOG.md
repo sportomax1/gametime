@@ -1,5 +1,29 @@
 # Changelog
 
+## v031 - Help defense lane tags
+
+Built the next small playable iteration on top of v030.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v031.html`
+- Help Defense feedback panel showing helper, lane tag, help-risk percentage, and rotation read
+- Green on-court HELP label and dashed helper tether for the nearest second defender
+- Pass risk now blends on-ball pressure with second-defender lane shrink so help defense affects outcomes, not just visuals
+- Updated latest pointer, landing page, README, and Playwright smoke coverage for v031
+
+### Why this was chosen
+
+v030 made the primary ball-handler matchup readable. The next logical basketball step was showing the second defender. Real possessions are shaped by more than the on-ball defender: gap help, stunts, traps, and late rotations determine whether a pass is safe. v031 makes that lane help visible and hooks it into pass risk so the arcade read is more basketball-real.
+
+### Recommended next improvements
+
+- Add screen-switch matchup updates so picks can change both the primary defender and the help defender
+- Add a compact in-game player box panel that can be toggled without waiting for the summary overlay
+- Reconnect the live label work into the fuller foul/free-throw/box-score stack
+- Move league/team/player/rule data out of the single HTML file into shared JavaScript modules
+- Add practice/free-shoot mode for testing shots, passes, stamina, help defense, and matchup pressure quickly
+
 ## v030 - Live matchup labels
 
 Built the next small playable iteration on top of v029.
