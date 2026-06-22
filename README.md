@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, live on-court matchup labels, help-defense lane tags, screen-switch coverage reads, roll/pop reads after screens, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, live on-court matchup labels, help-defense lane tags, screen-switch coverage reads, roll/pop reads after screens, live in-game box-score tracking, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v033.html`
+- `versions/gametime_v034.html`
 
 ## Current design direction
 
@@ -27,6 +27,7 @@ Current playable version:
 - Screen-switch reads should explain whether a pick creates a switch, hedge, drop, fight-over, or trap result
 - Roll/pop reads should make the screener a live scoring or passing target after a screen
 - Individual fake-player box scores should show who created points, boards, assists, steals, blocks, fouls, turnovers, and tired-leg value
+- Live in-game box-score reads should show production before the final buzzer, not only in an end summary
 - Realistic arcade feel with visible probability tuning and live stat checks
 - Desktop keyboard controls and mobile-friendly touch controls
 - Mobile layout should keep the playing area readable, with collapsible HUD panels, a compact Teams drawer, a compact Rules drawer, joystick control, and clean touch behavior
@@ -54,7 +55,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v033
+## Controls in v034
 
 | Control | Action |
 |---|---|
@@ -66,6 +67,7 @@ Each build should preserve old playable versions:
 | L | Defensive poke attempt with defensive rating, stamina, and help-position context |
 | 2 / Screen button | Call a screen and generate a switch / hedge / drop / fight-over / trap read |
 | 3 / Roll button | Hit the screener on a roll, pop, or slip read after the screen |
+| B / Box button | Toggle the in-game player box-score panel between full and compact |
 | Tab | Switch controlled player and update live context |
 | C | Change camera with quick camera display update |
 | O | Toggle Auto Offense |
@@ -73,7 +75,7 @@ Each build should preserve old playable versions:
 | T / Teams button | Hide or reopen the compact Teams drawer |
 | Mobile joystick | Analog movement for the controlled player |
 | Mobile Pass / Shoot / Switch / Cam | Main basketball actions |
-| Mobile Jump / Steal / Screen / Roll / HUD | Quick action controls |
+| Mobile Jump / Steal / Screen / Roll / Box / HUD | Quick action controls |
 
 ## Current gameplay systems
 
@@ -81,6 +83,11 @@ Each build should preserve old playable versions:
 - Denver Peaks remain the default user-controlled team
 - Selectable fake opponents and home teams through the Matchup Builder
 - Compact Teams drawer starts open and can hide after tip-off to keep the court clearer on phones
+- v034 adds a live In-Game Box Score panel while play continues
+- Box Score panel tracks PTS, REB, AST, TO, and impact for every fake player
+- Header now surfaces the controlled player's PTS / REB / AST line during play
+- Box Panel button and `B` keyboard shortcut toggle the box score between full and compact views
+- Canvas overlay highlights the current live box-score leader for quick broadcast-style context
 - v033 adds Roll / Pop Read feedback after calling a screen
 - Roll / Pop Read panel shows action, screener target, window percentage, and result
 - The screener can become a roll, pop, or slip target after screen coverage is read
