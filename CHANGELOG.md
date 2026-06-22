@@ -1,5 +1,33 @@
 # Changelog
 
+## v007 - Realism tuning and possession direction
+
+Built the next small playable iteration on top of v006.
+
+### Added
+
+- New versioned playable file at `versions/gametime_v007.html`
+- Live Realism Tuning panel showing 2PT FG%, 3PT FG%, turnover rate, possession count, and shot sample size
+- More visible target ranges for realistic arcade outcomes: 2PT, 3PT, and turnover rates
+- Possession direction arrow in the scoreboard and on-court attacking-hoop indicator
+- Shot feedback now reports shot zone instead of only raw distance, making the probability easier to understand
+- Tuned shot, pass, steal, and cut probability caps to reduce extreme outcomes
+- `latest.html` now points to v007
+- `index.html` now links to v007 through v001
+- README and Playwright smoke test updated for v007
+
+### Why this was chosen
+
+v006 added off-ball cuts and improved mobile court visibility. The next foundation step was making the game explain and police its own basketball math. A realistic-arcade game should show whether the action is producing believable 2PT, 3PT, and turnover rates instead of hiding everything behind invisible dice rolls. The possession arrow also makes direction easier to read, especially on mobile.
+
+### Recommended next improvements
+
+- Add basic play-call buttons such as Cut, Screen, Space, and Iso
+- Add a simple team select screen using the fictional league directory
+- Start separating rosters, ratings, and tuning constants from the single HTML file
+- Add rebounds and steals to the live stats overlay
+- Add mobile viewport Playwright coverage for the collapsed HUD state
+
 ## v006 - Off-ball cuts, mobile HUD collapse, and realistic arcade tuning
 
 Built the next small playable iteration on top of v005.
