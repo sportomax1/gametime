@@ -2,7 +2,7 @@
 
 Current playable version: `versions/gametime_v029.html`.
 
-Gametime Basketball is a realistic-arcade basketball prototype with fake teams, fake players, preserved playable versions, mobile/desktop controls, player ratings, stamina, defensive matchup reads, and a new v029 screen coverage coach layered above the v028 playable foundation.
+Gametime Basketball is a realistic-arcade basketball prototype with fake teams, fake players, preserved playable versions, mobile/desktop controls, player ratings, stamina, defensive matchup reads, and a v029 screen coverage coach layered above the v028 playable foundation.
 
 Open `index.html` or `latest.html` in a browser.
 
@@ -42,6 +42,8 @@ Open `index.html` or `latest.html` in a browser.
 - v015 and earlier — Preserved foundation builds
 
 ## Testing
+
+A lightweight Playwright smoke test checks latest routing, the v029 coach overlay, coverage cycling, and key elements inside the embedded playable build.
 
 ```bash
 npm install
