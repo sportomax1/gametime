@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game recap summaries, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v017.html`
+- `versions/gametime_v018.html`
 
 ## Current design direction
 
@@ -25,6 +25,7 @@ Current playable version:
 - Missed shots should create realistic rebound / loose-ball events instead of instantly flipping possession
 - Rebounds should become readable and skill-based through timing rings, inside position, box-out leverage, and realistic foul risk
 - Team stats should surface whether the arcade systems are producing believable basketball outcomes
+- Final summaries should explain the result using score, efficiency, rebounds, turnovers, steals, blocks, fouls, and paint points
 - All useful basketball camera angles over time
 - HTML Canvas foundation first
 - Three.js / 3D path later when the 2D foundation is strong
@@ -39,7 +40,7 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v017
+## Controls in v018
 
 | Control | Action |
 |---|---|
@@ -52,6 +53,7 @@ Each build should preserve old playable versions:
 | Tab | Switch controlled player |
 | C | Change camera with quick camera display update |
 | O | Toggle Auto Offense |
+| E / Show Summary | Open the live or final game summary overlay |
 | H / HUD button | Collapse or expand feedback panels |
 | 1 | Call Cut |
 | 2 | Call Screen |
@@ -86,6 +88,8 @@ Each build should preserve old playable versions:
 - Rebound crashes can trigger over-the-back or loose-ball foul outcomes
 - Reach-in steal attempts can trigger a foul instead of always being free poke attempts
 - Game Stats panel tracks field goals, 3PT rate, rebounds, offensive rebounds, turnovers, and steals during play
+- End-of-game recap overlay summarizes score, FG, 3PT, rebounds, offensive rebounds, turnovers, steals, blocks, fouls, and paint points
+- Recap explanation calls out the likely reason for the result, such as shooting, glass control, ball security, steals, or foul discipline
 - Shot makes, misses, interceptions, shot-clock violations, steals, rebounds, and fouls now feed the live team stat model
 - On-court rebound timing rings show when to build position and when to jump
 - Offensive rebounds reset the shot clock to 14; defensive rebounds reset it to 24
@@ -101,7 +105,7 @@ Each build should preserve old playable versions:
 - Multiple camera modes with actual display changes
 - Desktop and mobile control paths
 
-## Fake league clubs in v017
+## Fake league clubs in v018
 
 | Team | Identity |
 |---|---|
@@ -126,4 +130,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, mobile joystick controls, action controls, shot/pass/realism/play-call/screen/defense/rebound/box-out/foul/stat feedback, HUD collapse behavior, team drawer behavior, matchup changes, Auto Offense, camera display, and core keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes team select, mobile joystick controls, action controls, shot/pass/realism/play-call/screen/defense/rebound/box-out/foul/stat feedback, final summary overlay, HUD collapse behavior, team drawer behavior, matchup changes, Auto Offense, camera display, and core keyboard actions without page errors.
