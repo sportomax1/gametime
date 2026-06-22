@@ -1,6 +1,6 @@
 # Gametime Basketball
 
-Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, live on-court matchup labels, help-defense lane tags, screen-switch coverage reads, roll/pop reads after screens, defensive tag decisions after roll/pop pressure, and an eventual path to 3D.
+Gametime Basketball is a slow-build basketball game project. The long-term target is a realistic-arcade, broadcast-style 5v5 basketball simulator with fake teams, fake players, multiple camera angles, desktop/mobile controls, team selection, realistic basketball outcomes, rebound battles, box-out timing, foul logic, live team statistics, end-of-game summaries, shot-contest whistles, playable free throws, timed free throw release feedback, live free-throw rebound outcomes, bonus free throws after team-foul thresholds, toggleable one-and-one bonus rules, compact game-rule presets, player ratings that influence outcomes, stamina/turbo fatigue that changes effective ratings, defensive matchup reads that explain pressure, individual fake-player box scores, live on-court matchup labels, help-defense lane tags, screen-switch coverage reads, roll/pop reads after screens, defensive tag decisions after roll/pop pressure, drive-and-kick reads that punish hard tags, and an eventual path to 3D.
 
 ## Play
 
@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v034.html`
+- `versions/gametime_v035.html`
 
 ## Current design direction
 
@@ -27,6 +27,7 @@ Current playable version:
 - Screen-switch reads should explain whether a pick creates a switch, hedge, drop, fight-over, or trap result
 - Roll/pop reads should make the screener a live scoring or passing target after a screen
 - Defensive tag decisions should show whether the helper stays home, tags the roller, stunts, or opens a kickout
+- Drive-and-kick reads should show when over-help creates a corner or wing shooter
 - Individual fake-player box scores should show who created points, boards, assists, steals, blocks, fouls, turnovers, and tired-leg value
 - Realistic arcade feel with visible probability tuning and live stat checks
 - Desktop keyboard controls and mobile-friendly touch controls
@@ -55,19 +56,20 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v034
+## Controls in v035
 
 | Control | Action |
 |---|---|
 | WASD / Arrow Keys | Move controlled player, scaled by speed rating and stamina |
 | Shift | Sprint / turbo burst that drains stamina faster |
-| Space | Smart pass or request pass with help, roll/pop, and tag decision context |
-| J | Shoot with shot rating, stamina, on-ball pressure, help-defense, screen coverage, roll/pop, and tag/kickout influence |
+| Space | Smart pass or request pass with help, roll/pop, tag, and drive/kick context |
+| J | Shoot with shot rating, stamina, on-ball pressure, help-defense, screen coverage, roll/pop, tag/kickout, and drive/kick influence |
 | K | Jump / contest |
 | L | Defensive poke attempt with defensive rating, stamina, and help-position context |
 | 2 / Screen button | Call a screen and generate a switch / hedge / drop / fight-over / trap read |
 | 3 / Roll button | Hit the screener on a roll, pop, or slip read after the screen |
 | 4 / Tag button | Force a defensive tag decision for the helper |
+| 5 / Drive button | Force a drive-and-kick read from the tag decision |
 | Tab | Switch controlled player and update live context |
 | C | Change camera with quick camera display update |
 | O | Toggle Auto Offense |
@@ -75,7 +77,7 @@ Each build should preserve old playable versions:
 | T / Teams button | Hide or reopen the compact Teams drawer |
 | Mobile joystick | Analog movement for the controlled player |
 | Mobile Pass / Shoot / Switch / Cam | Main basketball actions |
-| Mobile Jump / Steal / Screen / Roll / Tag / HUD | Quick action controls |
+| Mobile Jump / Steal / Screen / Roll / Tag / Drive / HUD | Quick action controls |
 
 ## Current gameplay systems
 
@@ -83,10 +85,14 @@ Each build should preserve old playable versions:
 - Denver Peaks remain the default user-controlled team
 - Selectable fake opponents and home teams through the Matchup Builder
 - Compact Teams drawer starts open and can hide after tip-off to keep the court clearer on phones
+- v035 adds Drive / Kick Read feedback after defensive tags
+- Drive / Kick panel shows drive lane, kick target, corner chance, and result
+- Hard tags and stunts can create kickout threes, wing swing passes, or drive-layup windows
+- Yellow on-court DRIVE/KICK tether shows the relationship between the driver and open shooter
 - v034 adds Tag Decision feedback after roll/pop pressure
 - Tag Decision panel shows helper decision, tagged player, kickout risk, and defensive payoff
 - Helpers can stay home, soft tag, stunt/recover, or hard tag the roller
-- Tag choices influence pass risk, kickout quality, and shot context
+- Tag choices influence pass risk, kickout quality, shot context, and drive-and-kick chances
 - v033 adds Roll / Pop Read feedback after calling a screen
 - Roll / Pop Read panel shows action, screener target, window percentage, and result
 - The screener can become a roll, pop, or slip target after screen coverage is read
