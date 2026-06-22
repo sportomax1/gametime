@@ -8,7 +8,7 @@ Open `index.html` or `latest.html` in a browser.
 
 Current playable version:
 
-- `versions/gametime_v005.html`
+- `versions/gametime_v006.html`
 
 ## Current design direction
 
@@ -18,8 +18,9 @@ Current playable version:
 - Short arcade-style games
 - One controlled player at a time
 - Player switching over time
-- Realistic arcade feel
+- Realistic arcade feel with tuned shot/pass percentages
 - Desktop keyboard controls and mobile-friendly touch controls
+- Mobile layout should keep the playing area readable, with collapsible HUD panels
 - All useful basketball camera angles over time
 - HTML Canvas foundation first
 - Three.js / 3D path later when the 2D foundation is strong
@@ -34,16 +35,17 @@ Each build should preserve old playable versions:
 - `CHANGELOG.md` explains what changed and why
 - Avoid overwriting earlier playable versions
 
-## Controls in v005
+## Controls in v006
 
 | Control | Action |
 |---|---|
 | WASD / Arrow Keys | Move controlled player |
 | Shift | Sprint |
-| Space | Smart pass using passing-lane risk |
+| Space | Smart pass using passing-lane risk and cutter priority |
 | J | Shoot |
 | Tab | Switch controlled player |
 | C | Change camera |
+| H / HUD button | Collapse or expand feedback panels |
 | R | Reset game |
 | Mobile D-pad | Move controlled player |
 | Mobile Run | Sprint |
@@ -54,7 +56,10 @@ Each build should preserve old playable versions:
 - Denver Peaks vs Canyon Comets playable short game
 - One-player control with teammate/opponent AI
 - Shot feedback for release, contest, distance, and make chance
+- Tuned realistic-arcade shot probability ranges for layups, close shots, midrange, and threes
 - Passing-lane preview, pass-risk feedback, and interceptions
+- Off-ball cuts that create timed passing windows toward the rim
+- Collapsible feedback HUD so mobile players can keep the court visible
 - Multiple camera modes
 - Desktop and mobile control paths
 
@@ -68,4 +73,4 @@ npx playwright install chromium
 npm test
 ```
 
-The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes mobile controls, shows shot/pass feedback, and handles basic keyboard actions without page errors.
+The current test checks that the latest playable HTML launches, renders the canvas, exposes the scoreboard/HUD, includes mobile controls, shows shot/pass/cut feedback, includes HUD collapse behavior, and handles basic keyboard actions without page errors.
